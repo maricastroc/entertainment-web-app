@@ -1,42 +1,56 @@
-import { styled } from '../../styles'
+import { keyframes, styled } from '../../styles'
+
+const rotateAnimation = keyframes({
+  '0%': {
+    transform: 'rotate(0deg)',
+  },
+  '50%': {
+    transform: 'rotate(-2deg)',
+  },
+  '100%': {
+    transform: 'rotate(0deg)',
+  },
+})
 
 export const Container = styled('div', {
-  position: 'relative',
   display: 'flex',
-  width: '15rem',
-  height: '8.75rem',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '0.5rem',
+  width: '100%',
+  minWidth: '5rem',
 
-  '@media (min-width: 640px)': {
-    width: '28rem',
-    height: 'auto',
+  '&:hover': {
+    animation: `${rotateAnimation} 0.3s forwards`,
   },
 })
 
 export const BackgroundImage = styled('img', {
-  position: 'relative',
   width: '100%',
-  height: '100%',
+  aspectRatio: '1 / 1',
   borderRadius: 8,
-  opacity: 0.5,
+  objectFit: 'cover',
+  maxHeight: 140,
+})
+
+export const NotFoundImage = styled('img', {
+  width: '100%',
+  aspectRatio: '1 / 1',
+  borderRadius: 8,
+  filter: 'blur(2px)',
+  objectFit: 'cover',
+  maxHeight: 140,
 })
 
 export const CardInfo = styled('div', {
-  position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  left: '6%',
-  top: '65%',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   wordBreak: 'break-all',
   maxWidth: '90%',
-
-  '@media (min-width: 640px)': {
-    left: '6%',
-    top: '72%',
-  },
 })
 
 export const CardInfoData = styled('div', {
@@ -60,9 +74,9 @@ export const CardInfoData = styled('div', {
     margin: '0 0.5rem',
   },
 
-  '@media (min-width: 640px)': {
+  '@media (min-width: 768px)': {
     p: {
-      fontSize: '0.93rem',
+      fontSize: '0.81rem',
     },
   },
 })
@@ -76,7 +90,7 @@ export const CardInfoTitle = styled('h2', {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
 
-  '@media (min-width: 640px)': {
-    fontSize: '1.5rem',
+  '@media (min-width: 768px)': {
+    fontSize: '1.125rem',
   },
 })

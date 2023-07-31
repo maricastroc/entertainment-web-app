@@ -10,11 +10,16 @@ export const Container = styled('header', {
   position: 'sticky',
   top: 0,
   zIndex: 10,
-  borderRadius: 8,
 
   '> svg': {
     fontSize: '1.6rem',
     color: '$red300',
+  },
+
+  '@media (min-width: 768px)': {
+    margin: '1.5rem',
+    borderRadius: 8,
+    width: 'auto',
   },
 
   '@media (min-width: 1024px)': {

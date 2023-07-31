@@ -11,7 +11,7 @@ export const TrendingContainer = styled('div', {
   '> h2': {
     fontWeight: 300,
     fontSize: '1.25rem',
-    margin: '2rem 0 1.5rem',
+    margin: '1.5rem 0 1.5rem',
   },
 
   '@media (min-width: 640px)': {

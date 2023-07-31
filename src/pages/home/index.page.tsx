@@ -15,7 +15,6 @@ import {
 import { Container, ScrollableContainer, Wrapper } from './styles'
 
 import MovieList from './components/MovieList'
-import SeriesList from './components/SeriesList'
 import TrendingMoviesCollection from './components/TrendingMoviesCollection'
 import TrendingSeriesCollection from './components/TrendingSeriesCollection'
 import { TrendingMovieCardProps } from '@/components/TrendingMovieCard'
@@ -23,6 +22,20 @@ import { MovieCardProps } from '@/components/MovieCard'
 import { TrendingSeriesCardProps } from '@/components/TrendingSeriesCard'
 import { SeriesCardProps } from '@/components/SeriesCard'
 import { Header } from '@/components/Header'
+import { SearchBar } from '@/components/SearchBar'
+import { pathToSearchAll } from '@/utils'
+import SeriesList from './components/SeriesList'
+
+export interface ItemProps {
+  id?: string
+  name?: string
+  title?: string
+  first_air_date?: string
+  release_date?: string
+  media_type?: string
+  backdrop_path?: string
+  poster_path?: string
+}
 
 interface HomeProps {
   trendingMovies: {
@@ -115,6 +128,10 @@ export default function Home({
     <Wrapper>
       <Header />
       <Container>
+        <SearchBar
+          searchPath={pathToSearchAll}
+          placeholder="Search for movie / TV series"
+        />
         <ScrollableContainer>
           {mediaTrendingMoviesLists.map(({ title, items }) => (
             <TrendingMoviesCollection key={title} title={title} items={items} />
