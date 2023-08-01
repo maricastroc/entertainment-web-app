@@ -9,15 +9,7 @@ import {
 } from './styles'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
-
-export interface MediaCardProps {
-  id: string
-  backdrop_path?: string
-  poster_path?: string
-  first_air_date: string | undefined
-  media_type: string
-  name: string | undefined
-}
+import { MediaCardProps } from '@/pages/home/index.page'
 
 export function MediaCard({
   backdrop_path,

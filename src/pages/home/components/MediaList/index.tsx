@@ -1,3 +1,5 @@
+import { MediaCard } from '@/components/MediaCard'
+import { MediaCardProps } from '../../index.page'
 import {
   SeriesContainer,
   SeriesContent,
@@ -5,15 +7,14 @@ import {
   SeriesTag,
   SeriesTitle,
 } from './styles'
-import { SeriesCard, SeriesCardProps } from '@/components/SeriesCard'
 
-interface SeriesListProps {
+interface MediaListProps {
   title: string
-  items: SeriesCardProps[]
+  items: MediaCardProps[]
   media: string
 }
 
-export default function SeriesList({ title, items, media }: SeriesListProps) {
+export default function MediaList({ title, items, media }: MediaListProps) {
   return (
     <SeriesContainer>
       <SeriesHeader>
@@ -27,11 +28,11 @@ export default function SeriesList({ title, items, media }: SeriesListProps) {
       </SeriesHeader>
       <SeriesContent>
         {items.map((item) => (
-          <SeriesCard
+          <MediaCard
             key={item.id}
             id={item.id}
-            name={item.name}
-            first_air_date={item.first_air_date}
+            name={item.name || item.title}
+            first_air_date={item.first_air_date || item.release_date}
             backdrop_path={item.backdrop_path || item.poster_path}
             media_type={media}
           />

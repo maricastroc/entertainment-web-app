@@ -1,29 +1,29 @@
+import { MediaCardProps } from '../../index.page'
 import { TrendingContainer, TrendingContent } from './styles'
-import {
-  TrendingSeriesCard,
-  TrendingSeriesCardProps,
-} from '@/components/TrendingSeriesCard'
+import { TrendingMediaCard } from '@/components/TrendingMediaCard'
 
-interface TrendingSeriesCollectionProps {
+interface TrendingMediaCollectionProps {
   title: string
-  items: TrendingSeriesCardProps[]
+  items: MediaCardProps[]
 }
 
-export default function TrendingSeriesCollection({
+export default function TrendingMediaCollection({
   title,
   items,
-}: TrendingSeriesCollectionProps) {
+}: TrendingMediaCollectionProps) {
   return (
     <TrendingContainer>
       <h2>{title}</h2>
       <TrendingContent>
-        {items.map((trendingCard: TrendingSeriesCardProps) => {
+        {items.map((trendingCard: MediaCardProps) => {
           return (
-            <TrendingSeriesCard
+            <TrendingMediaCard
               key={trendingCard.id}
               id={trendingCard.id}
-              name={trendingCard.name}
-              first_air_date={trendingCard.first_air_date}
+              name={trendingCard.name || trendingCard.title}
+              first_air_date={
+                trendingCard.first_air_date || trendingCard.release_date
+              }
               backdrop_path={
                 trendingCard.backdrop_path || trendingCard.poster_path
               }

@@ -14,19 +14,13 @@ import {
 
 import { Container, ScrollableContainer, Wrapper } from './styles'
 
-import MovieList from './components/MovieList'
-import TrendingMoviesCollection from './components/TrendingMoviesCollection'
-import TrendingSeriesCollection from './components/TrendingSeriesCollection'
-import { TrendingMovieCardProps } from '@/components/TrendingMovieCard'
-import { MovieCardProps } from '@/components/MovieCard'
-import { TrendingSeriesCardProps } from '@/components/TrendingSeriesCard'
-import { SeriesCardProps } from '@/components/SeriesCard'
 import { Header } from '@/components/Header'
 import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchAll } from '@/utils'
-import SeriesList from './components/SeriesList'
+import MediaList from './components/MediaList'
+import TrendingMediaCollection from './components/TrendingMediaCollection'
 
-export interface ItemProps {
+export interface MediaCardProps {
   id?: string
   name?: string
   title?: string
@@ -39,34 +33,34 @@ export interface ItemProps {
 
 interface HomeProps {
   trendingMovies: {
-    results: TrendingMovieCardProps[]
+    results: MediaCardProps[]
   }
   popularMovies: {
-    results: MovieCardProps[]
+    results: MediaCardProps[]
   }
   nowPlayingMovies: {
-    results: MovieCardProps[]
+    results: MediaCardProps[]
   }
   upcomingMovies: {
-    results: MovieCardProps[]
+    results: MediaCardProps[]
   }
   topRatedMovies: {
-    results: MovieCardProps[]
+    results: MediaCardProps[]
   }
   trendingSeries: {
-    results: TrendingSeriesCardProps[]
+    results: MediaCardProps[]
   }
   popularSeries: {
-    results: SeriesCardProps[]
+    results: MediaCardProps[]
   }
   airingTodaySeries: {
-    results: SeriesCardProps[]
+    results: MediaCardProps[]
   }
   onTheAirSeries: {
-    results: SeriesCardProps[]
+    results: MediaCardProps[]
   }
   topRatedSeries: {
-    results: SeriesCardProps[]
+    results: MediaCardProps[]
   }
 }
 
@@ -134,19 +128,19 @@ export default function Home({
         />
         <ScrollableContainer>
           {mediaTrendingMoviesLists.map(({ title, items }) => (
-            <TrendingMoviesCollection key={title} title={title} items={items} />
+            <TrendingMediaCollection key={title} title={title} items={items} />
           ))}
         </ScrollableContainer>
         {mediaMoviesLists.map(({ title, items, media }) => (
-          <MovieList key={title} title={title} items={items} media={media} />
+          <MediaList key={title} title={title} items={items} media={media} />
         ))}
         <ScrollableContainer>
           {mediaTrendingSeriesLists.map(({ title, items }) => (
-            <TrendingSeriesCollection key={title} title={title} items={items} />
+            <TrendingMediaCollection key={title} title={title} items={items} />
           ))}
         </ScrollableContainer>
         {mediaSeriesLists.map(({ title, items, media }) => (
-          <SeriesList key={title} title={title} items={items} media={media} />
+          <MediaList key={title} title={title} items={items} media={media} />
         ))}
       </Container>
     </Wrapper>

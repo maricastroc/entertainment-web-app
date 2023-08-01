@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   BackgroundImage,
@@ -8,30 +9,33 @@ import {
 } from './styles'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
+import { MediaCardProps } from '@/pages/home/index.page'
 
-export interface TrendingMovieCardProps {
-  id: string
-  backdrop_path: string
-  release_date: string
-  media_type: string
-  title: string
-}
-
-export function TrendingMovieCard({
+export function TrendingMediaCard({
   backdrop_path,
+  poster_path,
+  first_air_date,
   release_date,
   media_type,
+  name,
   title,
-}: TrendingMovieCardProps) {
+}: MediaCardProps) {
   return (
     <Container>
       <BackgroundImage
-        src={`https://image.tmdb.org/t/p/w500${backdrop_path}`}
+        src={
+          `https://image.tmdb.org/t/p/w500${backdrop_path}` ||
+          `https://image.tmdb.org/t/p/w500${poster_path}`
+        }
         alt=""
       />
       <CardInfo>
         <CardInfoData>
-          <p>{getFullYear(release_date)}</p>
+          {first_air_date ? (
+            <p>{getFullYear(first_air_date)}</p>
+          ) : (
+            <p>{getFullYear(release_date!)}</p>
+          )}
           <span>•</span>
           {media_type === 'movie' ? (
             <p>
@@ -45,7 +49,7 @@ export function TrendingMovieCard({
             </p>
           )}
         </CardInfoData>
-        <CardInfoTitle>{title}</CardInfoTitle>
+        <CardInfoTitle>{name || title}</CardInfoTitle>
       </CardInfo>
     </Container>
   )
