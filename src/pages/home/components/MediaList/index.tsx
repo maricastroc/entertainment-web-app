@@ -1,11 +1,11 @@
 import { MediaCard } from '@/components/MediaCard'
 import { MediaCardProps } from '../../index.page'
 import {
-  SeriesContainer,
-  SeriesContent,
-  SeriesHeader,
-  SeriesTag,
-  SeriesTitle,
+  MediaContainer,
+  MediaContent,
+  MediaHeader,
+  MediaTag,
+  MediaTitle,
 } from './styles'
 
 interface MediaListProps {
@@ -16,17 +16,17 @@ interface MediaListProps {
 
 export default function MediaList({ title, items, media }: MediaListProps) {
   return (
-    <SeriesContainer>
-      <SeriesHeader>
-        <SeriesTitle>
+    <MediaContainer>
+      <MediaHeader>
+        <MediaTitle>
           <h2>{title}</h2>
-          <SeriesTag>
+          <MediaTag>
             <p>{media}</p>
-          </SeriesTag>
-        </SeriesTitle>
+          </MediaTag>
+        </MediaTitle>
         <button>See More</button>
-      </SeriesHeader>
-      <SeriesContent>
+      </MediaHeader>
+      <MediaContent>
         {items.map((item) => (
           <MediaCard
             key={item.id}
@@ -37,7 +37,7 @@ export default function MediaList({ title, items, media }: MediaListProps) {
             media_type={media}
           />
         ))}
-      </SeriesContent>
-    </SeriesContainer>
+      </MediaContent>
+    </MediaContainer>
   )
 }

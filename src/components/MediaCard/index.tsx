@@ -21,12 +21,18 @@ export function MediaCard({
 }: MediaCardProps) {
   const router = useRouter()
 
-  async function handleGoToMovieDetails() {
-    await router.push(`movie/${id}`)
+  async function handleGoToPageDetails() {
+    const basePath = router.basePath
+    const moviePath = `${basePath}/movie`
+    const seriesPath = `${basePath}/series`
+
+    media_type === 'movie'
+      ? await router.push(`${moviePath}/${id}`)
+      : await router.push(`${seriesPath}/${id}`)
   }
 
   return (
-    <Container onClick={() => handleGoToMovieDetails()}>
+    <Container onClick={() => handleGoToPageDetails()}>
       {backdrop_path ? (
         <BackgroundImage
           src={`https://image.tmdb.org/t/p/original${backdrop_path}`}

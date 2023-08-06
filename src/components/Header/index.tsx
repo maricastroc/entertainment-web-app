@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   AvatarContainer,
   AvatarImage,
+  ButtonPage,
   ButtonPagesContainer,
   Container,
 } from './styles'
@@ -20,16 +21,27 @@ export function Header() {
   const router = useRouter()
 
   async function goToHome() {
-    await router.push('../home')
+    const basePath = router.basePath
+    const homePath = `${basePath}/home`
+    router.push(homePath)
   }
 
   return (
     <Container>
       <FontAwesomeIcon icon={faClapperboard} />
       <ButtonPagesContainer>
-        <FontAwesomeIcon icon={faTableCellsLarge} onClick={() => goToHome()} />
-        <FontAwesomeIcon icon={faFilm} />
-        <FontAwesomeIcon icon={faTv} />
+        <ButtonPage active={router.pathname === '/home'}>
+          <FontAwesomeIcon
+            icon={faTableCellsLarge}
+            onClick={() => goToHome()}
+          />
+        </ButtonPage>
+        <ButtonPage>
+          <FontAwesomeIcon icon={faFilm} />
+        </ButtonPage>
+        <ButtonPage>
+          <FontAwesomeIcon icon={faTv} />
+        </ButtonPage>
       </ButtonPagesContainer>
       <AvatarContainer>
         <AvatarImage

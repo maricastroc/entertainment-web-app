@@ -13,5 +13,10 @@ export const Rating = styled('div', {
 
   '@media (min-width: 580px)': {
     marginTop: '0.2rem',
+
+    svg: {
+      fontSize: '1.2rem',
+      color: '$blue600',
+    },
   },
 })

@@ -15,6 +15,7 @@ export const Wrapper = styled('div', {
 export const Container = styled('div', {
   position: 'relative',
   display: 'flex',
+  cursor: 'pointer',
 })
 
 export const BackgroundImage = styled('img', {

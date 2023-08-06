@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 export default function Login() {
   const router = useRouter()
 
-  async function handleSignIn(provider: string) {
+  async function handleSignIn(provider?: string) {
     if (provider === 'google') {
       await signIn('google', { callbackUrl: '/home' })
     } else if (provider === 'github') {
@@ -48,11 +48,11 @@ export default function Login() {
             <Icon icon="flat-color-icons:google" />
             <p>Login with Google</p>
           </ButtonAccess>
-          <ButtonAccess>
+          <ButtonAccess onClick={() => handleSignIn('github')}>
             <Icon icon="ant-design:github-outlined" color="white" />
             <p>Login with GitHub</p>
           </ButtonAccess>
-          <ButtonAccess>
+          <ButtonAccess onClick={() => handleSignIn()}>
             <RocketLaunch size={32} className="rocket-icon" />
             <p>Access as a guest</p>
           </ButtonAccess>

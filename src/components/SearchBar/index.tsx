@@ -13,13 +13,10 @@ export function SearchBar({ searchPath, placeholder }: SearchBarProps) {
   const router = useRouter()
   const [query, setQuery] = useState('')
 
-  console.log(query)
-
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
     if (query.length !== 0) {
-      console.log('hey')
       router.push(`${searchPath}${query.trim()}?page=1`)
       setQuery('')
     }

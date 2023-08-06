@@ -41,17 +41,21 @@ export const ButtonPagesContainer = styled('div', {
   gap: '1.5rem',
 
   svg: {
+    cursor: 'pointer',
     color: '$blue600',
     fontSize: '1.2rem',
 
     variants: {
       active: {
         true: {
-          svg: {
-            color: '$red300',
-          },
+          color: '$gray100',
         },
       },
+    },
+
+    '&:hover': {
+      color: '$red300',
+      transition: 'all 200ms',
     },
   },
 
@@ -62,6 +66,41 @@ export const ButtonPagesContainer = styled('div', {
   '@media (min-width: 1024px)': {
     flexDirection: 'column',
 
+    svg: {
+      fontSize: '1.4rem',
+    },
+  },
+})
+
+export const ButtonPage = styled('button', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 'none',
+  backgroundColor: 'transparent',
+
+  variants: {
+    active: {
+      true: {
+        svg: {
+          color: '$gray100',
+        },
+      },
+    },
+  },
+
+  svg: {
+    cursor: 'pointer',
+    color: '$blue600',
+    fontSize: '1.2rem',
+
+    '&:hover': {
+      color: '$red300',
+      transition: 'all 200ms',
+    },
+  },
+
+  '@media (min-width: 1024px)': {
     svg: {
       fontSize: '1.4rem',
     },

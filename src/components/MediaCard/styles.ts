@@ -13,6 +13,7 @@ const rotateAnimation = keyframes({
 })
 
 export const Container = styled('div', {
+  cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',

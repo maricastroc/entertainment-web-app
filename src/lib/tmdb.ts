@@ -39,13 +39,11 @@ export function getMovieCasts(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}/credits?api_key=${TMDB_API_KEY}`
 }
 
-export function getTvDetail<T extends ApiParams>(params: T): string {
-  const { id } = params
+export function getTvDetail(id: string) {
   return `${TMDB_ENDPOINT}/tv/${id}?api_key=${TMDB_API_KEY}`
 }
 
-export function getTvCasts<T extends ApiParams>(params: T): string {
-  const { id } = params
+export function getTvCasts(id: string) {
   return `${TMDB_ENDPOINT}/tv/${id}/credits?api_key=${TMDB_API_KEY}`
 }
 

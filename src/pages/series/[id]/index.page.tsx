@@ -11,9 +11,9 @@ import {
   Heading,
   LinkItem,
   LinksContainer,
-  MovieContainer,
-  MovieContent,
-  MovieImage,
+  SeriesContainer,
+  SeriesContent,
+  SeriesImage,
   RatingContainer,
   Separator,
   SynopsisContainer,
@@ -25,12 +25,11 @@ import { Header } from '@/components/Header'
 import { SearchBar } from '@/components/SearchBar'
 import { StarsRating } from '@/components/StarsRating'
 
-import { Icon } from '@iconify/react/dist/iconify.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 import { convertLanguageCodeToName } from '@/utils/convertLanguageCodeToName'
-import { pathToSearchMovie } from '@/utils'
+import { pathToSearchTV } from '@/utils'
 
 interface SpokenLanguagesProps {
   name: string
@@ -42,43 +41,42 @@ interface GenresProps {
 }
 
 interface DetailProps {
-  original_title: string
+  name: string
   overview: string
   tagline: string
   poster_path: string
   vote_average: number
-  runtime: number
-  release_date: string
+  number_of_episodes: number
+  last_air_date: string
   spoken_languages: SpokenLanguagesProps[]
   status: string
   genres: GenresProps[]
   homepage: string
-  imdb_id: string
   original_language: string
 }
 
-interface MovieDataProps {
+interface SeriesDataProps {
   detail: DetailProps
 }
 
-export default function Movie() {
+export default function Series() {
   const router = useRouter()
   const { id } = router.query
 
-  const [movieData, setMovieData] = useState<MovieDataProps | undefined>()
+  const [seriesData, setSeriesData] = useState<SeriesDataProps | undefined>()
 
   useEffect(() => {
-    fetch(`/api/movie/${id}`)
+    fetch(`/api/series/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setMovieData(data)
+        setSeriesData(data)
       })
       .catch((error) => {
         console.error('Erro ao obter detalhes do filme:', error)
       })
   }, [id])
 
-  console.log(movieData)
+  console.log(seriesData)
 
   function convertRatingTo5Scale(ratingOutOf10: number) {
     return ratingOutOf10 * (5 / 10)
@@ -86,65 +84,65 @@ export default function Movie() {
 
   return (
     <>
-      {movieData?.detail ? (
+      {seriesData?.detail ? (
         <Wrapper>
           <Header />
           <Container>
             <SearchBar
-              searchPath={pathToSearchMovie}
-              placeholder="Search for movie"
+              searchPath={pathToSearchTV}
+              placeholder="Search for TV Series"
             />
-            <MovieContainer>
-              <MovieImage
-                src={`https://image.tmdb.org/t/p/original${movieData?.detail?.poster_path}`}
+            <SeriesContainer>
+              <SeriesImage
+                src={`https://image.tmdb.org/t/p/original${seriesData?.detail?.poster_path}`}
               />
-              <MovieContent>
+              <SeriesContent>
                 <Heading>
-                  <h2>{movieData?.detail?.original_title}</h2>
-                  <p>{movieData?.detail?.tagline}</p>
+                  <h2>{seriesData?.detail?.name}</h2>
+                  <p>{seriesData?.detail?.tagline}</p>
                 </Heading>
                 <Separator />
                 <RatingContainer>
                   <h2>
                     {convertRatingTo5Scale(
-                      movieData?.detail?.vote_average,
+                      seriesData?.detail?.vote_average,
                     ).toFixed(2)}
                   </h2>
                   <StarsRating
                     rating={convertRatingTo5Scale(
-                      movieData?.detail?.vote_average,
+                      seriesData?.detail?.vote_average,
                     )}
                   />
                 </RatingContainer>
                 <Separator />
                 <GeneralInfoContainer>
                   <GeneralInfoItem>
-                    <h2>Length</h2>
-                    <p>{`${movieData?.detail?.runtime}min.`}</p>
+                    <h2>Episodes</h2>
+                    <p>{`${seriesData?.detail?.number_of_episodes} episodes`}</p>
                   </GeneralInfoItem>
                   <GeneralInfoItem>
                     <h2>Language</h2>
                     <p>
                       {convertLanguageCodeToName(
-                        movieData?.detail?.original_language,
+                        seriesData?.detail?.original_language,
                       ) || '-'}
                     </p>
                   </GeneralInfoItem>
                   <GeneralInfoItem>
                     <h2>Year</h2>
-                    <p>{movieData?.detail?.release_date?.split('-')[0]}</p>
+                    <p>{seriesData?.detail?.last_air_date?.split('-')[0]}</p>
                   </GeneralInfoItem>
                   <GeneralInfoItem>
                     <h2>Status</h2>
-                    <p>{movieData?.detail?.status}</p>
+                    <p>{seriesData?.detail?.status}</p>
                   </GeneralInfoItem>
                 </GeneralInfoContainer>
                 <Separator />
                 <GenresContainer>
                   <h2>Genres</h2>
                   <GenresContent>
-                    {movieData?.detail.genres.length > 0 ? (
-                      movieData?.detail?.genres?.map((genre) => {
+                    {seriesData?.detail.genres.length > 0 ? (
+                      seriesData?.detail?.genres?.map((genre) => {
                         return (
                           <GenreItem key={genre.id}>{genre.name}</GenreItem>
                         )
@@ -157,24 +155,22 @@ export default function Movie() {
                 <Separator />
                 <SynopsisContainer>
                   <h2>Synopsis</h2>
-                  <p>{movieData?.detail?.overview || 'N/A'}</p>
+                  <p>{seriesData?.detail?.overview || 'N/A'}</p>
                 </SynopsisContainer>
                 <Separator />
-                <LinksContainer>
-                  <LinkItem href={movieData?.detail?.homepage} target="_blank">
-                    <span>Website</span>
-                    <FontAwesomeIcon icon={faLink} />
-                  </LinkItem>
-                  <LinkItem
-                    href={`https://www.imdb.com/title/${movieData?.detail?.imdb_id}`}
-                    target="_blank"
-                  >
-                    <span>IMDB</span>
-                    <Icon icon="bxl:imdb" color="white" />
-                  </LinkItem>
-                </LinksContainer>
-              </MovieContent>
-            </MovieContainer>
+                {seriesData?.detail?.homepage !== '' && (
+                  <LinksContainer>
+                    <LinkItem
+                      href={seriesData?.detail?.homepage}
+                      target="_blank"
+                    >
+                      <span>Website</span>
+                      <FontAwesomeIcon icon={faLink} />
+                    </LinkItem>
+                  </LinksContainer>
+                )}
+              </SeriesContent>
+            </SeriesContainer>
           </Container>
         </Wrapper>
       ) : (

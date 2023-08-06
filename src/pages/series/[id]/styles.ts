@@ -34,7 +34,7 @@ export const Container = styled('div', {
   },
 })
 
-export const MovieContainer = styled('div', {
+export const SeriesContainer = styled('div', {
   marginTop: '3rem',
   display: 'flex',
   flexDirection: 'column',
@@ -60,7 +60,7 @@ export const MovieContainer = styled('div', {
   },
 })
 
-export const MovieContent = styled('div', {
+export const SeriesContent = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -78,7 +78,7 @@ export const MovieContent = styled('div', {
   },
 })
 
-export const MovieImage = styled('img', {
+export const SeriesImage = styled('img', {
   width: 'clamp(10rem, 40vw, 16rem)',
   height: 'auto',
   borderRadius: 8,

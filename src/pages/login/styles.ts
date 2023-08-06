@@ -130,7 +130,7 @@ export const ButtonAccess = styled('button', {
 
   p: {
     color: '$gray100',
-    fontWeight: 500,
+    fontWeight: 300,
   },
 
   '& .rocket-icon': {

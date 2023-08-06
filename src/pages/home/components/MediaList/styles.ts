@@ -1,6 +1,6 @@
 import { styled } from '../../../../styles'
 
-export const SeriesContainer = styled('div', {
+export const MediaContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   marginTop: '3rem',
@@ -18,7 +18,7 @@ export const SeriesContainer = styled('div', {
   },
 })
 
-export const SeriesHeader = styled('div', {
+export const MediaHeader = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -34,7 +34,7 @@ export const SeriesHeader = styled('div', {
   },
 })
 
-export const SeriesTitle = styled('div', {
+export const MediaTitle = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '0.7rem',
@@ -53,7 +53,7 @@ export const SeriesTitle = styled('div', {
   },
 })
 
-export const SeriesTag = styled('div', {
+export const MediaTag = styled('div', {
   marginTop: '0.4rem',
   display: 'flex',
   alignItems: 'center',
@@ -79,7 +79,7 @@ export const SeriesTag = styled('div', {
   },
 })
 
-export const SeriesContent = styled('div', {
+export const MediaContent = styled('div', {
   display: 'grid',
   gap: '2rem 1rem',
   gridTemplateColumns: '1fr',
