@@ -25,9 +25,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.1.6",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "next-auth": "^4.22.1"
   },
   "devDependencies": {
+    "@iconify/react": "^4.1.1",
     "@rocketseat/eslint-config": "^1.2.0",
     "@types/uuid": "^9.0.2"
   }

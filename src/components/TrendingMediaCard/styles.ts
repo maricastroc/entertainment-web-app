@@ -1,6 +1,6 @@
 import { styled } from '../../styles'
 
-export const Container = styled('div', {
+export const Wrapper = styled('div', {
   position: 'relative',
   display: 'flex',
   width: '15rem',
@@ -10,6 +10,11 @@ export const Container = styled('div', {
     width: '28rem',
     height: 'auto',
   },
+})
+
+export const Container = styled('div', {
+  position: 'relative',
+  display: 'flex',
 })
 
 export const BackgroundImage = styled('img', {

@@ -10,15 +10,23 @@ import {
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
 import { MediaCardProps } from '@/pages/home/index.page'
+import { useRouter } from 'next/router'
 
 export function MediaCard({
   backdrop_path,
   first_air_date,
   media_type,
   name,
+  id,
 }: MediaCardProps) {
+  const router = useRouter()
+
+  async function handleGoToMovieDetails() {
+    await router.push(`movie/${id}`)
+  }
+
   return (
-    <Container>
+    <Container onClick={() => handleGoToMovieDetails()}>
       {backdrop_path ? (
         <BackgroundImage
           src={`https://image.tmdb.org/t/p/original${backdrop_path}`}

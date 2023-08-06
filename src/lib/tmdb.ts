@@ -31,13 +31,11 @@ export function getGenre<T extends ApiParams>(params: T): string {
   return `${TMDB_ENDPOINT}/${endpoint}?api_key=${TMDB_API_KEY}`
 }
 
-export function getMovieDetail<T extends ApiParams>(params: T): string {
-  const { id } = params
+export function getMovieDetail(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}?api_key=${TMDB_API_KEY}`
 }
 
-export function getMovieCasts<T extends ApiParams>(params: T): string {
-  const { id } = params
+export function getMovieCasts(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}/credits?api_key=${TMDB_API_KEY}`
 }
 
