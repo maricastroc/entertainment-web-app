@@ -24,7 +24,7 @@ export function MediaCard({
   async function handleGoToPageDetails() {
     const basePath = router.basePath
     const moviePath = `${basePath}/movie`
-    const seriesPath = `${basePath}/series`
+    const seriesPath = `${basePath}/tv`
 
     media_type === 'movie'
       ? await router.push(`${moviePath}/${id}`)

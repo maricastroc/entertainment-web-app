@@ -128,7 +128,12 @@ export default function Home({
         />
         <ScrollableContainer>
           {mediaTrendingMoviesLists.map(({ title, items }) => (
-            <TrendingMediaCollection key={title} title={title} items={items} />
+            <TrendingMediaCollection
+              key={title}
+              title={title}
+              items={items}
+              media_type="movie"
+            />
           ))}
         </ScrollableContainer>
         {mediaMoviesLists.map(({ title, items, media }) => (
@@ -136,7 +141,12 @@ export default function Home({
         ))}
         <ScrollableContainer>
           {mediaTrendingSeriesLists.map(({ title, items }) => (
-            <TrendingMediaCollection key={title} title={title} items={items} />
+            <TrendingMediaCollection
+              key={title}
+              title={title}
+              items={items}
+              media_type="TV series"
+            />
           ))}
         </ScrollableContainer>
         {mediaSeriesLists.map(({ title, items, media }) => (
@@ -148,12 +158,9 @@ export default function Home({
 }
 
 async function fetchData(endpoint: string) {
-  const params = {
-    endpoint,
-    page: '1',
-  }
+  const page = '1'
 
-  const url = getUrl2(params)
+  const url = getUrl2(endpoint, page)
   const response = await fetch(url)
   const data = await response.json()
   return data

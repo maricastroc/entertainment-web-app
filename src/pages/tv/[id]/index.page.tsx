@@ -66,7 +66,7 @@ export default function Series() {
   const [seriesData, setSeriesData] = useState<SeriesDataProps | undefined>()
 
   useEffect(() => {
-    fetch(`/api/series/${id}`)
+    fetch(`/api/tv/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setSeriesData(data)
@@ -75,8 +75,6 @@ export default function Series() {
         console.error('Erro ao obter detalhes do filme:', error)
       })
   }, [id])
-
-  console.log(seriesData)
 
   function convertRatingTo5Scale(ratingOutOf10: number) {
     return ratingOutOf10 * (5 / 10)

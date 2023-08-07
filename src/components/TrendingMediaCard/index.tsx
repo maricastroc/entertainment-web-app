@@ -29,7 +29,7 @@ export function TrendingMediaCard({
   async function handleGoToPageDetails() {
     media_type === 'movie'
       ? await router.push(`movie/${id}`)
-      : await router.push(`series/${id}`)
+      : await router.push(`tv/${id}`)
   }
 
   return (

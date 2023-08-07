@@ -7,6 +7,7 @@ export const Wrapper = styled('div', {
 
   '@media (min-width: 1024px)': {
     flexDirection: 'row',
+    paddingRight: '2.5rem',
   },
 })
 

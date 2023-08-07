@@ -25,12 +25,18 @@ export const MediaHeader = styled('div', {
   marginBottom: '1.5rem',
 
   button: {
+    cursor: 'pointer',
     backgroundColor: 'transparent',
     border: 'none',
     color: '$blue600',
     fontSize: '0.8rem',
     fontWeight: 500,
     textTransform: 'uppercase',
+
+    '&:hover': {
+      filter: 'brightness(1.6)',
+      transition: 'all 200ms',
+    },
   },
 })
 

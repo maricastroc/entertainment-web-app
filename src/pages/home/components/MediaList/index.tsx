@@ -7,6 +7,7 @@ import {
   MediaTag,
   MediaTitle,
 } from './styles'
+import { useRouter } from 'next/router'
 
 interface MediaListProps {
   title: string
@@ -15,6 +16,18 @@ interface MediaListProps {
 }
 
 export default function MediaList({ title, items, media }: MediaListProps) {
+  const router = useRouter()
+
+  async function handleGoToTrendingMedia() {
+    const basePath = router.basePath
+    const moviePath = `${basePath}/movie/trending`
+    const seriesPath = `${basePath}/tv/trending`
+
+    media.toLowerCase() === 'movie'
+      ? await router.push(`${moviePath}/1`)
+      : await router.push(`${seriesPath}/1`)
+  }
+
   return (
     <MediaContainer>
       <MediaHeader>
@@ -24,7 +37,7 @@ export default function MediaList({ title, items, media }: MediaListProps) {
             <p>{media}</p>
           </MediaTag>
         </MediaTitle>
-        <button>See More</button>
+        <button onClick={handleGoToTrendingMedia}>See More</button>
       </MediaHeader>
       <MediaContent>
         {items.map((item) => (

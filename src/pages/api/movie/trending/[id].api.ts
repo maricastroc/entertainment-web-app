@@ -6,13 +6,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const params = {
-    endpoint: trendingMovieDay,
-    page: '1',
-  }
+  const { id } = req.query
 
   try {
-    const url = getUrl2(params)
+    const url = getUrl2(trendingMovieDay, id as string)
     const response = await fetch(url)
     const data = await response.json()
     res.status(200).json({

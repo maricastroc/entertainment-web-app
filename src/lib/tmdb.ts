@@ -17,12 +17,10 @@ export function getUrl<T extends ApiParams>(params: T): string {
   return `https://api.themoviedb.org/3/${endpoint}?api_key=d7996d8db8d78ad9875ded8c14a23692&with_genres=${id}&name=${genre}&page=${page}`
 }
 
-export function getUrl2<T extends ApiParams>(params: T): string {
-  dotenv.config()
+export function getUrl2(endpoint: string, page: string) {
   const TMDB_API_KEY = process.env.TMDB_API_KEY
   const TMDB_ENDPOINT = process.env.TMDB_ENDPOINT
 
-  const { endpoint, page } = params
   return `${TMDB_ENDPOINT}/${endpoint}?api_key=${TMDB_API_KEY}&page=${page}`
 }
 
