@@ -1,7 +1,7 @@
 import { Container, MediaContainer, MediaContent, Wrapper } from './styles'
 import { SearchBar } from '@/components/SearchBar'
 import { Header } from '@/components/Header'
-import { pathToSearchMovie } from '@/utils'
+import { pathToSearchTV } from '@/utils'
 import { MediaCard } from '@/components/MediaCard'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -20,7 +20,7 @@ interface SearchResultItemProps {
   profile_path?: string
 }
 
-export default function TrendingMovie() {
+export default function PopularTv() {
   const router = useRouter()
   const { id } = router.query
 
@@ -29,7 +29,7 @@ export default function TrendingMovie() {
   const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
-    fetch(`/api/movie/trending/${id}`)
+    fetch(`/api/tv/popular/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data.results)
@@ -47,8 +47,8 @@ export default function TrendingMovie() {
           <Header />
           <Container>
             <SearchBar
-              searchPath={pathToSearchMovie}
-              placeholder="Search for movies"
+              searchPath={pathToSearchTV}
+              placeholder="Search for TV series"
             />
             <MediaContainer>
               <MediaContent>
@@ -72,7 +72,7 @@ export default function TrendingMovie() {
             </MediaContainer>
             <PaginationTrendingBar
               actualPage={parseFloat(id as string)}
-              searchPath="movie/trending/"
+              searchPath="tv/popular/"
               totalPages={totalPages}
             />
           </Container>

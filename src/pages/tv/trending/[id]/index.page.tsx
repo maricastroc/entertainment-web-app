@@ -24,9 +24,7 @@ export default function TrendingTv() {
   const router = useRouter()
   const { id } = router.query
 
-  const [trendingData, setTrendingData] = useState<
-    SearchResultItemProps[] | undefined
-  >()
+  const [data, setData] = useState<SearchResultItemProps[] | undefined>()
 
   const [totalPages, setTotalPages] = useState(0)
 
@@ -34,7 +32,7 @@ export default function TrendingTv() {
     fetch(`/api/tv/trending/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setTrendingData(data.results)
+        setData(data.results)
         setTotalPages(data.total_pages)
       })
       .catch((error) => {
@@ -46,7 +44,7 @@ export default function TrendingTv() {
 
   return (
     <>
-      {trendingData ? (
+      {data ? (
         <Wrapper>
           <Header />
           <Container>
@@ -56,7 +54,7 @@ export default function TrendingTv() {
             />
             <MediaContainer>
               <MediaContent>
-                {trendingData.map((item: SearchResultItemProps) => {
+                {data.map((item: SearchResultItemProps) => {
                   return (
                     <MediaCard
                       key={item.id}

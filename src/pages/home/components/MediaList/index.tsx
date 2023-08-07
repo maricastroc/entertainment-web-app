@@ -13,15 +13,21 @@ interface MediaListProps {
   title: string
   items: MediaCardProps[]
   media: string
+  endpoint: string
 }
 
-export default function MediaList({ title, items, media }: MediaListProps) {
+export default function MediaList({
+  title,
+  items,
+  media,
+  endpoint,
+}: MediaListProps) {
   const router = useRouter()
 
   async function handleGoToTrendingMedia() {
     const basePath = router.basePath
-    const moviePath = `${basePath}/movie/trending`
-    const seriesPath = `${basePath}/tv/trending`
+    const moviePath = `${basePath}/movie/${endpoint}`
+    const seriesPath = `${basePath}/tv/${endpoint}`
 
     media.toLowerCase() === 'movie'
       ? await router.push(`${moviePath}/1`)

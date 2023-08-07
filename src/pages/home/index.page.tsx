@@ -105,17 +105,57 @@ export default function Home({
   ]
 
   const mediaMoviesLists = [
-    { title: 'Popular', items: popularMoviesList, media: 'Movie' },
-    { title: 'Now Playing', items: nowPlayingMoviesList, media: 'Movie' },
-    { title: 'Upcoming', items: upcomingMoviesList, media: 'Movie' },
-    { title: 'Top Rated', items: topRatedMoviesList, media: 'Movie' },
+    {
+      title: 'Popular',
+      items: popularMoviesList,
+      media: 'Movie',
+      endpoint: 'popular',
+    },
+    {
+      title: 'Now Playing',
+      items: nowPlayingMoviesList,
+      media: 'Movie',
+      endpoint: 'nowplaying',
+    },
+    {
+      title: 'Upcoming',
+      items: upcomingMoviesList,
+      media: 'Movie',
+      endpoint: 'upcoming',
+    },
+    {
+      title: 'Top Rated',
+      items: topRatedMoviesList,
+      media: 'Movie',
+      endpoint: 'top',
+    },
   ]
 
   const mediaSeriesLists = [
-    { title: 'Popular', items: popularSeriesList, media: 'TV Series' },
-    { title: 'Airing Today', items: airingTodaySeriesList, media: 'TV Series' },
-    { title: 'On Air', items: onAirSeriesList, media: 'TV Series' },
-    { title: 'Top Rated', items: topRatedSeriesList, media: 'TV Series' },
+    {
+      title: 'Popular',
+      items: popularSeriesList,
+      media: 'TV Series',
+      endpoint: 'popular',
+    },
+    {
+      title: 'Airing Today',
+      items: airingTodaySeriesList,
+      media: 'TV Series',
+      endpoint: 'airing',
+    },
+    {
+      title: 'On Air',
+      items: onAirSeriesList,
+      media: 'TV Series',
+      endpoint: 'onair',
+    },
+    {
+      title: 'Top Rated',
+      items: topRatedSeriesList,
+      media: 'TV Series',
+      endpoint: 'top',
+    },
   ]
 
   return (
@@ -136,8 +176,14 @@ export default function Home({
             />
           ))}
         </ScrollableContainer>
-        {mediaMoviesLists.map(({ title, items, media }) => (
-          <MediaList key={title} title={title} items={items} media={media} />
+        {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
+          <MediaList
+            key={title}
+            title={title}
+            items={items}
+            media={media}
+            endpoint={endpoint}
+          />
         ))}
         <ScrollableContainer>
           {mediaTrendingSeriesLists.map(({ title, items }) => (
@@ -149,8 +195,14 @@ export default function Home({
             />
           ))}
         </ScrollableContainer>
-        {mediaSeriesLists.map(({ title, items, media }) => (
-          <MediaList key={title} title={title} items={items} media={media} />
+        {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
+          <MediaList
+            key={title}
+            title={title}
+            items={items}
+            media={media}
+            endpoint={endpoint}
+          />
         ))}
       </Container>
     </Wrapper>

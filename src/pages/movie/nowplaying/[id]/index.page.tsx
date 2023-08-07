@@ -20,7 +20,7 @@ interface SearchResultItemProps {
   profile_path?: string
 }
 
-export default function TrendingMovie() {
+export default function NowPlayingMovies() {
   const router = useRouter()
   const { id } = router.query
 
@@ -29,7 +29,7 @@ export default function TrendingMovie() {
   const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
-    fetch(`/api/movie/trending/${id}`)
+    fetch(`/api/movie/now/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data.results)
@@ -72,7 +72,7 @@ export default function TrendingMovie() {
             </MediaContainer>
             <PaginationTrendingBar
               actualPage={parseFloat(id as string)}
-              searchPath="movie/trending/"
+              searchPath="movie/now/"
               totalPages={totalPages}
             />
           </Container>
