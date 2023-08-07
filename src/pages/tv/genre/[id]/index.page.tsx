@@ -1,34 +1,27 @@
+import Loading from '@/components/Loading'
+import { discoverTV, getUrl } from '@/lib/tmdb'
+import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
+import { NextPageContext } from 'next'
 import { Container, MediaContainer, MediaContent, Wrapper } from './styles'
-import { SearchBar } from '@/components/SearchBar'
 import { Header } from '@/components/Header'
+import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchTV } from '@/utils'
 import { MediaCard } from '@/components/MediaCard'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Loading from '@/components/Loading'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 
-export default function AiringTv() {
-  const router = useRouter()
-  const { id } = router.query
+interface GenreIdProps {
+  data: {
+    results: SearchResultItemProps[]
+    total_pages: number
+  }
+  id: string
+  name: string
+  page: string
+}
 
-  const [data, setData] = useState<SearchResultItemProps[] | undefined>()
-
-  const [totalPages, setTotalPages] = useState(0)
-
-  useEffect(() => {
-    fetch(`/api/tv/airing/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.results)
-        setTotalPages(data.total_pages)
-      })
-      .catch((error) => {
-        console.error('Erro ao obter detalhes do filme:', error)
-      })
-  }, [id])
-
+export default function GenreId({ data, id, name, page }: GenreIdProps) {
+  const currentPage = Number(page)
+  console.log(data, id, name, page)
   return (
     <>
       {data ? (
@@ -41,7 +34,7 @@ export default function AiringTv() {
             />
             <MediaContainer>
               <MediaContent>
-                {data.map((item: SearchResultItemProps) => {
+                {data.results.map((item: SearchResultItemProps) => {
                   return (
                     <MediaCard
                       key={item.id}
@@ -60,9 +53,9 @@ export default function AiringTv() {
               </MediaContent>
             </MediaContainer>
             <PaginationTrendingBar
-              actualPage={parseFloat(id as string)}
-              searchPath="tv/airing/"
-              totalPages={totalPages}
+              actualPage={currentPage}
+              searchPath={`/tv/genre/${id}?name=${name}&page=`}
+              totalPages={data.total_pages}
             />
           </Container>
         </Wrapper>
@@ -71,4 +64,20 @@ export default function AiringTv() {
       )}
     </>
   )
+}
+
+export async function getServerSideProps(context: NextPageContext) {
+  const { id, name, page } = context.query
+  const url = getUrl(discoverTV, id as string, name as string, page as string)
+  const response = await fetch(url)
+  const data = await response.json()
+
+  return {
+    props: {
+      data,
+      id,
+      name,
+      page,
+    },
+  }
 }

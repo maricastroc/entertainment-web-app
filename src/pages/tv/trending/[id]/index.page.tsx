@@ -7,18 +7,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Loading from '@/components/Loading'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
-
-interface SearchResultItemProps {
-  id: string
-  name?: string
-  title?: string
-  first_air_date?: string
-  release_date?: string
-  media_type: string
-  backdrop_path?: string
-  poster_path?: string
-  profile_path?: string
-}
+import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 
 export default function TrendingTv() {
   const router = useRouter()
@@ -39,8 +28,6 @@ export default function TrendingTv() {
         console.error('Erro ao obter detalhes do filme:', error)
       })
   }, [id])
-
-  console.log(id)
 
   return (
     <>
@@ -66,7 +53,7 @@ export default function TrendingTv() {
                         item.poster_path ||
                         item.profile_path
                       }
-                      media_type={item.media_type}
+                      media_type="tv"
                     />
                   )
                 })}

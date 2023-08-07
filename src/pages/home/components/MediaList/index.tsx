@@ -53,7 +53,7 @@ export default function MediaList({
             name={item.name || item.title}
             first_air_date={item.first_air_date || item.release_date}
             backdrop_path={item.backdrop_path || item.poster_path}
-            media_type={media}
+            media_type={media.toLowerCase()}
           />
         ))}
       </MediaContent>

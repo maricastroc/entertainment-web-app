@@ -77,7 +77,7 @@ export const CardInfoTitle = styled('h2', {
   fontSize: '0.93rem',
   color: '$gray100',
   fontWeight: 500,
-  maxWidth: '100%', // Ajusta a largura do título para ocupar o máximo possível dentro do CardInfo
+  maxWidth: '100%',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',

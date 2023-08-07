@@ -26,6 +26,18 @@ export function Header() {
     router.push(homePath)
   }
 
+  async function goToTvGenre() {
+    const basePath = router.basePath
+    const tvGenrePath = `${basePath}/tv`
+    router.push(tvGenrePath)
+  }
+
+  async function goToMovieGenre() {
+    const basePath = router.basePath
+    const tvGenrePath = `${basePath}/movie`
+    router.push(tvGenrePath)
+  }
+
   return (
     <Container>
       <FontAwesomeIcon icon={faClapperboard} />
@@ -37,10 +49,10 @@ export function Header() {
           />
         </ButtonPage>
         <ButtonPage>
-          <FontAwesomeIcon icon={faFilm} />
+          <FontAwesomeIcon icon={faFilm} onClick={() => goToMovieGenre()} />
         </ButtonPage>
         <ButtonPage>
-          <FontAwesomeIcon icon={faTv} />
+          <FontAwesomeIcon icon={faTv} onClick={() => goToTvGenre()} />
         </ButtonPage>
       </ButtonPagesContainer>
       <AvatarContainer>

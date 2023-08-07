@@ -19,14 +19,14 @@ export function PaginationTrendingBar({
   function handleNextPage() {
     const basePath = router.basePath
     actualPage === totalPages
-      ? router.push(`${basePath}/${searchPath}/1`)
-      : router.push(`${basePath}/${searchPath}/${actualPage + 1}`)
+      ? router.push(`${basePath}/${searchPath}1`)
+      : router.push(`${basePath}/${searchPath}${actualPage + 1}`)
   }
 
   function handlePreviousPage() {
     const basePath = router.basePath
     if (actualPage > 1) {
-      router.push(`${basePath}/${searchPath}/${actualPage - 1}`)
+      router.push(`${basePath}/${searchPath}${actualPage - 1}`)
     }
   }
 

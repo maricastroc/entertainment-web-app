@@ -7,7 +7,7 @@ import { MediaCard } from '@/components/MediaCard'
 import { PaginationBar } from '@/components/PaginationBar'
 import { NextPageContext } from 'next'
 
-interface SearchResultItemProps {
+export interface SearchResultItemProps {
   id: string
   name?: string
   title?: string
