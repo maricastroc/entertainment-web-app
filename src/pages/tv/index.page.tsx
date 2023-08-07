@@ -4,6 +4,7 @@ import { Header } from '@/components/Header'
 import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchTV } from '@/utils'
 import { GenreCard } from '@/components/GenreCard'
+import { NextSeo } from 'next-seo'
 
 interface GenreItem {
   name: string
@@ -18,28 +19,31 @@ interface TvGenreProps {
 
 export default function TvGenres({ data }: TvGenreProps) {
   return (
-    <Wrapper>
-      <Header />
-      <Container>
-        <SearchBar
-          searchPath={pathToSearchTV}
-          placeholder="Search for TV series"
-        />
-        <GenresContainer>
-          {data.genres.map((item, index) => {
-            return (
-              <GenreCard
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                media_type="tv"
-                background={index % 2 === 0 ? 'isEvenTv' : 'notEven'}
-              />
-            )
-          })}
-        </GenresContainer>
-      </Container>
-    </Wrapper>
+    <>
+      <NextSeo title="TV Series | MovieMentor" />
+      <Wrapper>
+        <Header />
+        <Container>
+          <SearchBar
+            searchPath={pathToSearchTV}
+            placeholder="Search for TV series"
+          />
+          <GenresContainer>
+            {data.genres.map((item, index) => {
+              return (
+                <GenreCard
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  media_type="tv"
+                  background={index % 2 === 0 ? 'isEvenTv' : 'notEven'}
+                />
+              )
+            })}
+          </GenresContainer>
+        </Container>
+      </Wrapper>
+    </>
   )
 }
 

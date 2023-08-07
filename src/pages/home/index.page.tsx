@@ -19,6 +19,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchAll } from '@/utils'
 import MediaList from './components/MediaList'
 import TrendingMediaCollection from './components/TrendingMediaCollection'
+import { NextSeo } from 'next-seo'
 
 export interface MediaCardProps {
   id?: string
@@ -159,53 +160,56 @@ export default function Home({
   ]
 
   return (
-    <Wrapper>
-      <Header />
-      <Container>
-        <SearchBar
-          searchPath={pathToSearchAll}
-          placeholder="Search for movie / TV series"
-        />
-        <ScrollableContainer>
-          {mediaTrendingMoviesLists.map(({ title, items }) => (
-            <TrendingMediaCollection
+    <>
+      <NextSeo title="Home | MovieMentor" />
+      <Wrapper>
+        <Header />
+        <Container>
+          <SearchBar
+            searchPath={pathToSearchAll}
+            placeholder="Search for movie / TV series"
+          />
+          <ScrollableContainer>
+            {mediaTrendingMoviesLists.map(({ title, items }) => (
+              <TrendingMediaCollection
+                key={title}
+                title={title}
+                items={items}
+                media_type="movie"
+              />
+            ))}
+          </ScrollableContainer>
+          {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
+            <MediaList
               key={title}
               title={title}
               items={items}
-              media_type="movie"
+              media={media}
+              endpoint={endpoint}
             />
           ))}
-        </ScrollableContainer>
-        {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
-          <MediaList
-            key={title}
-            title={title}
-            items={items}
-            media={media}
-            endpoint={endpoint}
-          />
-        ))}
-        <ScrollableContainer>
-          {mediaTrendingSeriesLists.map(({ title, items }) => (
-            <TrendingMediaCollection
+          <ScrollableContainer>
+            {mediaTrendingSeriesLists.map(({ title, items }) => (
+              <TrendingMediaCollection
+                key={title}
+                title={title}
+                items={items}
+                media_type="TV series"
+              />
+            ))}
+          </ScrollableContainer>
+          {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
+            <MediaList
               key={title}
               title={title}
               items={items}
-              media_type="TV series"
+              media={media}
+              endpoint={endpoint}
             />
           ))}
-        </ScrollableContainer>
-        {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
-          <MediaList
-            key={title}
-            title={title}
-            items={items}
-            media={media}
-            endpoint={endpoint}
-          />
-        ))}
-      </Container>
-    </Wrapper>
+        </Container>
+      </Wrapper>
+    </>
   )
 }
 

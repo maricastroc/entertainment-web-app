@@ -11,7 +11,7 @@ export default function Document() {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link rel="icon" type="image/svg" href="/assets/favicon.svg" />
+        <link rel="icon" type="image/svg" href="/logo.svg" />
         <link
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap"
           rel="stylesheet"

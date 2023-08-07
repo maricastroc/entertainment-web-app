@@ -26,7 +26,8 @@
     "react-dom": "18.2.0",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
-    "next-auth": "^4.22.1"
+    "next-auth": "^4.22.1",
+    "next-seo": "^6.0.0"
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",

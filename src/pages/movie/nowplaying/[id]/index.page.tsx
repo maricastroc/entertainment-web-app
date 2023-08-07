@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Loading from '@/components/Loading'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
+import { NextSeo } from 'next-seo'
 
 interface SearchResultItemProps {
   id: string
@@ -36,12 +37,13 @@ export default function NowPlayingMovies() {
         setTotalPages(data.total_pages)
       })
       .catch((error) => {
-        console.error('Erro ao obter detalhes do filme:', error)
+        console.error('Error getting movie details:', error)
       })
   }, [id])
 
   return (
     <>
+      <NextSeo title="Now Playing Movies | MovieMentor" />
       {data ? (
         <Wrapper>
           <Header />

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Loading from '@/components/Loading'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
 import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
+import { NextSeo } from 'next-seo'
 
 export default function OnAirTv() {
   const router = useRouter()
@@ -25,12 +26,13 @@ export default function OnAirTv() {
         setTotalPages(data.total_pages)
       })
       .catch((error) => {
-        console.error('Erro ao obter detalhes do filme:', error)
+        console.error('Error getting movie details:', error)
       })
   }, [id])
 
   return (
     <>
+      <NextSeo title="On Air TV Series | MovieMentor" />
       {data ? (
         <Wrapper>
           <Header />

@@ -30,6 +30,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 import { convertLanguageCodeToName } from '@/utils/convertLanguageCodeToName'
 import { pathToSearchTV } from '@/utils'
+import { NextSeo } from 'next-seo'
 
 interface SpokenLanguagesProps {
   name: string
@@ -72,7 +73,7 @@ export default function Series() {
         setSeriesData(data)
       })
       .catch((error) => {
-        console.error('Erro ao obter detalhes do filme:', error)
+        console.error('Error getting movie details:', error)
       })
   }, [id])
 
@@ -82,6 +83,7 @@ export default function Series() {
 
   return (
     <>
+      <NextSeo title="TV Series | MovieMentor" />
       {seriesData?.detail ? (
         <Wrapper>
           <Header />

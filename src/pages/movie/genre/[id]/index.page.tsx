@@ -8,6 +8,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchMovie } from '@/utils'
 import { MediaCard } from '@/components/MediaCard'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
+import { NextSeo } from 'next-seo'
 
 interface GenreIdProps {
   data: {
@@ -22,9 +23,9 @@ interface GenreIdProps {
 export default function GenreId({ data, id, name, page }: GenreIdProps) {
   const currentPage = Number(page)
 
-  console.log(data.results)
   return (
     <>
+      <NextSeo title="Genre Movies | MovieMentor" />
       {data ? (
         <Wrapper>
           <Header />

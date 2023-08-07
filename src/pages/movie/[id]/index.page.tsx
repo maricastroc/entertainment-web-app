@@ -31,6 +31,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 import { convertLanguageCodeToName } from '@/utils/convertLanguageCodeToName'
 import { pathToSearchMovie } from '@/utils'
+import { NextSeo } from 'next-seo'
 
 interface SpokenLanguagesProps {
   name: string
@@ -74,11 +75,9 @@ export default function Movie() {
         setMovieData(data)
       })
       .catch((error) => {
-        console.error('Erro ao obter detalhes do filme:', error)
+        console.error('Error getting movie details:', error)
       })
   }, [id])
-
-  console.log(movieData)
 
   function convertRatingTo5Scale(ratingOutOf10: number) {
     return ratingOutOf10 * (5 / 10)
@@ -86,6 +85,7 @@ export default function Movie() {
 
   return (
     <>
+      <NextSeo title="Movie | MovieMentor" />
       {movieData?.detail ? (
         <Wrapper>
           <Header />
