@@ -66,7 +66,7 @@ export default function NowPlayingMovies() {
                         item.poster_path ||
                         item.profile_path
                       }
-                      media_type={item.media_type}
+                      media_type="movie"
                     />
                   )
                 })}

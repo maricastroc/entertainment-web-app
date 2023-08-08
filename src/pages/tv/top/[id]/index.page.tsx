@@ -55,7 +55,7 @@ export default function TopTv() {
                         item.poster_path ||
                         item.profile_path
                       }
-                      media_type={item.media_type}
+                      media_type="tv"
                     />
                   )
                 })}
