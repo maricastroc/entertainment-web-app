@@ -48,10 +48,10 @@ export function Header() {
             onClick={() => goToHome()}
           />
         </ButtonPage>
-        <ButtonPage>
+        <ButtonPage active={router.pathname === '/movie'}>
           <FontAwesomeIcon icon={faFilm} onClick={() => goToMovieGenre()} />
         </ButtonPage>
-        <ButtonPage>
+        <ButtonPage active={router.pathname === '/tv'}>
           <FontAwesomeIcon icon={faTv} onClick={() => goToTvGenre()} />
         </ButtonPage>
       </ButtonPagesContainer>
