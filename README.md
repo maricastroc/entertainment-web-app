@@ -12,7 +12,7 @@ This project is an entertainment application that uses TheMovieDB API to display
 
 The application's main challenge was handling the extensive number of routes available for user navigation. To streamline this organization, I created a lib/tbmd.ts file to define all the endpoints used across different pages of the application. This project provided an excellent opportunity to practice passing parameters through routes and server-side data rendering.
 
-I leveraged Next.js's server-side rendering feature, using `getServerSideProps`, to render database information on the server-side. Additionally, I used a seed.ts file to populate the database. NextAuth.js library was employed to implement social user authentication.
+I leveraged Next.js's server-side rendering feature, using `getServerSideProps`, to render database information on the server-side. NextAuth.js library was employed to implement social user authentication.
 
 ## 🔍 Links
 [Preview Site](https://book-wise-puce.vercel.app/)
