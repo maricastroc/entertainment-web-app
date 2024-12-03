@@ -44,16 +44,12 @@ export const MovieContainer = styled('div', {
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
-  overflowY: 'scroll',
-  maxHeight: '100vh',
-  paddingBottom: '10rem',
 
   '@media (min-width: 768px)': {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: '1.5rem',
     margin: '0 auto 0',
-    paddingBottom: '13rem',
   },
 
   '@media (min-width: 980px)': {
@@ -62,9 +58,9 @@ export const MovieContainer = styled('div', {
   },
 
   '@media (min-width: 1024px)': {
+    overflowY: 'scroll',
     maxHeight: '75vh',
     justifyContent: 'flex-start',
-    overflowY: 'scroll',
     paddingBottom: 0,
   },
 

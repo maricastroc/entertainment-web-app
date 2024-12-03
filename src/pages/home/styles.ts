@@ -8,6 +8,7 @@ export const Wrapper = styled('div', {
 
   '@media (min-width: 1024px)': {
     flexDirection: 'row',
+    overflowY: 'hidden',
   },
 })
 
@@ -16,7 +17,6 @@ export const Container = styled('div', {
   flexDirection: 'column',
   padding: '1rem',
   paddingBottom: 0,
-  overflowY: 'hidden',
 
   '@media (min-width: 640px)': {
     padding: '1.5rem',
@@ -24,24 +24,21 @@ export const Container = styled('div', {
   },
 
   '@media (min-width: 1024px)': {
+    overflowY: 'hidden',
     maxWidth: '87vw',
   },
 })
 
 export const MainContent = styled('div', {
-  maxHeight: '100vh',
-  overflowY: 'scroll',
-  paddingBottom: '15rem',
-
-  '@media (min-width: 765px)': {
-    paddingBottom: '17rem',
-  },
+  paddingBottom: '3rem',
 
   '@media (min-width: 1024px)': {
     justifyContent: 'flex-start',
     maxWidth: '87vw',
     paddingRight: '1rem',
     paddingBottom: '10rem',
+    maxHeight: '100vh',
+    overflowY: 'scroll',
   },
 })
 

@@ -45,16 +45,12 @@ export const SeriesContainer = styled('div', {
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
-  overflowY: 'scroll',
-  maxHeight: '100vh',
-  paddingBottom: '10rem',
 
   '@media (min-width: 768px)': {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: '1.5rem',
     margin: '0 auto 0',
-    paddingBottom: '13rem',
   },
 
   '@media (min-width: 980px)': {
