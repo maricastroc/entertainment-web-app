@@ -4,6 +4,7 @@ export const Wrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   maxWidth: '100vw',
+  overflowY: 'hidden',
 
   '@media (min-width: 1024px)': {
     flexDirection: 'row',
@@ -15,6 +16,7 @@ export const Container = styled('div', {
   flexDirection: 'column',
   padding: '1rem',
   paddingBottom: 0,
+  overflowY: 'hidden',
 
   '@media (min-width: 640px)': {
     padding: '1.5rem',
