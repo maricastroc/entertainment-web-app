@@ -7,6 +7,7 @@ export const Container = styled('div', {
   margin: '4rem auto',
   backgroundColor: '$blue800',
   border: '2px solid $blue600',
+  maxWidth: '18rem',
   borderRadius: 8,
 })
 

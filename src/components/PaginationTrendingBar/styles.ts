@@ -8,6 +8,7 @@ export const Container = styled('div', {
   backgroundColor: '$blue800',
   border: '2px solid $blue600',
   borderRadius: 8,
+  maxWidth: '18rem',
 })
 
 export const PrevButton = styled('button', {

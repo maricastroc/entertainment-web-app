@@ -69,6 +69,8 @@ export default function Movie() {
   const [movieData, setMovieData] = useState<MovieDataProps | undefined>()
 
   useEffect(() => {
+    if (!id) return
+
     fetch(`/api/movie/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -143,7 +145,7 @@ export default function Movie() {
                 <GenresContainer>
                   <h2>Genres</h2>
                   <GenresContent>
-                    {movieData?.detail.genres.length > 0 ? (
+                    {movieData?.detail?.genres?.length > 0 ? (
                       movieData?.detail?.genres?.map((genre) => {
                         return (
                           <GenreItem key={genre.id}>{genre.name}</GenreItem>

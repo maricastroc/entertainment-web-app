@@ -35,7 +35,7 @@ export const MediaHeader = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  margin: '2rem 0 1.5rem',
+  margin: '0 0 1.5rem',
   maxWidth: '90vw',
 
   button: {

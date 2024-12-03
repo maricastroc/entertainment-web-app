@@ -12,7 +12,7 @@ import {
   movieTopRated,
 } from '../../lib/tmdb'
 
-import { Container, ScrollableContainer, Wrapper } from './styles'
+import { Container, MainContent, ScrollableContainer, Wrapper } from './styles'
 
 import { Header } from '@/components/Header'
 import { SearchBar } from '@/components/SearchBar'
@@ -169,44 +169,46 @@ export default function Home({
             searchPath={pathToSearchAll}
             placeholder="Search for movie / TV series"
           />
-          <ScrollableContainer>
-            {mediaTrendingMoviesLists.map(({ title, items }) => (
-              <TrendingMediaCollection
+          <MainContent>
+            <ScrollableContainer>
+              {mediaTrendingMoviesLists.map(({ title, items }) => (
+                <TrendingMediaCollection
+                  key={title}
+                  title={title}
+                  items={items}
+                  media_type="movie"
+                />
+              ))}
+            </ScrollableContainer>
+            {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
+              <MediaList
                 key={title}
                 title={title}
                 items={items}
-                media_type="movie"
+                media={media}
+                endpoint={endpoint}
               />
             ))}
-          </ScrollableContainer>
-          {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
-            <MediaList
-              key={title}
-              title={title}
-              items={items}
-              media={media}
-              endpoint={endpoint}
-            />
-          ))}
-          <ScrollableContainer>
-            {mediaTrendingSeriesLists.map(({ title, items }) => (
-              <TrendingMediaCollection
+            <ScrollableContainer>
+              {mediaTrendingSeriesLists.map(({ title, items }) => (
+                <TrendingMediaCollection
+                  key={title}
+                  title={title}
+                  items={items}
+                  media_type="TV series"
+                />
+              ))}
+            </ScrollableContainer>
+            {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
+              <MediaList
                 key={title}
                 title={title}
                 items={items}
-                media_type="TV series"
+                media={media}
+                endpoint={endpoint}
               />
             ))}
-          </ScrollableContainer>
-          {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
-            <MediaList
-              key={title}
-              title={title}
-              items={items}
-              media={media}
-              endpoint={endpoint}
-            />
-          ))}
+          </MainContent>
         </Container>
       </Wrapper>
     </>

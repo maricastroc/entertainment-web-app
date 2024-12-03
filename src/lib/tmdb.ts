@@ -85,8 +85,8 @@ export const tvOnTheAir = 'tv/on_the_air'
 export const tvTopRated = 'tv/top_rated'
 
 // Genre
-export const genreMovie = '/genre/movie/list'
-export const genreTV = '/genre/tv/list'
+export const genreMovie = 'genre/movie/list'
+export const genreTV = 'genre/tv/list'
 
 // Discover
 export const discoverMovie = 'discover/movie'

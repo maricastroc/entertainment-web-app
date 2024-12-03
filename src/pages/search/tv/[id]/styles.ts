@@ -20,7 +20,7 @@ export const Container = styled('div', {
   },
 
   '@media (min-width: 1024px)': {
-    minWidth: '87vw',
+    maxWidth: '87vw',
   },
 })
 
@@ -63,5 +63,23 @@ export const MediaContent = styled('div', {
   '@media (min-width: 980px)': {
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
     gap: '2.5rem 1.8rem',
+  },
+})
+
+export const MainContent = styled('div', {
+  maxHeight: '100vh',
+  overflowY: 'scroll',
+  paddingBottom: '10rem',
+
+  '@media (min-width: 650px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '14rem',
+  },
+
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '10rem',
   },
 })

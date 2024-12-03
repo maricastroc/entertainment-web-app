@@ -65,3 +65,21 @@ export const MediaContent = styled('div', {
     gap: '2.5rem 1.8rem',
   },
 })
+
+export const MainContent = styled('div', {
+  maxHeight: '100vh',
+  overflowY: 'scroll',
+  paddingBottom: '10rem',
+
+  '@media (min-width: 650px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '14rem',
+  },
+
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '10rem',
+  },
+})

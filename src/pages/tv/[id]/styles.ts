@@ -17,8 +17,12 @@ export const Container = styled('div', {
   padding: '1rem 1rem 2rem',
   width: '100%',
 
+  '@media (min-width: 480px)': {
+    padding: '0 2rem 0',
+  },
+
   '@media (min-width: 640px)': {
-    padding: '1rem 1.5rem 0',
+    padding: '0 2rem 0',
   },
 
   '@media (min-width: 980px)': {
@@ -31,28 +35,38 @@ export const Container = styled('div', {
 
   '@media (min-width: 1200px)': {
     maxWidth: '87vw',
-    padding: '1rem 2rem 1.5rem 6rem',
+    padding: '1rem 2rem 1.5rem',
   },
 })
 
 export const SeriesContainer = styled('div', {
-  marginTop: '3rem',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
+  overflowY: 'scroll',
+  maxHeight: '100vh',
+  paddingBottom: '10rem',
 
   '@media (min-width: 768px)': {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: '1.5rem',
-    margin: '3rem auto 0',
+    margin: '0 auto 0',
+    paddingBottom: '13rem',
   },
 
   '@media (min-width: 980px)': {
     gap: '2.5rem',
     justifyContent: 'space-between',
+  },
+
+  '@media (min-width: 1024px)': {
+    maxHeight: '75vh',
+    justifyContent: 'flex-start',
+    overflowY: 'scroll',
+    paddingBottom: 0,
   },
 
   '@media (min-width: 1200px)': {
@@ -68,13 +82,16 @@ export const SeriesContent = styled('div', {
   alignItems: 'center',
   width: '100%',
   padding: '0 0.5rem 0',
+  paddingBottom: '3rem',
 
   '@media (min-width: 580px)': {
     padding: '0 2rem 0',
+    paddingBottom: '3rem',
   },
 
   '@media (min-width: 768px)': {
     padding: '0 0.5rem 0',
+    paddingBottom: '3rem',
     alignItems: 'flex-start',
   },
 })
@@ -85,15 +102,15 @@ export const SeriesImage = styled('img', {
   borderRadius: 8,
 
   '@media (min-width: 768px)': {
-    width: 'clamp(16rem, 40vw, 30rem)',
+    width: 'clamp(16rem, 40vw, 21rem)',
   },
 
   '@media (min-width: 980px)': {
-    width: 'clamp(16rem, 40vw, 24rem)',
+    width: 'clamp(16rem, 40vw, 20rem)',
   },
 
   '@media (min-width: 1200px)': {
-    width: 'clamp(16rem, 40vw, 22rem)',
+    width: 'clamp(16rem, 40vw, 21.6rem)',
   },
 })
 

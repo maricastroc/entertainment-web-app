@@ -62,19 +62,22 @@ interface SeriesDataProps {
 
 export default function Series() {
   const router = useRouter()
+
   const { id } = router.query
 
   const [seriesData, setSeriesData] = useState<SeriesDataProps | undefined>()
 
   useEffect(() => {
-    fetch(`/api/tv/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSeriesData(data)
-      })
-      .catch((error) => {
-        console.error('Error getting movie details:', error)
-      })
+    if (id) {
+      fetch(`/api/tv/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setSeriesData(data)
+        })
+        .catch((error) => {
+          console.error('Error getting movie details:', error)
+        })
+    }
   }, [id])
 
   function convertRatingTo5Scale(ratingOutOf10: number) {

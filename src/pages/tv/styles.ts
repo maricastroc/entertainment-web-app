@@ -25,6 +25,23 @@ export const Container = styled('div', {
   },
 })
 
+export const MainContent = styled('div', {
+  maxHeight: '100vh',
+  overflowY: 'scroll',
+  paddingBottom: '10rem',
+
+  '@media (min-width: 680px)': {
+    paddingBottom: '13rem',
+  },
+
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    maxWidth: '87vw',
+    paddingRight: '1rem',
+    paddingBottom: '10rem',
+  },
+})
+
 export const GenresContainer = styled('div', {
   marginTop: '2rem',
   display: 'grid',

@@ -28,7 +28,6 @@ export const Container = styled('div', {
 export const MediaContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginTop: '2rem',
 
   '> h2': {
     fontWeight: 300,
@@ -40,6 +39,23 @@ export const MediaContainer = styled('div', {
     '> h2': {
       fontSize: '2rem',
     },
+  },
+})
+
+export const MainContent = styled('div', {
+  maxHeight: '100vh',
+  overflowY: 'scroll',
+  paddingBottom: '10rem',
+
+  '@media (min-width: 765px)': {
+    paddingBottom: '13rem',
+  },
+
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    maxWidth: '87vw',
+    paddingRight: '1rem',
+    paddingBottom: '8rem',
   },
 })
 

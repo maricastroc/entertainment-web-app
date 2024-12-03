@@ -1,5 +1,11 @@
 import { searchTv } from '@/lib/tmdb'
-import { Container, MediaContainer, MediaContent, Wrapper } from './styles'
+import {
+  Container,
+  MainContent,
+  MediaContainer,
+  MediaContent,
+  Wrapper,
+} from './styles'
 import { SearchBar } from '@/components/SearchBar'
 import { Header } from '@/components/Header'
 import { pathToSearchTV } from '@/utils'
@@ -43,33 +49,35 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
             searchPath={pathToSearchTV}
             placeholder="Search for TV series"
           />
-          <MediaContainer>
-            <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
-            <MediaContent>
-              {data.results.map((item: SearchResultItemProps) => {
-                return (
-                  <MediaCard
-                    key={item.id}
-                    id={item.id}
-                    name={item.name || item.title}
-                    first_air_date={item.first_air_date || item.release_date}
-                    backdrop_path={
-                      item.backdrop_path ||
-                      item.poster_path ||
-                      item.profile_path
-                    }
-                    media_type="tv"
-                  />
-                )
-              })}
-            </MediaContent>
-          </MediaContainer>
-          <PaginationBar
-            id={id}
-            actualPage={parseFloat(page)}
-            searchPath={pathToSearchTV}
-            totalPages={data.total_pages}
-          />
+          <MainContent>
+            <MediaContainer>
+              <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
+              <MediaContent>
+                {data.results.map((item: SearchResultItemProps) => {
+                  return (
+                    <MediaCard
+                      key={item.id}
+                      id={item.id}
+                      name={item.name || item.title}
+                      first_air_date={item.first_air_date || item.release_date}
+                      backdrop_path={
+                        item.backdrop_path ||
+                        item.poster_path ||
+                        item.profile_path
+                      }
+                      media_type="tv"
+                    />
+                  )
+                })}
+              </MediaContent>
+            </MediaContainer>
+            <PaginationBar
+              id={id}
+              actualPage={parseFloat(page)}
+              searchPath={pathToSearchTV}
+              totalPages={data.total_pages}
+            />
+          </MainContent>
         </Container>
       </Wrapper>
     </>

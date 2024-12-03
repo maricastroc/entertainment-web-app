@@ -17,7 +17,7 @@ export const Container = styled('header', {
   },
 
   '@media (min-width: 768px)': {
-    margin: '1.5rem',
+    margin: '1.5rem 1.5rem 0.5rem',
     borderRadius: 8,
     width: 'auto',
   },

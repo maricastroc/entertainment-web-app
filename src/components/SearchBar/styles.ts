@@ -1,7 +1,7 @@
 import { styled } from '../../styles'
 
 export const Container = styled('form', {
-  marginTop: '1.5rem',
+  margin: '1.5rem 0',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'stretch',

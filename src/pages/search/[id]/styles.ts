@@ -3,7 +3,7 @@ import { styled } from '../../../styles'
 export const Wrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  maxWidth: '100vw',
+  width: '100%',
 
   '@media (min-width: 1024px)': {
     flexDirection: 'row',
@@ -14,6 +14,8 @@ export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   padding: '1rem',
+  width: '100%',
+  gap: '1.5rem',
 
   '@media (min-width: 640px)': {
     padding: '1.5rem',
@@ -24,10 +26,27 @@ export const Container = styled('div', {
   },
 })
 
+export const MainContent = styled('div', {
+  maxHeight: '100vh',
+  overflowY: 'scroll',
+  paddingBottom: '10rem',
+
+  '@media (min-width: 650px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '14rem',
+  },
+
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    paddingRight: '1rem',
+    paddingBottom: '10rem',
+  },
+})
+
 export const MediaContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginTop: '2rem',
 
   '> h2': {
     fontWeight: 300,
