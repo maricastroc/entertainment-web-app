@@ -4,7 +4,7 @@ export const Container = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  margin: '4rem auto',
+  margin: '4rem auto 2rem',
   backgroundColor: '$blue800',
   border: '2px solid $blue600',
   borderRadius: 8,

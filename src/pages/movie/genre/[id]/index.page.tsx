@@ -1,20 +1,7 @@
-import Loading from '@/components/Loading'
 import { discoverMovie, getUrl } from '@/lib/tmdb'
 import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import { NextPageContext } from 'next'
-import {
-  Container,
-  MainContent,
-  MediaContainer,
-  MediaContent,
-  Wrapper,
-} from './styles'
-import { Header } from '@/components/Header'
-import { SearchBar } from '@/components/SearchBar'
-import { pathToSearchMovie } from '@/utils'
-import { MediaCard } from '@/components/MediaCard'
-import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
-import { NextSeo } from 'next-seo'
+import GenrePage from '@/components/GenrePage'
 
 interface GenreIdProps {
   data: {
@@ -27,54 +14,14 @@ interface GenreIdProps {
 }
 
 export default function GenreId({ data, id, name, page }: GenreIdProps) {
-  const currentPage = Number(page)
-
   return (
-    <>
-      <NextSeo title="Genre Movies | MovieMentor" />
-      {data ? (
-        <Wrapper>
-          <Header />
-          <Container>
-            <SearchBar
-              searchPath={pathToSearchMovie}
-              placeholder="Search for Movies"
-            />
-            <MainContent>
-              <MediaContainer>
-                <MediaContent>
-                  {data.results.map((item: SearchResultItemProps) => {
-                    return (
-                      <MediaCard
-                        key={item.id}
-                        id={item.id}
-                        name={item.name || item.title}
-                        first_air_date={
-                          item.first_air_date || item.release_date
-                        }
-                        backdrop_path={
-                          item.backdrop_path ||
-                          item.poster_path ||
-                          item.profile_path
-                        }
-                        media_type="movie"
-                      />
-                    )
-                  })}
-                </MediaContent>
-              </MediaContainer>
-              <PaginationTrendingBar
-                actualPage={currentPage}
-                searchPath={`/movie/genre/${id}?name=${name}&page=`}
-                totalPages={data.total_pages}
-              />
-            </MainContent>
-          </Container>
-        </Wrapper>
-      ) : (
-        <Loading />
-      )}
-    </>
+    <GenrePage
+      data={data}
+      id={id}
+      name={name}
+      currentPage={Number(page)}
+      media="movie"
+    />
   )
 }
 

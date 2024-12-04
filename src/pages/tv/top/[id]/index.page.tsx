@@ -1,17 +1,11 @@
-import { Container, MediaContainer, MediaContent, Wrapper } from './styles'
-import { SearchBar } from '@/components/SearchBar'
-import { Header } from '@/components/Header'
-import { pathToSearchTV } from '@/utils'
-import { MediaCard } from '@/components/MediaCard'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Loading from '@/components/Loading'
-import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
 import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
-import { NextSeo } from 'next-seo'
+import ThemePage from '@/components/ThemePage'
 
 export default function TopTv() {
   const router = useRouter()
+
   const { id } = router.query
 
   const [data, setData] = useState<SearchResultItemProps[] | undefined>()
@@ -19,58 +13,30 @@ export default function TopTv() {
   const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
-    fetch(`/api/tv/top/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.results)
-        setTotalPages(data.total_pages)
-      })
-      .catch((error) => {
-        console.error('Error getting movie details:', error)
-      })
+    if (id) {
+      fetch(`/api/tv/top/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data.results)
+          setTotalPages(data.total_pages)
+        })
+        .catch((error) => {
+          console.error('Error getting details:', error)
+        })
+    }
   }, [id])
 
   return (
-    <>
-      <NextSeo title="Top Rating TV Series | MovieMentor" />
-      {data ? (
-        <Wrapper>
-          <Header />
-          <Container>
-            <SearchBar
-              searchPath={pathToSearchTV}
-              placeholder="Search for TV series"
-            />
-            <MediaContainer>
-              <MediaContent>
-                {data.map((item: SearchResultItemProps) => {
-                  return (
-                    <MediaCard
-                      key={item.id}
-                      id={item.id}
-                      name={item.name || item.title}
-                      first_air_date={item.first_air_date || item.release_date}
-                      backdrop_path={
-                        item.backdrop_path ||
-                        item.poster_path ||
-                        item.profile_path
-                      }
-                      media_type="tv"
-                    />
-                  )
-                })}
-              </MediaContent>
-            </MediaContainer>
-            <PaginationTrendingBar
-              actualPage={parseFloat(id as string)}
-              searchPath="tv/top/"
-              totalPages={totalPages}
-            />
-          </Container>
-        </Wrapper>
-      ) : (
-        <Loading />
-      )}
-    </>
+    data &&
+    id && (
+      <ThemePage
+        id={id as string}
+        data={data}
+        totalPages={totalPages}
+        media="tv"
+        pageName="Top Rating TV Series | MovieMentor"
+        searchPath="tv/top/"
+      />
+    )
   )
 }

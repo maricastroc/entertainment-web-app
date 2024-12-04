@@ -192,6 +192,7 @@ export default function Home({
             <ScrollableContainer>
               {mediaTrendingSeriesLists.map(({ title, items }) => (
                 <TrendingMediaCollection
+                  withTopMargin
                   key={title}
                   title={title}
                   items={items}

@@ -13,12 +13,14 @@ interface TrendingMediaCollectionProps {
   title: string
   media_type: string
   items: MediaCardProps[]
+  withTopMargin?: boolean
 }
 
 export default function TrendingMediaCollection({
   title,
   items,
   media_type,
+  withTopMargin = false,
 }: TrendingMediaCollectionProps) {
   const router = useRouter()
 
@@ -33,7 +35,7 @@ export default function TrendingMediaCollection({
   }
 
   return (
-    <TrendingContainer>
+    <TrendingContainer className={withTopMargin ? 'with_top_margin' : ''}>
       <MediaHeader>
         <MediaTitle>
           <h2>{title}</h2>

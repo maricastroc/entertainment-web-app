@@ -1,10 +1,5 @@
 import { genreMovie, getGenre } from '@/lib/tmdb'
-import { Container, GenresContainer, MainContent, Wrapper } from './styles'
-import { Header } from '@/components/Header'
-import { SearchBar } from '@/components/SearchBar'
-import { pathToSearchMovie } from '@/utils'
-import { GenreCard } from '@/components/GenreCard'
-import { NextSeo } from 'next-seo'
+import GenreCollection from '@/components/GenreCollection'
 
 interface GenreItem {
   name: string
@@ -18,35 +13,7 @@ interface TvGenreProps {
 }
 
 export default function MovieGenres({ data }: TvGenreProps) {
-  return (
-    <>
-      <NextSeo title="Movies | MovieMentor" />
-      <Wrapper>
-        <Header />
-        <Container>
-          <SearchBar
-            searchPath={pathToSearchMovie}
-            placeholder="Search for Movies"
-          />
-          <MainContent>
-            <GenresContainer>
-              {data?.genres.map((item, index) => {
-                return (
-                  <GenreCard
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    media_type="movie"
-                    background={index % 2 === 0 ? 'isEvenMovie' : 'notEven'}
-                  />
-                )
-              })}
-            </GenresContainer>
-          </MainContent>
-        </Container>
-      </Wrapper>
-    </>
-  )
+  return <GenreCollection data={data} media="movie" />
 }
 
 export async function getStaticProps() {

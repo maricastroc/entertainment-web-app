@@ -6,6 +6,10 @@ export const TrendingContainer = styled('div', {
   overflow: 'scroll',
   paddingBottom: '0.5rem',
 
+  '&.with_top_margin': {
+    marginTop: '2.5rem',
+  },
+
   '> h2': {
     fontWeight: 300,
     fontSize: '1.25rem',

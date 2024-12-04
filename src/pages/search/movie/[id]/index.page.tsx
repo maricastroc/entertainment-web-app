@@ -5,7 +5,7 @@ import {
   MediaContainer,
   MediaContent,
   Wrapper,
-} from './styles'
+} from '@/styles/shared'
 import { SearchBar } from '@/components/SearchBar'
 import { Header } from '@/components/Header'
 import { pathToSearchMovie } from '@/utils'
