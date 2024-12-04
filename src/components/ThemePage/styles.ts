@@ -11,6 +11,17 @@ export const Wrapper = styled('div', {
   },
 })
 
+export const MainContent = styled('div', {
+  '@media (min-width: 1024px)': {
+    justifyContent: 'flex-start',
+    maxWidth: '87vw',
+    maxHeight: '100vh',
+    overflowY: 'scroll',
+    paddingRight: '1rem',
+    paddingBottom: '8rem',
+  },
+})
+
 export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
