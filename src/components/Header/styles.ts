@@ -112,27 +112,26 @@ export const AvatarContainer = styled('a', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: 28,
-  height: 28,
+  width: 33,
+  height: 33,
   borderRadius: '50%',
-  background: '$white',
+  background: '$gray300',
 
   '@media (min-width: 1024px)': {
-    width: 30,
-    height: 30,
+    width: 36,
+    height: 36,
   },
-})
 
-export const AvatarImage = styled('img', {
-  overflow: 'hidden',
-  objectFit: 'cover',
-  borderRadius: '50%',
-  width: 26,
-  aspectRatio: 'auto 40 / 40',
-  height: 26,
+  img: {
+    objectFit: 'cover',
+    borderRadius: '50%',
+    width: 32,
+    height: 32,
+    aspectRatio: 'auto 40 / 40',
 
-  '@media (min-width: 1024px)': {
-    width: 28,
-    height: 28,
+    '@media (min-width: 1024px)': {
+      width: 34,
+      height: 34,
+    },
   },
 })

@@ -16,11 +16,7 @@ export const globalStyles = globalCss({
     backgroundColor: '$blue800',
     color: '$white',
     '-webkit-font-smoothing': 'antialiased',
-    minHeight: '100vh',
-
-    '@media (min-width: 1024px)': {
-      overflowY: 'hidden',
-    },
+    height: '100%',
 
     '*::-webkit-scrollbar': {
       width: 2,

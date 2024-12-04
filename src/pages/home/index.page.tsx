@@ -170,16 +170,14 @@ export default function Home({
             placeholder="Search for movie / TV series"
           />
           <MainContent>
-            <ScrollableContainer>
-              {mediaTrendingMoviesLists.map(({ title, items }) => (
-                <TrendingMediaCollection
-                  key={title}
-                  title={title}
-                  items={items}
-                  media_type="movie"
-                />
-              ))}
-            </ScrollableContainer>
+            {mediaTrendingMoviesLists.map(({ title, items }) => (
+              <TrendingMediaCollection
+                key={title}
+                title={title}
+                items={items}
+                media_type="movie"
+              />
+            ))}
             {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
               <MediaList
                 key={title}

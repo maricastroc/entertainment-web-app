@@ -7,6 +7,8 @@ export const Wrapper = styled('div', {
 
   '@media (min-width: 1024px)': {
     flexDirection: 'row',
+    maxHeight: '100vh',
+    overflowY: 'scroll',
   },
 })
 
@@ -27,8 +29,6 @@ export const Container = styled('div', {
 })
 
 export const MainContent = styled('div', {
-  paddingBottom: '3rem',
-
   '@media (min-width: 650px)': {
     justifyContent: 'flex-start',
   },
@@ -36,7 +36,6 @@ export const MainContent = styled('div', {
   '@media (min-width: 1024px)': {
     justifyContent: 'flex-start',
     paddingRight: '1rem',
-    paddingBottom: '10rem',
     maxHeight: '100vh',
     overflowY: 'scroll',
   },

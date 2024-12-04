@@ -3,7 +3,6 @@ import { styled } from '../../../../styles'
 export const TrendingContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'scroll',
   paddingBottom: '0.5rem',
 
   '&.with_top_margin': {
@@ -25,10 +24,11 @@ export const TrendingContainer = styled('div', {
 
 export const TrendingContent = styled('div', {
   display: 'flex',
-  overflow: 'scroll',
+  overflowX: 'scroll',
   gap: '1rem',
   minWidth: 'fit-content',
   flex: 1,
+  paddingBottom: '1rem',
 
   '@media (min-width: 640px)': {
     gap: '2.5rem',

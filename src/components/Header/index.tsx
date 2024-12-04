@@ -3,7 +3,6 @@ import { useSession } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   AvatarContainer,
-  AvatarImage,
   ButtonPage,
   ButtonPagesContainer,
   Container,
@@ -56,7 +55,7 @@ export function Header() {
         </ButtonPage>
       </ButtonPagesContainer>
       <AvatarContainer>
-        <AvatarImage
+        <img
           src={session.data?.user?.image ?? 'https://github.com/octocat.png'}
           alt=""
         />
