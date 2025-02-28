@@ -19,9 +19,12 @@ export const {
       red300: '#FC4747',
 
       green500: '#0F766E',
-
+      green100: '#50B2C0',
+      purple50: '#B2AFF0',
+      purple80: '#7f7cff',
+      purple100: '#8381D9',
       blue500: '#0E7490',
-      blue600: '#5A698F',
+      blue600: '#486399',
       blue700: '#161D2F',
       blue800: '#10141E',
     },

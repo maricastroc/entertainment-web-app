@@ -30,6 +30,7 @@ export interface MediaCardProps {
   media_type?: string
   backdrop_path?: string
   poster_path?: string
+  handleClick: () => void
 }
 
 interface HomeProps {

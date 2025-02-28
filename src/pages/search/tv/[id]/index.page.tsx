@@ -13,6 +13,9 @@ import { MediaCard } from '@/components/MediaCard'
 import { PaginationBar } from '@/components/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import MediaModal from '@/components/MediaModal'
 
 interface SearchResultItemProps {
   id: string
@@ -39,6 +42,10 @@ interface SearchProps {
 }
 
 export default function SearchSeries({ data, id, page }: SearchProps) {
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
+
+  const [selectedMediaId, setSelectedMediaId] = useState('')
+
   return (
     <>
       <NextSeo title="Search TV Series | MovieMentor" />
@@ -53,22 +60,39 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
             <MediaContainer>
               <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
               <MediaContent>
-                {data.results.map((item: SearchResultItemProps) => {
-                  return (
-                    <MediaCard
-                      key={item.id}
-                      id={item.id}
-                      name={item.name || item.title}
-                      first_air_date={item.first_air_date || item.release_date}
-                      backdrop_path={
-                        item.backdrop_path ||
-                        item.poster_path ||
-                        item.profile_path
-                      }
-                      media_type="tv"
+                <Dialog.Root>
+                  {data.results.map((item: SearchResultItemProps) => {
+                    return (
+                      <Dialog.Trigger asChild key={item.id}>
+                        <MediaCard
+                          key={item.id}
+                          id={item.id}
+                          name={item.name || item.title}
+                          first_air_date={
+                            item.first_air_date || item.release_date
+                          }
+                          backdrop_path={
+                            item.backdrop_path ||
+                            item.poster_path ||
+                            item.profile_path
+                          }
+                          media_type="tv"
+                          handleClick={() => {
+                            setIsMediaModalOpen(true)
+                            setSelectedMediaId(item.id || '')
+                          }}
+                        />
+                      </Dialog.Trigger>
+                    )
+                  })}
+                  {isMediaModalOpen && selectedMediaId && (
+                    <MediaModal
+                      media_type={'tv'}
+                      id={selectedMediaId}
+                      onClose={() => setIsMediaModalOpen(false)}
                     />
-                  )
-                })}
+                  )}
+                </Dialog.Root>
               </MediaContent>
             </MediaContainer>
             <PaginationBar

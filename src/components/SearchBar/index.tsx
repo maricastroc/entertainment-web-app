@@ -11,6 +11,7 @@ interface SearchBarProps {
 
 export function SearchBar({ searchPath, placeholder }: SearchBarProps) {
   const router = useRouter()
+
   const [query, setQuery] = useState('')
 
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {

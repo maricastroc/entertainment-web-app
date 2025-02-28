@@ -33,7 +33,11 @@ export function PaginationBar({
   return (
     <Container>
       <PrevButton
-        onClick={() => handlePreviousPage()}
+        onClick={() => {
+          if (actualPage > 1) {
+            handlePreviousPage()
+          }
+        }}
         disabled={actualPage === 1}
       >
         <FontAwesomeIcon icon={faAngleLeft} />
@@ -43,7 +47,11 @@ export function PaginationBar({
         Page {actualPage} of {totalPages}
       </Pagination>
       <NextButton
-        onClick={() => handleNextPage()}
+        onClick={() => {
+          if (actualPage < totalPages) {
+            handleNextPage()
+          }
+        }}
         disabled={actualPage === totalPages}
       >
         Next

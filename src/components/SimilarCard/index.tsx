@@ -9,15 +9,25 @@ import {
 } from './styles'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
-import { MediaCardProps } from '@/pages/home/index.page'
 
-export function MediaCard({
+export interface SimilarCardProps {
+  backdrop_path?: string
+  release_date?: string
+  first_air_date?: string
+  media_type: string
+  title?: string
+  name?: string
+  id: string
+  handleClick: () => void
+}
+
+export function SimilarCard({
   backdrop_path,
-  first_air_date,
+  release_date,
   media_type,
-  name,
+  title,
   handleClick,
-}: MediaCardProps) {
+}: SimilarCardProps) {
   return (
     <Container onClick={handleClick}>
       {backdrop_path ? (
@@ -33,7 +43,7 @@ export function MediaCard({
       )}
       <CardInfo>
         <CardInfoData>
-          {first_air_date && <p>{getFullYear(first_air_date)}</p>}
+          {release_date && <p>{getFullYear(release_date)}</p>}
           <span>•</span>
           {media_type === 'movie' ? (
             <p>
@@ -47,7 +57,7 @@ export function MediaCard({
             </p>
           )}
         </CardInfoData>
-        <CardInfoTitle>{name}</CardInfoTitle>
+        <CardInfoTitle>{title}</CardInfoTitle>
       </CardInfo>
     </Container>
   )

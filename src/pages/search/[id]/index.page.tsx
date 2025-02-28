@@ -13,6 +13,9 @@ import {
   MediaContent,
   Wrapper,
 } from '@/styles/shared'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import MediaModal from '@/components/MediaModal'
 
 export interface SearchResultItemProps {
   id: string
@@ -39,6 +42,12 @@ interface SearchProps {
 }
 
 export default function Search({ data, id, page }: SearchProps) {
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
+
+  const [selectedMediaId, setSelectedMediaId] = useState('')
+
+  const [selectedMediaType, setSelectedMediaType] = useState('')
+
   return (
     <>
       <NextSeo title="Search | MovieMentor" />
@@ -47,28 +56,48 @@ export default function Search({ data, id, page }: SearchProps) {
         <Container>
           <SearchBar
             searchPath={pathToSearchAll}
-            placeholder="Search for movie / TV series"
+            placeholder="Search for Movies / TV series"
           />
           <MainContent>
             <MediaContainer>
               <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
               <MediaContent>
-                {data.results.map((item: SearchResultItemProps) => {
-                  return (
-                    <MediaCard
-                      key={item.id}
-                      id={item.id}
-                      name={item.name || item.title}
-                      first_air_date={item.first_air_date || item.release_date}
-                      backdrop_path={
-                        item.backdrop_path ||
-                        item.poster_path ||
-                        item.profile_path
-                      }
-                      media_type={item.media_type}
+                <Dialog.Root>
+                  {data.results.map((item: SearchResultItemProps) => {
+                    return (
+                      <Dialog.Trigger asChild key={item.id}>
+                        <MediaCard
+                          key={item.id}
+                          id={item.id}
+                          name={item.name || item.title}
+                          first_air_date={
+                            item.first_air_date || item.release_date
+                          }
+                          backdrop_path={
+                            item.backdrop_path ||
+                            item.poster_path ||
+                            item.profile_path
+                          }
+                          media_type={item.media_type}
+                          handleClick={() => {
+                            setIsMediaModalOpen(true)
+                            setSelectedMediaId(item.id || '')
+                            setSelectedMediaType(
+                              item.media_type === 'movie' ? 'movie' : 'tv',
+                            )
+                          }}
+                        />
+                      </Dialog.Trigger>
+                    )
+                  })}
+                  {isMediaModalOpen && selectedMediaId && (
+                    <MediaModal
+                      media_type={selectedMediaType}
+                      id={selectedMediaId}
+                      onClose={() => setIsMediaModalOpen(false)}
                     />
-                  )
-                })}
+                  )}
+                </Dialog.Root>
               </MediaContent>
             </MediaContainer>
             <PaginationBar

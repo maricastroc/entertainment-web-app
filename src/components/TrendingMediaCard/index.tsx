@@ -12,7 +12,6 @@ import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
 import { MediaCardProps } from '@/pages/home/index.page'
 import Loading from '../Loading'
-import { useRouter } from 'next/router'
 
 export function TrendingMediaCard({
   backdrop_path,
@@ -22,20 +21,12 @@ export function TrendingMediaCard({
   media_type,
   name,
   title,
-  id,
+  handleClick,
 }: MediaCardProps) {
-  const router = useRouter()
-
-  async function handleGoToPageDetails() {
-    media_type === 'movie'
-      ? await router.push(`movie/${id}`)
-      : await router.push(`tv/${id}`)
-  }
-
   return (
     <Wrapper>
       {name || title ? (
-        <Container onClick={() => handleGoToPageDetails()}>
+        <Container onClick={handleClick}>
           <BackgroundImage
             src={
               `https://image.tmdb.org/t/p/w500${backdrop_path}` ||

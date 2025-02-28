@@ -28,6 +28,18 @@ export function getMovieDetail(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}?api_key=${TMDB_API_KEY}`
 }
 
+export function getMovieSimilars(id: string) {
+  return `${TMDB_ENDPOINT}/movie/${id}/similar?api_key=${TMDB_API_KEY}`
+}
+
+export function getMovieMedia(id: string) {
+  return `${TMDB_ENDPOINT}/movie/${id}/watch/providers?api_key=${TMDB_API_KEY}`
+}
+
+export function getMovieReviews(id: string, page = '1') {
+  return `${TMDB_ENDPOINT}/movie/${id}/reviews?api_key=${TMDB_API_KEY}&page=${page}`
+}
+
 export function getMovieCasts(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}/credits?api_key=${TMDB_API_KEY}`
 }
@@ -40,21 +52,34 @@ export function getTvCasts(id: string) {
   return `${TMDB_ENDPOINT}/tv/${id}/credits?api_key=${TMDB_API_KEY}`
 }
 
-// Search for movies and tv series
+export function geTvSimilars(id: string) {
+  return `${TMDB_ENDPOINT}/movie/${id}/similar?api_key=${TMDB_API_KEY}`
+}
+
+export function getTvMedia(id: string) {
+  return `${TMDB_ENDPOINT}/tv/${id}/watch/providers?api_key=${TMDB_API_KEY}`
+}
+
+export function getTvReviews(id: string, page = '1') {
+  return `${TMDB_ENDPOINT}/tv/${id}/reviews?api_key=${TMDB_API_KEY}&page=${page}`
+}
+
+export function getTvSimilars(id: string) {
+  return `${TMDB_ENDPOINT}/tv/${id}/similar?api_key=${TMDB_API_KEY}`
+}
+
 export function search(query: string, page: string) {
   return `${TMDB_ENDPOINT}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
     query,
   )}&page=${page}`
 }
 
-// Search for movies only
 export function searchMovie(query: string, page: string) {
   return `${TMDB_ENDPOINT}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
     query,
   )}&page=${page}`
 }
 
-// Search for tv series only
 export function searchTv(query: string, page: string) {
   return `${TMDB_ENDPOINT}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
     query,

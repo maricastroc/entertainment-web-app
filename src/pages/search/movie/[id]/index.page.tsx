@@ -1,4 +1,4 @@
-import { search } from '@/lib/tmdb'
+import { searchMovie } from '@/lib/tmdb'
 import {
   Container,
   MainContent,
@@ -13,6 +13,9 @@ import { MediaCard } from '@/components/MediaCard'
 import { PaginationBar } from '@/components/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import MediaModal from '@/components/MediaModal'
 
 interface SearchResultItemProps {
   id: string
@@ -39,6 +42,10 @@ interface SearchProps {
 }
 
 export default function SearchMovie({ data, id, page }: SearchProps) {
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
+
+  const [selectedMediaId, setSelectedMediaId] = useState('')
+
   return (
     <>
       <NextSeo title="Search Movie | MovieMentor" />
@@ -47,28 +54,45 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
         <Container>
           <SearchBar
             searchPath={pathToSearchMovie}
-            placeholder="Search for movies"
+            placeholder="Search for Movies"
           />
           <MainContent>
             <MediaContainer>
               <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
               <MediaContent>
-                {data.results.map((item: SearchResultItemProps) => {
-                  return (
-                    <MediaCard
-                      key={item.id}
-                      id={item.id}
-                      name={item.name || item.title}
-                      first_air_date={item.first_air_date || item.release_date}
-                      backdrop_path={
-                        item.backdrop_path ||
-                        item.poster_path ||
-                        item.profile_path
-                      }
-                      media_type="movie"
+                <Dialog.Root>
+                  {data.results.map((item: SearchResultItemProps) => {
+                    return (
+                      <Dialog.Trigger asChild key={item.id}>
+                        <MediaCard
+                          key={item.id}
+                          id={item.id}
+                          name={item.name || item.title}
+                          first_air_date={
+                            item.first_air_date || item.release_date
+                          }
+                          backdrop_path={
+                            item.backdrop_path ||
+                            item.poster_path ||
+                            item.profile_path
+                          }
+                          media_type={'movie'}
+                          handleClick={() => {
+                            setIsMediaModalOpen(true)
+                            setSelectedMediaId(item.id || '')
+                          }}
+                        />
+                      </Dialog.Trigger>
+                    )
+                  })}
+                  {isMediaModalOpen && selectedMediaId && (
+                    <MediaModal
+                      media_type={'movie'}
+                      id={selectedMediaId}
+                      onClose={() => setIsMediaModalOpen(false)}
                     />
-                  )
-                })}
+                  )}
+                </Dialog.Root>
               </MediaContent>
             </MediaContainer>
             <PaginationBar
@@ -86,7 +110,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id, page } = context.query
-  const url = search(String(id), String(page))
+  const url = searchMovie(String(id), String(page))
   const response = await fetch(url)
   const data = await response.json()
 

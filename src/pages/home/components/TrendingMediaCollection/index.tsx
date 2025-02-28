@@ -9,6 +9,9 @@ import {
 } from './styles'
 import { TrendingMediaCard } from '@/components/TrendingMediaCard'
 import { ScrollableContainer } from '../../styles'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import MediaModal from '@/components/MediaModal'
 
 interface TrendingMediaCollectionProps {
   title: string
@@ -24,6 +27,10 @@ export default function TrendingMediaCollection({
   withTopMargin = false,
 }: TrendingMediaCollectionProps) {
   const router = useRouter()
+
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
+
+  const [selectedMediaId, setSelectedMediaId] = useState('')
 
   async function handleGoToTrendingMedia() {
     const basePath = router.basePath
@@ -48,22 +55,37 @@ export default function TrendingMediaCollection({
       </MediaHeader>
       <ScrollableContainer>
         <TrendingContent>
-          {items.map((trendingCard: MediaCardProps) => {
-            return (
-              <TrendingMediaCard
-                key={trendingCard.id}
-                id={trendingCard.id}
-                name={trendingCard.name || trendingCard.title}
-                first_air_date={
-                  trendingCard.first_air_date || trendingCard.release_date
-                }
-                backdrop_path={
-                  trendingCard.backdrop_path || trendingCard.poster_path
-                }
-                media_type={trendingCard.media_type}
+          <Dialog.Root open={isMediaModalOpen}>
+            {items.map((trendingCard: MediaCardProps) => {
+              return (
+                <Dialog.Trigger asChild key={trendingCard.id}>
+                  <TrendingMediaCard
+                    key={trendingCard.id}
+                    id={trendingCard.id}
+                    name={trendingCard.name || trendingCard.title}
+                    first_air_date={
+                      trendingCard.first_air_date || trendingCard.release_date
+                    }
+                    backdrop_path={
+                      trendingCard.backdrop_path || trendingCard.poster_path
+                    }
+                    media_type={trendingCard.media_type}
+                    handleClick={() => {
+                      setIsMediaModalOpen(true)
+                      setSelectedMediaId(trendingCard.id || '')
+                    }}
+                  />
+                </Dialog.Trigger>
+              )
+            })}
+            {isMediaModalOpen && selectedMediaId && (
+              <MediaModal
+                media_type={media_type}
+                id={selectedMediaId}
+                onClose={() => setIsMediaModalOpen(false)}
               />
-            )
-          })}
+            )}
+          </Dialog.Root>
         </TrendingContent>
       </ScrollableContainer>
     </TrendingContainer>

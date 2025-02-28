@@ -13,6 +13,9 @@ import Loading from '@/components/Loading'
 import { PaginationTrendingBar } from '@/components/PaginationTrendingBar'
 import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import { NextSeo } from 'next-seo'
+import { useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
+import MediaModal from '../MediaModal'
 
 interface Props {
   data: SearchResultItemProps[]
@@ -31,6 +34,10 @@ export default function ThemePage({
   pageName,
   media,
 }: Props) {
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
+
+  const [selectedMediaId, setSelectedMediaId] = useState('')
+
   return (
     <>
       <NextSeo title={pageName} />
@@ -47,24 +54,39 @@ export default function ThemePage({
             <MainContent>
               <MediaContainer>
                 <MediaContent>
-                  {data.map((item: SearchResultItemProps) => {
-                    return (
-                      <MediaCard
-                        key={item.id}
-                        id={item.id}
-                        name={item.name || item.title}
-                        first_air_date={
-                          item.first_air_date || item.release_date
-                        }
-                        backdrop_path={
-                          item.backdrop_path ||
-                          item.poster_path ||
-                          item.profile_path
-                        }
+                  <Dialog.Root open={isMediaModalOpen}>
+                    {data.map((item: SearchResultItemProps) => {
+                      return (
+                        <Dialog.Trigger asChild key={item.id}>
+                          <MediaCard
+                            key={item.id}
+                            id={item.id}
+                            name={item.name || item.title}
+                            first_air_date={
+                              item.first_air_date || item.release_date
+                            }
+                            backdrop_path={
+                              item.backdrop_path ||
+                              item.poster_path ||
+                              item.profile_path
+                            }
+                            media_type={media}
+                            handleClick={() => {
+                              setIsMediaModalOpen(true)
+                              setSelectedMediaId(item.id)
+                            }}
+                          />
+                        </Dialog.Trigger>
+                      )
+                    })}
+                    {isMediaModalOpen && (
+                      <MediaModal
                         media_type={media}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
                       />
-                    )
-                  })}
+                    )}
+                  </Dialog.Root>
                 </MediaContent>
               </MediaContainer>
               <PaginationTrendingBar

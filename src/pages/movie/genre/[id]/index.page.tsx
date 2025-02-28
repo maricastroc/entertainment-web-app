@@ -27,12 +27,14 @@ export default function GenreId({ data, id, name, page }: GenreIdProps) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id, name, page } = context.query
+
   const url = getUrl(
     discoverMovie,
     id as string,
     name as string,
     page as string,
   )
+
   const response = await fetch(url)
   const data = await response.json()
 
