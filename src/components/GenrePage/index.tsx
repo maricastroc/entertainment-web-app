@@ -39,8 +39,6 @@ export default function GenrePage({
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-  const [selectedMediaType, setSelectedMediaType] = useState('')
-
   return (
     <>
       <NextSeo
@@ -83,7 +81,6 @@ export default function GenrePage({
                             handleClick={() => {
                               setIsMediaModalOpen(true)
                               setSelectedMediaId(item.id || '')
-                              setSelectedMediaType(item.media_type)
                             }}
                           />
                         </Dialog.Trigger>
@@ -91,9 +88,7 @@ export default function GenrePage({
                     })}
                     {isMediaModalOpen && selectedMediaId && (
                       <MediaModal
-                        media_type={
-                          selectedMediaType === 'movie' ? 'movie' : 'tv'
-                        }
+                        media_type={media}
                         id={selectedMediaId}
                         onClose={() => setIsMediaModalOpen(false)}
                       />
