@@ -26,12 +26,11 @@ export default function Bookmark() {
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-  const { data } = useRequest<UserProps | null>({
+  const { data, mutate } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
   })
 
-  console.log(data)
   return (
     <>
       <NextSeo title="Bookmark | MovieMentor" />
@@ -70,11 +69,18 @@ export default function Bookmark() {
                     <MediaModal
                       media_type={'movie'}
                       id={selectedMediaId}
+                      savedMovies={
+                        data?.savedMovies?.map((movie) => movie.id) || null
+                      }
                       onClose={() => setIsMovieMediaModalOpen(false)}
+                      mutate={mutate}
                     />
                   )}
                 </Dialog.Root>
               </MediaContent>
+              {!data?.savedMovies?.length && (
+                <p>You&apos;ve got no bookmarked movies to show.</p>
+              )}
             </MediaContainer>
             <MediaContainer>
               <MediaHeader>
@@ -102,12 +108,19 @@ export default function Bookmark() {
                   {isSeriesMediaModalOpen && selectedMediaId && (
                     <MediaModal
                       media_type={'tv'}
+                      savedSeries={
+                        data?.savedSeries?.map((series) => series.id) || null
+                      }
                       id={selectedMediaId}
                       onClose={() => setIsSeriesMediaModalOpen(false)}
+                      mutate={mutate}
                     />
                   )}
                 </MediaContent>
               </Dialog.Root>
+              {!data?.savedSeries?.length && (
+                <p>You&apos;ve got no bookmarked series to show.</p>
+              )}
             </MediaContainer>
           </MainContent>
         </Container>

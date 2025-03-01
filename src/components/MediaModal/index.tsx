@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 
 import {
@@ -43,6 +44,9 @@ import toast from 'react-hot-toast'
 interface Props {
   id: string
   media_type: string
+  savedSeries?: string[] | null
+  savedMovies?: string[] | null
+  mutate?: any
   onClose: () => void
 }
 
@@ -89,7 +93,14 @@ export interface ReviewDataProps {
   total_results: number
 }
 
-export default function MediaModal({ id, onClose, media_type }: Props) {
+export default function MediaModal({
+  id,
+  media_type,
+  savedMovies = null,
+  savedSeries = null,
+  mutate,
+  onClose,
+}: Props) {
   const [isHovered, setIsHovered] = useState(false)
 
   const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
@@ -106,9 +117,11 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [isInUserList, setIsInUserList] = useState(false)
+
   const media = media_type === 'movie' ? 'movie' : 'tv'
 
-  async function saveMovie() {
+  async function saveMedia() {
     try {
       setIsLoading(true)
 
@@ -126,6 +139,30 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
 
       if (response.data) {
         toast.success(response.data.message)
+        setIsInUserList(true)
+        mutate && mutate()
+      }
+    } catch (error) {
+      handleApiError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function deleteMedia() {
+    try {
+      setIsLoading(true)
+
+      const mediaRoute = media === 'movie' ? 'movies' : 'series'
+
+      const response = await api.delete(`/user/${mediaRoute}`, {
+        data: { mediaId: String(id) },
+      })
+
+      if (response.data) {
+        toast.success(response.data.message)
+        setIsInUserList(false)
+        mutate && mutate()
       }
     } catch (error) {
       handleApiError(error)
@@ -237,6 +274,14 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
     fetchTrailerLink()
   }, [updatedId, media])
 
+  useEffect(() => {
+    if (savedMovies && media === 'movie') {
+      setIsInUserList(savedMovies.includes(id))
+    } else if (savedSeries && media === 'tv') {
+      setIsInUserList(savedSeries.includes(id))
+    }
+  }, [media, id, savedMovies, savedSeries])
+
   return isTrailerModalOpen && trailerLink?.length > 0 ? (
     <TrailerSection
       media={media}
@@ -262,10 +307,20 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
                   <SaveBtn
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    onClick={() => saveMovie()}
+                    onClick={() => {
+                      if (isInUserList) {
+                        deleteMedia()
+                      } else {
+                        saveMedia()
+                      }
+                    }}
                   >
                     <FontAwesomeIcon
-                      icon={isHovered ? faBookmarkSolid : faBookmarkRegular}
+                      icon={
+                        isHovered || isInUserList
+                          ? faBookmarkSolid
+                          : faBookmarkRegular
+                      }
                     />
                   </SaveBtn>
                 </MovieImageWrapper>

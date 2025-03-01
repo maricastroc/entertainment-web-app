@@ -78,7 +78,7 @@ export const SaveBtn = styled('button', {
   border: 'none',
   color: '$blue700',
   cursor: 'pointer',
-  backgroundColor: 'rgba(209, 214, 228, 0.7)',
+  backgroundColor: 'rgba(209, 214, 228, 1)',
   fontSize: '1.2rem',
   transition: '200ms ease',
 
@@ -86,8 +86,9 @@ export const SaveBtn = styled('button', {
     marginTop: '0.6rem',
   },
 
-  '&:hover': {
-    backgroundColor: 'rgba(209, 214, 228, 1)',
+  '&:focus': {
+    border: 'none',
+    outline: 'none',
   },
 })
 

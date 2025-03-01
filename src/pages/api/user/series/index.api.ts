@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'POST' && req.method !== 'DELETE') {
     return res.status(405).json({ message: 'Method Not Allowed' })
   }
 
@@ -28,13 +28,12 @@ export default async function handler(
 
   try {
     const { mediaId } = schema.parse(req.body)
-
     const userId = session.user.id
 
     const seriesExists = await prisma.series.findUnique({
       where: { id: mediaId },
     })
-    console.log('fail not')
+
     if (!seriesExists) {
       await prisma.series.create({
         data: { id: mediaId },
@@ -48,20 +47,37 @@ export default async function handler(
       },
     })
 
-    if (userWithSeries?.savedSeries.length) {
-      return res.status(400).json({ message: 'Series already saved' })
-    }
+    if (req.method === 'POST') {
+      if (userWithSeries?.savedSeries.length) {
+        return res.status(400).json({ message: 'Series already saved' })
+      }
 
-    await prisma.user.update({
-      where: { id: String(userId) },
-      data: {
-        savedSeries: {
-          connect: { id: mediaId },
+      await prisma.user.update({
+        where: { id: String(userId) },
+        data: {
+          savedSeries: {
+            connect: { id: mediaId },
+          },
         },
-      },
-    })
+      })
 
-    return res.status(201).json({ message: 'Series added to bookmarks!' })
+      return res.status(201).json({ message: 'Series added to bookmarks!' })
+    } else if (req.method === 'DELETE') {
+      if (!userWithSeries?.savedSeries.length) {
+        return res.status(400).json({ message: 'Series not saved' })
+      }
+
+      await prisma.user.update({
+        where: { id: String(userId) },
+        data: {
+          savedSeries: {
+            disconnect: { id: mediaId },
+          },
+        },
+      })
+
+      return res.status(200).json({ message: 'Series removed from bookmarks!' })
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message })

@@ -78,37 +78,59 @@ export const ButtonPage = styled('button', {
   justifyContent: 'center',
   border: 'none',
   backgroundColor: 'transparent',
+  position: 'relative',
 
   variants: {
     active: {
       true: {
-        svg: {
-          color: '$gray100',
+        img: {
+          filter: 'brightness(300%)',
         },
       },
     },
   },
 
-  svg: {
+  img: {
     cursor: 'pointer',
-    color: '$blue600',
     fontSize: '1.2rem',
+    transition: 'all 200ms',
 
     '&:hover': {
-      color: '$red300',
       transition: 'all 200ms',
+      filter:
+        'invert(22%) brightness(80%) sepia(100%) saturate(592%) hue-rotate(-50deg)',
     },
   },
+})
+
+export const ButtonDropdown = styled('div', {
+  display: 'flex',
+  position: 'absolute',
+  top: '200%',
+  right: '100%',
+  transform: 'translate(50%, -50%)',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 8,
+  width: '3.5rem',
+  height: '3.5rem',
+  backgroundColor: '$blue700',
 
   '@media (min-width: 1024px)': {
-    svg: {
-      fontSize: '1.4rem',
-    },
+    top: '50%',
+    left: '80%',
+  },
+
+  '&:hover': {
+    color: '$red300',
+    transition: '200ms ease',
   },
 })
 
 export const AvatarContainer = styled('a', {
   cursor: 'pointer',
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -118,8 +140,8 @@ export const AvatarContainer = styled('a', {
   background: '$gray300',
 
   '@media (min-width: 1024px)': {
-    width: 36,
-    height: 36,
+    width: 40,
+    height: 40,
   },
 
   img: {
@@ -130,8 +152,8 @@ export const AvatarContainer = styled('a', {
     aspectRatio: 'auto 40 / 40',
 
     '@media (min-width: 1024px)': {
-      width: 34,
-      height: 34,
+      width: 38,
+      height: 38,
     },
   },
 })
