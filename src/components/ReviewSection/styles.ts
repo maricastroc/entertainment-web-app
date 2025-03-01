@@ -74,9 +74,9 @@ export const ReviewContent = styled('div', {
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   width: '100%',
-  fontSize: '0.85rem',
+  fontSize: '0.8rem',
   fontWeight: 300,
-  color: '$gray100',
+  color: '$gray300',
   lineHeight: '1.3rem',
   maxHeight: '8rem',
   paddingRight: '0.8rem',
@@ -88,8 +88,7 @@ export const ReviewContent = styled('div', {
   },
 
   '@media (min-width: 580px)': {
-    fontSize: '0.9rem',
-    lineHeight: '1.5rem',
+    fontSize: '0.85rem',
   },
 
   '@media (min-width: 1024px)': {

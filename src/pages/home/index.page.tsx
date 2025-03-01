@@ -78,25 +78,45 @@ export default function Home({
   onTheAirSeries,
   topRatedSeries,
 }: HomeProps) {
-  const trendingMoviesList = trendingMovies.results.slice(0, 5)
+  const trendingMoviesList = trendingMovies.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 5)
 
-  const popularMoviesList = popularMovies.results.slice(0, 6)
+  const popularMoviesList = popularMovies.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const nowPlayingMoviesList = nowPlayingMovies.results.slice(0, 6)
+  const nowPlayingMoviesList = nowPlayingMovies.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const upcomingMoviesList = upcomingMovies.results.slice(0, 6)
+  const upcomingMoviesList = upcomingMovies.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const topRatedMoviesList = topRatedMovies.results.slice(0, 6)
+  const topRatedMoviesList = topRatedMovies.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const trendingSeriesList = trendingSeries.results.slice(0, 5)
+  const trendingSeriesList = trendingSeries.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 5)
 
-  const popularSeriesList = popularSeries.results.slice(0, 6)
+  const popularSeriesList = popularSeries.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const airingTodaySeriesList = airingTodaySeries.results.slice(0, 6)
+  const airingTodaySeriesList = airingTodaySeries.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const onAirSeriesList = onTheAirSeries.results.slice(0, 6)
+  const onAirSeriesList = onTheAirSeries.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
-  const topRatedSeriesList = topRatedSeries.results.slice(0, 6)
+  const topRatedSeriesList = topRatedSeries.results
+    .filter((item) => item.backdrop_path !== null)
+    .slice(0, 6)
 
   const mediaTrendingMoviesLists = [
     { title: 'Trending', items: trendingMoviesList, media: 'Movie' },

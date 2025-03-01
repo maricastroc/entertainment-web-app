@@ -2,24 +2,11 @@ import { useEffect, useState } from 'react'
 
 import {
   CloseButton,
-  GeneralInfoContainer,
-  GeneralInfoItem,
-  GenreItem,
-  GenresContainer,
-  GenresContent,
-  Heading,
-  LinkItem,
-  LinksContainer,
   MovieContainer,
   MovieContent,
-  MovieDetails,
-  MovieDetailsWrapper,
   MovieImage,
   MovieInfo,
-  RatingContainer,
   Separator,
-  SimilarContainer,
-  SimilarContent,
   SynopsisContainer,
   VisibleSeparator,
   Wrapper,
@@ -27,24 +14,23 @@ import {
   OverlayBackground,
 } from './styles'
 
-import Loading from '@/components/Loading'
-import { StarsRating } from '@/components/StarsRating'
-
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-
-import { convertLanguageCodeToName } from '@/utils/convertLanguageCodeToName'
 import {
   getMovieSimilars,
   getMovieReviews,
   getTvSimilars,
   getTvReviews,
+  getMovieVideos,
+  getTvVideos,
 } from '@/lib/tmdb'
 import { ReviewProps } from '@/types/review'
-import { SimilarCard, SimilarCardProps } from '@/components/SimilarCard'
+import { SimilarCardProps } from '@/components/SimilarCard'
 import { X } from 'phosphor-react'
 import { ReviewSection } from '../ReviewSection'
+import { SimilarSection } from './partials/SimilarSection'
+import { LinksSection } from './partials/LinksSection'
+import { DetailsSection } from './partials/DetailsSection'
+import { TrailerSection } from './partials/TrailerSection'
+import { LoadingComponent } from '../LoadingComponent'
 
 interface Props {
   id: string
@@ -52,7 +38,7 @@ interface Props {
   onClose: () => void
 }
 
-interface SpokenLanguagesProps {
+export interface SpokenLanguagesProps {
   name: string
 }
 
@@ -61,7 +47,7 @@ export interface GenresProps {
   name: string
 }
 
-interface DetailProps {
+export interface DetailProps {
   original_title: string
   overview: string
   name: string
@@ -71,6 +57,7 @@ interface DetailProps {
   number_of_episodes?: number
   runtime: number
   release_date: string
+  first_air_date?: string
   last_air_date?: string
   spoken_languages: SpokenLanguagesProps[]
   status: string
@@ -80,11 +67,11 @@ interface DetailProps {
   original_language: string
 }
 
-interface mediaDataProps {
+export interface MediaDataProps {
   detail: DetailProps
 }
 
-interface ReviewDataProps {
+export interface ReviewDataProps {
   id: string
   page: number
   results: ReviewProps[]
@@ -93,13 +80,17 @@ interface ReviewDataProps {
 }
 
 export default function MediaModal({ id, onClose, media_type }: Props) {
-  const [mediaData, setMediaData] = useState<mediaDataProps | undefined>()
+  const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
 
   const [updatedId, setUpdatedId] = useState(id)
 
   const [similarMedias, setSimilarMedias] = useState<SimilarCardProps[] | []>()
 
   const [reviewData, setReviewData] = useState<ReviewDataProps | null>(null)
+
+  const [trailerLink, setTrailerLink] = useState('')
+
+  const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false)
 
   const media = media_type === 'movie' ? 'movie' : 'tv'
 
@@ -145,7 +136,7 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
   useEffect(() => {
     if (!updatedId) return
 
-    async function fetchsimilarMedias() {
+    async function fetchSimilarMedias() {
       try {
         const response = await fetch(
           `${
@@ -171,14 +162,49 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
       }
     }
 
-    fetchsimilarMedias()
+    fetchSimilarMedias()
   }, [updatedId, media])
 
-  function convertRatingTo5Scale(ratingOutOf10: number) {
-    return ratingOutOf10 * (5 / 10)
-  }
+  useEffect(() => {
+    if (!updatedId) return
 
-  return (
+    async function fetchTrailerLink() {
+      try {
+        const response = await fetch(
+          `${
+            media === 'movie'
+              ? getMovieVideos(updatedId as string)
+              : getTvVideos(updatedId as string)
+          }`,
+        )
+
+        if (!response.ok) {
+          throw new Error('Error getting trailer link')
+        }
+
+        const data = await response.json()
+
+        const trailer = data?.results
+          ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
+          .slice(0, 1)
+
+        setTrailerLink(trailer[0]?.key || '')
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchTrailerLink()
+  }, [updatedId, media])
+
+  return isTrailerModalOpen && trailerLink?.length > 0 ? (
+    <TrailerSection
+      media={media}
+      mediaData={mediaData as MediaDataProps}
+      trailerLink={trailerLink}
+      onClose={() => setIsTrailerModalOpen(false)}
+    />
+  ) : (
     <LateralMenuWrapper>
       <OverlayBackground onClick={onClose} />
       <CloseButton onClick={onClose}>
@@ -192,84 +218,7 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
                 <MovieImage
                   src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
                 />
-                <MovieDetails>
-                  <Heading>
-                    <h2>
-                      {mediaData?.detail?.original_title ||
-                        mediaData?.detail?.name}
-                    </h2>
-                    <p>{mediaData?.detail?.tagline}</p>
-                  </Heading>
-                  <Separator />
-                  <MovieDetailsWrapper>
-                    <RatingContainer>
-                      <h2>
-                        {convertRatingTo5Scale(
-                          mediaData?.detail?.vote_average,
-                        ).toFixed(2)}
-                      </h2>
-                      <StarsRating
-                        rating={convertRatingTo5Scale(
-                          mediaData?.detail?.vote_average,
-                        )}
-                      />
-                    </RatingContainer>
-                    <Separator />
-                    <GeneralInfoContainer>
-                      {media === 'tv' && (
-                        <GeneralInfoItem>
-                          <h2>Episodes</h2>
-                          <p>{`${mediaData?.detail?.number_of_episodes}`}</p>
-                        </GeneralInfoItem>
-                      )}
-                      {media === 'movie' && (
-                        <GeneralInfoItem>
-                          <h2>Length</h2>
-                          <p>{`${mediaData?.detail?.runtime}min.`}</p>
-                        </GeneralInfoItem>
-                      )}
-                      <GeneralInfoItem>
-                        <h2>Language</h2>
-                        <p>
-                          {convertLanguageCodeToName(
-                            mediaData?.detail?.original_language,
-                          ) || '-'}
-                        </p>
-                      </GeneralInfoItem>
-                      <GeneralInfoItem>
-                        <h2>Year</h2>
-                        {media === 'movie' ? (
-                          <p>
-                            {mediaData?.detail?.release_date?.split('-')[0]}
-                          </p>
-                        ) : (
-                          <p>
-                            {mediaData?.detail?.last_air_date?.split('-')[0]}
-                          </p>
-                        )}
-                      </GeneralInfoItem>
-                      <GeneralInfoItem>
-                        <h2>Status</h2>
-                        <p>{mediaData?.detail?.status?.split(' ')[0]}</p>
-                      </GeneralInfoItem>
-                    </GeneralInfoContainer>
-                    <Separator />
-                    <GenresContainer>
-                      <h2>Genres</h2>
-                      <GenresContent>
-                        {mediaData?.detail?.genres?.length > 0 ? (
-                          mediaData?.detail?.genres?.map((genre) => {
-                            return (
-                              <GenreItem key={genre.id}>{genre.name}</GenreItem>
-                            )
-                          })
-                        ) : (
-                          <p>N/A</p>
-                        )}
-                      </GenresContent>
-                    </GenresContainer>
-                  </MovieDetailsWrapper>
-                </MovieDetails>
+                <DetailsSection media={media} mediaData={mediaData} />
               </MovieInfo>
               <Separator />
               <VisibleSeparator />
@@ -277,47 +226,25 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
                 <p>{mediaData?.detail?.overview || 'N/A'}</p>
                 <Separator />
                 <VisibleSeparator />
-                <LinksContainer>
-                  <LinkItem href={mediaData?.detail?.homepage} target="_blank">
-                    <span>Website</span>
-                    <FontAwesomeIcon icon={faLink} />
-                  </LinkItem>
-                  <LinkItem
-                    href={`https://www.imdb.com/title/${mediaData?.detail?.imdb_id}`}
-                    target="_blank"
-                  >
-                    <span>IMDB</span>
-                    <Icon icon="bxl:imdb" color="white" />
-                  </LinkItem>
-                </LinksContainer>
+                <LinksSection
+                  hasTrailer={trailerLink?.length > 0}
+                  mediaData={mediaData}
+                  handleClick={() => setIsTrailerModalOpen(true)}
+                />
               </SynopsisContainer>
             </MovieContent>
+            {similarMedias && similarMedias?.length > 0 && (
+              <SimilarSection
+                media={media}
+                similarMedias={similarMedias}
+                handleClick={(item) => setUpdatedId(item)}
+              />
+            )}
             <ReviewSection results={reviewData?.results} />
-            <SimilarContainer>
-              <h2>You may also like</h2>
-              <SimilarContent>
-                {similarMedias &&
-                  similarMedias.map((item) => {
-                    return (
-                      <SimilarCard
-                        handleClick={() => setUpdatedId(item.id)}
-                        id={item.id}
-                        key={item.id}
-                        release_date={
-                          item?.release_date || item?.first_air_date
-                        }
-                        title={item?.title || item?.name}
-                        backdrop_path={item?.backdrop_path}
-                        media_type={media}
-                      />
-                    )
-                  })}
-              </SimilarContent>
-            </SimilarContainer>
           </MovieContainer>
         </Wrapper>
       ) : (
-        <Loading />
+        <LoadingComponent />
       )}
     </LateralMenuWrapper>
   )

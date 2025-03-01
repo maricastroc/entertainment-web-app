@@ -19,7 +19,7 @@ export const Container = styled('div', {
   alignItems: 'flex-start',
   gap: '0.5rem',
   width: '100%',
-  minWidth: '10rem',
+  minWidth: '12rem',
 
   '&:hover': {
     animation: `${rotateAnimation} 0.3s forwards`,
@@ -33,7 +33,7 @@ export const BackgroundImage = styled('img', {
   objectFit: 'cover',
   maxHeight: 140,
   opacity: '80%',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1)',
+  boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
 })
 
 export const NotFoundImage = styled('img', {

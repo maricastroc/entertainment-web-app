@@ -16,6 +16,12 @@ export const Container = styled('div', {
   position: 'relative',
   display: 'flex',
   cursor: 'pointer',
+
+  '&:hover': {
+    '& img': {
+      filter: 'brightness(0.6)',
+    },
+  },
 })
 
 export const BackgroundImage = styled('img', {
@@ -24,6 +30,7 @@ export const BackgroundImage = styled('img', {
   height: '100%',
   borderRadius: 8,
   opacity: 0.5,
+  transition: '0.3s ease',
 })
 
 export const CardInfo = styled('div', {

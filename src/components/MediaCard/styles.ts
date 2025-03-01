@@ -1,16 +1,4 @@
-import { keyframes, styled } from '../../styles'
-
-const rotateAnimation = keyframes({
-  '0%': {
-    transform: 'rotate(0deg)',
-  },
-  '50%': {
-    transform: 'rotate(-2deg)',
-  },
-  '100%': {
-    transform: 'rotate(0deg)',
-  },
-})
+import { styled } from '@/styles'
 
 export const Container = styled('div', {
   cursor: 'pointer',
@@ -20,9 +8,12 @@ export const Container = styled('div', {
   gap: '0.5rem',
   width: '100%',
   minWidth: '5rem',
+  position: 'relative',
 
   '&:hover': {
-    animation: `${rotateAnimation} 0.3s forwards`,
+    '& img': {
+      filter: 'brightness(0.6)',
+    },
   },
 })
 
@@ -32,6 +23,7 @@ export const BackgroundImage = styled('img', {
   borderRadius: 8,
   objectFit: 'cover',
   maxHeight: 140,
+  transition: '0.3s ease',
 })
 
 export const NotFoundImage = styled('img', {
