@@ -120,7 +120,8 @@ export function PrismaAdapter(
       }
     },
 
-    async linkAccount(account) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async linkAccount(account: any) {
       await prisma.account.create({
         data: {
           userId: account.userId,
