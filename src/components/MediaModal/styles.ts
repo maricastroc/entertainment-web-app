@@ -23,10 +23,6 @@ export const LateralMenuWrapper = styled('section', {
   height: '100%',
 
   '@media (min-width: 680px)': {
-    maxWidth: '35rem',
-  },
-
-  '@media (min-width: 768px)': {
     maxWidth: '41.5rem',
   },
 })
@@ -67,6 +63,34 @@ export const CloseButton = styled('button', {
   },
 })
 
+export const SaveBtn = styled('button', {
+  position: 'absolute',
+  top: '88%',
+  right: '85%',
+  transform: 'translate(50%, -50%)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '2.3rem',
+  height: '2.3rem',
+  marginLeft: '1rem',
+  borderRadius: '50%',
+  border: 'none',
+  color: '$blue700',
+  cursor: 'pointer',
+  backgroundColor: 'rgba(209, 214, 228, 0.7)',
+  fontSize: '1.2rem',
+  transition: '200ms ease',
+
+  svg: {
+    marginTop: '0.6rem',
+  },
+
+  '&:hover': {
+    backgroundColor: 'rgba(209, 214, 228, 1)',
+  },
+})
+
 export const Wrapper = styled('div', {
   position: 'relative',
   display: 'flex',
@@ -82,7 +106,7 @@ export const Wrapper = styled('div', {
   borderRadius: 8,
   animation: `${entranceAnimation} 0.4s`,
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     padding: '2.5rem',
   },
 
@@ -109,7 +133,7 @@ export const MovieContent = styled('div', {
   alignItems: 'center',
   width: '100%',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     padding: '2rem',
   },
 })
@@ -121,20 +145,25 @@ export const MovieInfo = styled('div', {
   alignItems: 'center',
   width: '100%',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     flexDirection: 'row',
     alignItems: 'stretch',
     gap: '1.55rem',
   },
 })
 
+export const MovieImageWrapper = styled('div', {
+  position: 'relative',
+  display: 'inline-block',
+})
+
 export const MovieImage = styled('img', {
-  width: 'clamp(10rem, 40vw, 16rem)',
+  width: 'clamp(10rem, 40vw, 12rem)',
   height: 'auto',
   borderRadius: 8,
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     width: 'clamp(11rem, 40vw, 12rem)',
   },
 })
@@ -143,10 +172,10 @@ export const Separator = styled('span', {
   width: '100%',
   height: 1.5,
   backgroundColor: '$blue600',
-  margin: '1.5rem 0',
+  margin: '1.2rem 0',
   opacity: 0.3,
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     display: 'none',
   },
 })
@@ -159,7 +188,7 @@ export const VisibleSeparator = styled('span', {
   opacity: 0.3,
   display: 'none',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     display: 'block',
   },
 })
@@ -180,7 +209,7 @@ export const SynopsisContainer = styled('div', {
     overflowY: 'scroll',
   },
 
-  '@media (min-width: 580px)': {
+  '@media (min-width: 480px)': {
     '> h2': {
       fontSize: '1.2rem',
     },

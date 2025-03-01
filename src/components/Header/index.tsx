@@ -56,7 +56,9 @@ export function Header() {
       </ButtonPagesContainer>
       <AvatarContainer>
         <img
-          src={session.data?.user?.image ?? 'https://github.com/octocat.png'}
+          src={
+            session.data?.user?.avatarUrl ?? 'https://github.com/octocat.png'
+          }
           alt=""
         />
       </AvatarContainer>

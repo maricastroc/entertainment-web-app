@@ -12,6 +12,8 @@ import {
   Wrapper,
   LateralMenuWrapper,
   OverlayBackground,
+  MovieImageWrapper,
+  SaveBtn,
 } from './styles'
 
 import {
@@ -31,6 +33,12 @@ import { LinksSection } from './partials/LinksSection'
 import { DetailsSection } from './partials/DetailsSection'
 import { TrailerSection } from './partials/TrailerSection'
 import { LoadingComponent } from '../LoadingComponent'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
+import { handleApiError } from '@/utils/handleApiError'
+import { api } from '@/lib/axios'
+import toast from 'react-hot-toast'
 
 interface Props {
   id: string
@@ -58,6 +66,8 @@ export interface DetailProps {
   runtime: number
   release_date: string
   first_air_date?: string
+  backdrop_path?: string
+  vote_count?: number
   last_air_date?: string
   spoken_languages: SpokenLanguagesProps[]
   status: string
@@ -80,6 +90,8 @@ export interface ReviewDataProps {
 }
 
 export default function MediaModal({ id, onClose, media_type }: Props) {
+  const [isHovered, setIsHovered] = useState(false)
+
   const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
 
   const [updatedId, setUpdatedId] = useState(id)
@@ -92,7 +104,35 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
 
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false)
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const media = media_type === 'movie' ? 'movie' : 'tv'
+
+  async function saveMovie() {
+    try {
+      setIsLoading(true)
+
+      const mediaRoute = media === 'movie' ? 'movies' : 'series'
+
+      const response = await api.post(
+        `/user/${mediaRoute}`,
+        { mediaId: String(id) },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      if (response.data) {
+        toast.success(response.data.message)
+      }
+    } catch (error) {
+      handleApiError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
     if (!updatedId) return
@@ -215,9 +255,20 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
           <MovieContainer>
             <MovieContent>
               <MovieInfo>
-                <MovieImage
-                  src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
-                />
+                <MovieImageWrapper>
+                  <MovieImage
+                    src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
+                  />
+                  <SaveBtn
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    onClick={() => saveMovie()}
+                  >
+                    <FontAwesomeIcon
+                      icon={isHovered ? faBookmarkSolid : faBookmarkRegular}
+                    />
+                  </SaveBtn>
+                </MovieImageWrapper>
                 <DetailsSection media={media} mediaData={mediaData} />
               </MovieInfo>
               <Separator />
@@ -233,6 +284,7 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
                 />
               </SynopsisContainer>
             </MovieContent>
+
             {similarMedias && similarMedias?.length > 0 && (
               <SimilarSection
                 media={media}
@@ -240,7 +292,10 @@ export default function MediaModal({ id, onClose, media_type }: Props) {
                 handleClick={(item) => setUpdatedId(item)}
               />
             )}
+
             <ReviewSection results={reviewData?.results} />
+
+            {isLoading && <LoadingComponent hasOverlay />}
           </MovieContainer>
         </Wrapper>
       ) : (

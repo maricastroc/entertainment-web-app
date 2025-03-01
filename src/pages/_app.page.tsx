@@ -1,12 +1,14 @@
 import type { AppProps } from 'next/app'
 import { globalStyles } from '../styles/global'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fas as fasSolid } from '@fortawesome/free-solid-svg-icons'
+import { far as fasRegular } from '@fortawesome/free-regular-svg-icons'
 import { SessionProvider } from 'next-auth/react'
-import { MovieContextProvider } from '@/contexts/MovieContext'
+import { AppContextProvider } from '@/contexts/AppContext'
+import { Toaster } from 'react-hot-toast'
 
 globalStyles()
-library.add(fas)
+library.add(fasSolid, fasRegular)
 
 export default function App({
   Component,
@@ -14,9 +16,29 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <MovieContextProvider>
+      <AppContextProvider>
+        <Toaster
+          toastOptions={{
+            style: {
+              backgroundColor: '#1E1E1E',
+              color: '#fff',
+            },
+            success: {
+              style: {
+                backgroundColor: '#1E1E1E',
+                color: '#fff',
+              },
+            },
+            error: {
+              style: {
+                backgroundColor: '#1E1E1E',
+                color: '#fff',
+              },
+            },
+          }}
+        />
         <Component {...pageProps} />
-      </MovieContextProvider>
+      </AppContextProvider>
     </SessionProvider>
   )
 }

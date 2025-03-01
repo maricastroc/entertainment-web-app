@@ -1,27 +1,42 @@
-import { styled } from '../../styles'
+import { styled } from '@/styles'
 
-export const Container = styled('div', {
+export const SignInPageWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: '100vw',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '6rem 1.5rem 3rem',
-  height: '100%',
+  padding: '3rem 1.5rem 3rem',
   maxWidth: 'clamp(80rem, 85%, 40rem)',
+  height: '100vh',
+  zIndex: '0',
+  overflow: 'scroll',
 
-  '@media (min-width: 820px)': {
-    padding: 0,
+  '@media (min-width: 980px)': {
+    display: 'grid',
+    gridTemplateColumns: '3fr 1fr',
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    padding: '0 1.5rem',
+    margin: '0 auto',
+    maxWidth: '100%',
+  },
+
+  '@media (min-width: 1200px)': {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    maxWidth: '90rem',
+    margin: '0 auto',
+    overflow: 'hidden',
   },
 })
 
 export const CoverContainer = styled('div', {
   display: 'flex',
-  padding: '1.25rem',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1.7rem 1.25rem',
   position: 'relative',
+  width: '100%',
 
   '.cover_image': {
     display: 'none',
@@ -34,15 +49,11 @@ export const CoverContainer = styled('div', {
     height: 'auto',
   },
 
-  '@media (min-width: 820px)': {
-    minHeight: '100vh',
-    height: '100%',
-
+  '@media (min-width: 980px)': {
     '.cover_image': {
       display: 'flex',
-      width: '50vw',
-      height: 'auto',
       borderRadius: '12px',
+      width: '100%',
     },
 
     '.logo_image': {
@@ -54,34 +65,47 @@ export const CoverContainer = styled('div', {
       height: 'auto',
     },
   },
+})
 
-  '@media (min-width: 1150px)': {
-    '.cover_image': {
-      minWidth: '100%',
-    },
+export const DividerLine = styled('span', {
+  width: '100%',
+  height: 0.7,
+  backgroundColor: '$gray300',
+  margin: '0.5rem 0 2.5rem',
+
+  '@media (min-width: 980px)': {
+    display: 'none',
   },
 })
 
-export const Separator = styled('span', {
+export const WelcomeContent = styled('div', {
+  display: 'flex',
+  padding: '0 1.25rem',
+  gap: '3.8rem',
+  flexDirection: 'column',
   width: '100%',
-  height: 0.7,
-  backgroundColor: '$gray700',
-  margin: '0.5rem 0 4rem',
+  maxWidth: '30rem',
 
-  '@media (min-width: 820px)': {
-    display: 'none',
+  '@media (min-width: 980px)': {
+    padding: '3.5rem 1.25rem',
+    minWidth: '25rem',
+    gap: '3rem',
+  },
+
+  '@media (min-width: 1200px)': {
+    maxWidth: '30rem',
   },
 })
 
 export const WelcomeContainer = styled('div', {
   display: 'flex',
-  padding: '1.25rem',
+  width: '100%',
   gap: '3.8rem',
-  flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'center',
 
   '@media (min-width: 480px)': {
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
 })
 
@@ -93,7 +117,7 @@ export const Heading = styled('div', {
 
   h2: {
     fontSize: '1.5rem',
-    fontWeight: 500,
+    fontWeight: 400,
   },
 
   p: {
@@ -101,61 +125,7 @@ export const Heading = styled('div', {
     fontWeight: 300,
   },
 
-  '@media (min-width: 480px)': {
+  '@media (min-width: 980px)': {
     textAlign: 'left',
-  },
-})
-
-export const ButtonsContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-})
-
-export const ButtonAccess = styled('button', {
-  cursor: 'pointer',
-  border: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1.25rem',
-  backgroundColor: '$blue700',
-  borderRadius: 8,
-  padding: '1.25rem 1.5rem',
-  width: '16rem',
-  fontSize: '0.95rem',
-
-  svg: {
-    fontSize: 32,
-  },
-
-  p: {
-    color: '$gray100',
-    fontWeight: 300,
-  },
-
-  '& .rocket-icon': {
-    color: '$blue600',
-  },
-
-  '&:hover': {
-    filter: 'brightness(1.5)',
-    transition: 'all 200ms',
-  },
-
-  '@media (min-width: 350px)': {
-    width: '18rem',
-  },
-
-  '@media (min-width: 480px)': {
-    fontSize: '1.1rem',
-    width: '23.25rem',
-  },
-
-  '@media (min-width: 820px)': {
-    width: 'clamp(15rem, 40vw, 23rem)',
-  },
-
-  '@media (min-width: 920px)': {
-    width: '23.25rem',
   },
 })

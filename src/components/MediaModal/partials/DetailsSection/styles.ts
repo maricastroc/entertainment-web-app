@@ -7,7 +7,7 @@ export const MovieDetails = styled('div', {
   alignItems: 'center',
   width: '100%',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
@@ -17,12 +17,8 @@ export const MovieDetailsWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   width: '100%',
-
-  '@media (min-width: 768px)': {
-    alignItems: 'flex-start',
-  },
 })
 
 export const Heading = styled('div', {
@@ -57,7 +53,7 @@ export const Heading = styled('div', {
     },
   },
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     marginTop: 0,
     alignItems: 'flex-start',
 
@@ -75,55 +71,22 @@ export const RatingContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '0.3rem',
+  gap: '1rem',
 
-  '> h2': {
+  '> p': {
     fontSize: '2rem',
     fontWeight: 500,
     color: '$gray300',
   },
 
-  '> button': {
-    backgroundColor: 'transparent',
+  span: {
+    fontSize: '0.9rem',
+    fontWeight: 300,
     color: '$gray300',
-    padding: '0.5rem 0.6rem',
-    border: '2px solid $blue600',
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    width: '6.8rem',
-    justifyContent: 'center',
-    textDecoration: 'none',
-    marginTop: '0.5rem',
-    cursor: 'pointer',
-    transition: '200ms',
-
-    '&:hover': {
-      backgroundColor: '$blue600',
-      border: '2px solid $blue600',
-      color: '$gray300',
-    },
   },
 
-  '@media (min-width: 580px)': {
-    '> h2': {
-      fontSize: '2.3rem',
-    },
-  },
-
-  '@media (min-width: 768px)': {
-    marginTop: '1.5rem',
-
-    '> h2': {
-      fontSize: '1.8rem',
-    },
-
-    '> button': {
-      marginTop: 0,
-    },
-
-    flexDirection: 'row',
-    gap: '1rem',
+  '@media (min-width: 680px)': {
+    marginBottom: '1.5rem',
   },
 })
 
@@ -131,12 +94,19 @@ export const Separator = styled('span', {
   width: '100%',
   height: 1.5,
   backgroundColor: '$blue600',
-  margin: '1.5rem 0',
+  margin: '1.2rem 0',
   opacity: 0.3,
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     display: 'none',
   },
+})
+
+export const RatingWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '0.3rem',
 })
 
 export const VisibleSeparator = styled('span', {
@@ -147,7 +117,7 @@ export const VisibleSeparator = styled('span', {
   opacity: 0.3,
   display: 'none',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     display: 'block',
   },
 })
@@ -173,7 +143,7 @@ export const GenresContainer = styled('div', {
     },
   },
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     margin: '2rem 0 0',
 
     '> h2': {
@@ -190,7 +160,7 @@ export const GenresContent = styled('div', {
   gap: '0.6rem',
   width: '100%',
 
-  '@media (min-width: 768px)': {
+  '@media (min-width: 680px)': {
     gap: '0.8rem',
   },
 })
@@ -201,6 +171,7 @@ export const GenreItem = styled('div', {
   padding: '0.2rem 0.4rem',
   borderRadius: 8,
   fontSize: '0.78rem',
+  fontWeight: 400,
 
   '@media (min-width: 580px)': {
     fontSize: '0.85rem',

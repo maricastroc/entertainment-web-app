@@ -1,9 +1,14 @@
 import Loading from '../Loading'
-import { Wrapper } from './styles'
+import { OverlayBackground, Wrapper } from './styles'
 
-export const LoadingComponent = () => {
+interface Props {
+  hasOverlay?: boolean
+}
+
+export const LoadingComponent = ({ hasOverlay = false }: Props) => {
   return (
     <Wrapper>
+      {hasOverlay && <OverlayBackground />}
       <Loading />
     </Wrapper>
   )

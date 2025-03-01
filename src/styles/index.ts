@@ -15,6 +15,8 @@ export const {
       white: '#FFFFFF',
       gray100: '#F8F9FC',
       gray300: '#D1D6E4',
+      gray400: '#AFB3BC',
+      gray600: '#252D4A',
 
       red300: '#FC4747',
 
@@ -23,6 +25,8 @@ export const {
       purple50: '#B2AFF0',
       purple80: '#7f7cff',
       purple100: '#8381D9',
+
+      blue400: '#7493C4',
       blue500: '#0E7490',
       blue600: '#486399',
       blue650: '#4E5C72',

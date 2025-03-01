@@ -5,9 +5,9 @@ export const GeneralInfoContainer = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'flex-start',
   width: '100%',
+  maxWidth: '17rem',
 
   '@media (min-width: 768px)': {
-    marginTop: '1.5rem',
     justifyContent: 'flex-start',
     gap: '1.5rem',
   },

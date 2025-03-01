@@ -39,6 +39,41 @@ export const globalStyles = globalCss({
 
   'body, input, textarea, button': {
     fontFamily: 'Outfit, sans-serif',
-    fontWeight: 500,
+    fontWeight: 300,
+
+    '&::placeholder': {
+      color: '$gray400',
+    },
+  },
+
+  '&:-webkit-autofill': {
+    backgroundColor: '$blue700',
+    '-webkit-text-fill-color': '$gray300',
+    '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
+    transition: 'background-color 5000s ease-in-out 0s',
+  },
+  '&:-webkit-autofill:hover': {
+    backgroundColor: '$blue700',
+    '-webkit-text-fill-color': '$gray300',
+    '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
+    transition: 'background-color 5000s ease-in-out 0s',
+  },
+  '&:-webkit-autofill:focus': {
+    backgroundColor: '$blue700',
+    '-webkit-text-fill-color': '$gray300',
+    '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
+    transition: 'background-color 5000s ease-in-out 0s',
+  },
+  '& textarea:-webkit-autofill': {
+    backgroundColor: '$blue700',
+    '-webkit-text-fill-color': '$gray300',
+    '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
+    transition: 'background-color 5000s ease-in-out 0s',
+  },
+  '& select:-webkit-autofill': {
+    backgroundColor: '$blue700',
+    '-webkit-text-fill-color': '$gray300',
+    '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
+    transition: 'background-color 5000s ease-in-out 0s',
   },
 })

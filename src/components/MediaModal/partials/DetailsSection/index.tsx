@@ -8,6 +8,7 @@ import {
   MovieDetailsWrapper,
   RatingContainer,
   Separator,
+  RatingWrapper,
 } from './styles'
 import { GeneralInfoSection } from '../GeneralInfoSection'
 import { DetailProps } from '../..'
@@ -30,12 +31,15 @@ export function DetailsSection({ media, mediaData }: Props) {
       <Separator />
       <MovieDetailsWrapper>
         <RatingContainer>
-          <h2>
+          <p>
             {convertRatingTo5Scale(mediaData?.detail?.vote_average).toFixed(2)}
-          </h2>
-          <StarsRating
-            rating={convertRatingTo5Scale(mediaData?.detail?.vote_average)}
-          />
+          </p>
+          <RatingWrapper>
+            <StarsRating
+              rating={convertRatingTo5Scale(mediaData?.detail?.vote_average)}
+            />
+            <span>({mediaData?.detail?.vote_count} ratings)</span>
+          </RatingWrapper>
         </RatingContainer>
         <Separator />
         <GeneralInfoSection media={media} mediaData={mediaData} />
