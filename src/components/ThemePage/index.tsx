@@ -16,6 +16,8 @@ import { NextSeo } from 'next-seo'
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import MediaModal from '../MediaModal'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '../LoadingComponent'
 
 interface Props {
   data: SearchResultItemProps[]
@@ -34,6 +36,8 @@ export default function ThemePage({
   pageName,
   media,
 }: Props) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
@@ -96,6 +100,7 @@ export default function ThemePage({
               />
             </MainContent>
           </Container>
+          {isRouteLoading && <LoadingComponent hasOverlay />}
         </Wrapper>
       ) : (
         <Loading />

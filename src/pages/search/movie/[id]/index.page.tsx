@@ -16,6 +16,8 @@ import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/MediaModal'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '@/components/LoadingComponent'
 
 interface SearchResultItemProps {
   id: string
@@ -42,6 +44,8 @@ interface SearchProps {
 }
 
 export default function SearchMovie({ data, id, page }: SearchProps) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
@@ -103,6 +107,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
             />
           </MainContent>
         </Container>
+        {isRouteLoading && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

@@ -16,6 +16,8 @@ import {
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/MediaModal'
+import { LoadingComponent } from '@/components/LoadingComponent'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 
 export interface SearchResultItemProps {
   id: string
@@ -42,6 +44,8 @@ interface SearchProps {
 }
 
 export default function Search({ data, id, page }: SearchProps) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
@@ -108,6 +112,7 @@ export default function Search({ data, id, page }: SearchProps) {
             />
           </MainContent>
         </Container>
+        {isRouteLoading && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

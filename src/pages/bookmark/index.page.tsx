@@ -18,15 +18,19 @@ import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/MediaModal'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '@/components/LoadingComponent'
 
 export default function Bookmark() {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const [isMovieMediaModalOpen, setIsMovieMediaModalOpen] = useState(false)
 
   const [isSeriesMediaModalOpen, setIsSeriesMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-  const { data, mutate } = useRequest<UserProps | null>({
+  const { data, mutate, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
   })
@@ -124,6 +128,7 @@ export default function Bookmark() {
             </MediaContainer>
           </MainContent>
         </Container>
+        {(isRouteLoading || isValidating) && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

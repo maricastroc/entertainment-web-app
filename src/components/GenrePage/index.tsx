@@ -16,6 +16,8 @@ import Loading from '../Loading'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/MediaModal'
+import { LoadingComponent } from '../LoadingComponent'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 
 interface GenrePageProps {
   data: {
@@ -35,6 +37,8 @@ export default function GenrePage({
   media,
   currentPage,
 }: GenrePageProps) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
@@ -103,6 +107,7 @@ export default function GenrePage({
               />
             </MainContent>
           </Container>
+          {isRouteLoading && <LoadingComponent hasOverlay />}
         </Wrapper>
       ) : (
         <Loading />

@@ -20,6 +20,8 @@ import { pathToSearchAll } from '@/utils'
 import MediaList from './components/MediaList'
 import TrendingMediaCollection from './components/TrendingMediaCollection'
 import { NextSeo } from 'next-seo'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '@/components/LoadingComponent'
 
 export interface MediaCardProps {
   id?: string
@@ -78,6 +80,8 @@ export default function Home({
   onTheAirSeries,
   topRatedSeries,
 }: HomeProps) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   const trendingMoviesList = trendingMovies.results
     .filter((item) => item.backdrop_path !== null)
     .slice(0, 5)
@@ -230,6 +234,7 @@ export default function Home({
             ))}
           </MainContent>
         </Container>
+        {isRouteLoading && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

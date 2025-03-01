@@ -10,6 +10,8 @@ import { SearchBar } from '@/components/SearchBar'
 import { pathToSearchMovie, pathToSearchTV } from '@/utils'
 import { GenreCard } from '@/components/GenreCard'
 import { NextSeo } from 'next-seo'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '../LoadingComponent'
 
 interface GenreItem {
   name: string
@@ -24,6 +26,8 @@ interface GenreCollectionProps {
 }
 
 export default function GenreCollection({ data, media }: GenreCollectionProps) {
+  const isRouteLoading = useLoadingOnRouteChange()
+
   return (
     <>
       <NextSeo
@@ -78,6 +82,7 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
             )}
           </MainContent>
         </Container>
+        {isRouteLoading && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

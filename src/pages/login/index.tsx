@@ -34,7 +34,7 @@ export default function Login() {
     <>
       <NextSeo title="Login | Book Wise" />
       {isRouteLoading ? (
-        <LoadingComponent />
+        <LoadingComponent hasOverlay />
       ) : (
         <SignInPageWrapper>
           <CoverContainer>
