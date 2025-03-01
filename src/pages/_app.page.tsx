@@ -10,12 +10,9 @@ import { Toaster } from 'react-hot-toast'
 globalStyles()
 library.add(fasSolid, fasRegular)
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <AppContextProvider>
         <Toaster
           toastOptions={{
