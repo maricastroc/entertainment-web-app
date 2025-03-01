@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import NextAuth, { NextAuthOptions, User } from 'next-auth'
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
 import GithubProvider, { GithubProfile } from 'next-auth/providers/github'
@@ -47,8 +46,8 @@ export function buildNextAuthOptions(
         profile(profile: GithubProfile) {
           return {
             id: profile.id.toString(),
-            name: profile.name!,
-            email: profile.email!,
+            name: profile.name,
+            email: profile.email,
             avatarUrl: profile.avatar_url,
           }
         },

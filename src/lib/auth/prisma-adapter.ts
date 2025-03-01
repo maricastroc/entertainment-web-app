@@ -8,6 +8,20 @@ interface CustomUser extends AdapterUser {
   avatarUrl?: string | null
 }
 
+interface Account {
+  userId: string
+  type: string
+  provider: string
+  providerAccountId: string
+  refresh_token?: string
+  access_token?: string
+  expires_at?: number
+  token_type?: string
+  scope?: string
+  id_token?: string
+  session_state?: string
+}
+
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -120,8 +134,7 @@ export function PrismaAdapter(
       }
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async linkAccount(account: any) {
+    async linkAccount(account: Account) {
       await prisma.account.create({
         data: {
           userId: account.userId,
