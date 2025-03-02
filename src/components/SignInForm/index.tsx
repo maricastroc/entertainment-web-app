@@ -95,7 +95,7 @@ export default function SignInForm({ onClose }: SignInFormProps) {
 
   return (
     <>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer onSubmit={handleSubmit((e) => onSubmit(e))}>
         <InputContainer>
           <CustomLabel>Your e-mail here:</CustomLabel>
           <Input placeholder="myuser@email.com" {...register('email')} />
