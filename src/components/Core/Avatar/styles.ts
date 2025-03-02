@@ -73,7 +73,7 @@ export const AvatarDefault = styled('img', {
     height: 66,
   },
 
-  outline: '1.5px solid $green100',
+  outline: '1.5px solid $blue500',
   outlineOffset: 2,
 
   '&.clickable': {

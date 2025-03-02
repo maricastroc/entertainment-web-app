@@ -24,6 +24,7 @@ export const BackgroundImage = styled('img', {
   objectFit: 'cover',
   maxHeight: 140,
   transition: '0.3s ease',
+  boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.1)',
 })
 
 export const NotFoundImage = styled('img', {

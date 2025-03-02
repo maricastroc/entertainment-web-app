@@ -7,24 +7,21 @@ export const StyledButton = styled('button', {
   gap: '0.7rem',
   cursor: 'pointer',
   color: 'white',
-  backgroundColor: '$blue600',
-  padding: '0.6rem',
-  fontSize: '0.95rem',
+  backgroundColor: '$red300',
+  padding: '0.875rem 0.6rem',
+  fontSize: '$bodyMd',
   border: '1px solid transparent',
   width: '100%',
   transition: '200ms ease',
-  fontWeight: 400,
+  borderRadius: 8,
 
   svg: {
     color: 'white',
   },
 
-  '&.rounded': {
-    borderRadius: 16,
-  },
-
   '&:not(:disabled):hover': {
-    filter: 'brightness(1.2)',
+    color: '$blue800',
+    backgroundColor: '$white',
   },
 
   '&:disabled': {

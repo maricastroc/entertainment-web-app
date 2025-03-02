@@ -22,6 +22,7 @@ import TrendingMediaCollection from './components/TrendingMediaCollection'
 import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/LoadingComponent'
+import { useEffect, useState } from 'react'
 
 export interface MediaCardProps {
   id?: string
@@ -81,6 +82,8 @@ export default function Home({
   topRatedSeries,
 }: HomeProps) {
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const [isClient, setIsClient] = useState(false)
 
   const trendingMoviesList = trendingMovies.results
     .filter((item) => item.backdrop_path !== null)
@@ -184,58 +187,64 @@ export default function Home({
     },
   ]
 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <>
       <NextSeo title="Home | MovieMentor" />
-      <Wrapper>
-        <Header />
-        <Container>
-          <SearchBar
-            searchPath={pathToSearchAll}
-            placeholder="Search for movie / TV series"
-          />
-          <MainContent>
-            {mediaTrendingMoviesLists.map(({ title, items }) => (
-              <TrendingMediaCollection
-                key={title}
-                title={title}
-                items={items}
-                media_type="movie"
-              />
-            ))}
-            {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
-              <MediaList
-                key={title}
-                title={title}
-                items={items}
-                media={media}
-                endpoint={endpoint}
-              />
-            ))}
-            <ScrollableContainer>
-              {mediaTrendingSeriesLists.map(({ title, items }) => (
+      {isClient && (
+        <Wrapper>
+          <Header />
+          <Container>
+            <SearchBar
+              searchPath={pathToSearchAll}
+              placeholder="Search for movie / TV series"
+            />
+            <MainContent>
+              {mediaTrendingMoviesLists.map(({ title, items }) => (
                 <TrendingMediaCollection
-                  withTopMargin
                   key={title}
                   title={title}
                   items={items}
-                  media_type="TV series"
+                  media_type="movie"
                 />
               ))}
-            </ScrollableContainer>
-            {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
-              <MediaList
-                key={title}
-                title={title}
-                items={items}
-                media={media}
-                endpoint={endpoint}
-              />
-            ))}
-          </MainContent>
-        </Container>
-        {isRouteLoading && <LoadingComponent hasOverlay />}
-      </Wrapper>
+              {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
+                <MediaList
+                  key={title}
+                  title={title}
+                  items={items}
+                  media={media}
+                  endpoint={endpoint}
+                />
+              ))}
+              <ScrollableContainer>
+                {mediaTrendingSeriesLists.map(({ title, items }) => (
+                  <TrendingMediaCollection
+                    withTopMargin
+                    key={title}
+                    title={title}
+                    items={items}
+                    media_type="TV series"
+                  />
+                ))}
+              </ScrollableContainer>
+              {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
+                <MediaList
+                  key={title}
+                  title={title}
+                  items={items}
+                  media={media}
+                  endpoint={endpoint}
+                />
+              ))}
+            </MainContent>
+          </Container>
+          {isRouteLoading && <LoadingComponent hasOverlay />}
+        </Wrapper>
+      )}
     </>
   )
 }

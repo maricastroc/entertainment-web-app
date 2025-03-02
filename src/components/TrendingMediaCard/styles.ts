@@ -31,6 +31,7 @@ export const BackgroundImage = styled('img', {
   borderRadius: 8,
   opacity: 0.5,
   transition: '0.3s ease',
+  boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.1)',
 })
 
 export const CardInfo = styled('div', {

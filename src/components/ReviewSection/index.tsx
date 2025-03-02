@@ -8,7 +8,7 @@ import {
 import { ReviewProps } from '@/types/review'
 import { convertRatingTo5Scale } from '@/utils/convertRatingTo5Scale'
 import { StarsRating } from '../StarsRating'
-import { Avatar } from '../Avatar'
+import { Avatar } from '../Core/Avatar'
 
 interface Props {
   results: ReviewProps[] | undefined

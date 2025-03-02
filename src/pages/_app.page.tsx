@@ -17,18 +17,18 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <Toaster
           toastOptions={{
             style: {
-              backgroundColor: '#1E1E1E',
+              backgroundColor: '#161D2F',
               color: '#fff',
             },
             success: {
               style: {
-                backgroundColor: '#1E1E1E',
+                backgroundColor: '#161D2F',
                 color: '#fff',
               },
             },
             error: {
               style: {
-                backgroundColor: '#1E1E1E',
+                backgroundColor: '#161D2F',
                 color: '#fff',
               },
             },

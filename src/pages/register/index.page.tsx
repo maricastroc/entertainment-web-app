@@ -1,27 +1,27 @@
 import { NextSeo } from 'next-seo'
 import { Container, LogoWrapper } from './styles'
 
-import SignInForm from '@/pages/login/partials/SignInForm'
+import SignUpForm from '@/pages/register/partials/SignUpForm'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { useAppContext } from '@/contexts/AppContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { LoadingComponent } from '@/components/LoadingComponent'
 import Logo from '../../../public/logo.svg'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
 
 export default function Login() {
   const isRouteLoading = useLoadingOnRouteChange()
 
   const router = useRouter()
 
-  const { status } = useSession()
+  const { loggedUser } = useAppContext()
 
   useEffect(() => {
-    if (status !== 'unauthenticated') {
+    if (loggedUser) {
       router.push('/home')
     }
-  }, [status, router])
+  }, [loggedUser, router])
 
   return (
     <>
@@ -34,7 +34,7 @@ export default function Login() {
             <Image alt="" src={Logo} />
             <h2>Movie Mentor</h2>
           </LogoWrapper>
-          <SignInForm />
+          <SignUpForm />
         </Container>
       )}
     </>

@@ -1,6 +1,6 @@
 import { styled } from '../../styles'
 
-export const Container = styled('form', {
+export const Container = styled('div', {
   margin: '1.5rem 0',
   display: 'flex',
   justifyContent: 'space-between',
@@ -12,27 +12,16 @@ export const Container = styled('form', {
 export const SearchContent = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  gap: '0.8rem',
   width: '100%',
 
-  svg: {
-    color: '$gray300',
-    fontSize: '0.9rem',
+  img: {
+    scale: 0.7,
+    opacity: 0.9,
   },
 
   '@media (min-width: 480px)': {
-    svg: {
-      color: '$gray300',
-      fontSize: '1.2rem',
-    },
-  },
-
-  '@media (min-width: 768px)': {
-    gap: '1rem',
-
-    svg: {
-      color: '$gray300',
-      fontSize: '1.3rem',
+    img: {
+      scale: 0.85,
     },
   },
 })
@@ -42,9 +31,15 @@ export const SearchInput = styled('input', {
   width: '100%',
   color: '$white',
   fontSize: '0.9rem',
-  border: 'none',
   padding: '0.7rem',
-  borderRadius: 8,
+  border: 'none',
+  borderBottom: '2px solid transparent',
+
+  '&:focus': {
+    borderBottom: '2px solid $blue600',
+    outline: 'none',
+    boxShadow: 'none',
+  },
 
   '@media (min-width: 480px)': {
     fontSize: '1rem',
@@ -57,17 +52,15 @@ export const SearchInput = styled('input', {
 
 export const SearchButton = styled('button', {
   cursor: 'pointer',
-  backgroundColor: '$blue600',
-  border: 'none',
-  borderRadius: 4,
+  backgroundColor: 'transparent',
+  borderBottom: '1px solid $blue600',
   width: '4.5rem',
   padding: '0.5rem',
   color: '$white',
-  fontSize: '0.8rem',
+  fontSize: '$bodySm',
 
   '@media (min-width: 768px)': {
     padding: '0.7rem',
-    fontSize: '0.85rem',
     width: '4.8rem',
   },
 })

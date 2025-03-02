@@ -1,32 +1,20 @@
 import { styled } from '@/styles'
 
-export const FormContainer = styled('form', {
+export const Wrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.5rem',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '$blue700',
+  padding: '2rem',
+  borderRadius: 20,
   width: '100%',
-})
+  gap: '1.5rem',
 
-export const SignUpBtn = styled('button', {
-  backgroundColor: '$transparent',
-  cursor: 'pointer',
-  fontSize: '0.8rem',
-  border: 'none',
-  color: '$gray400',
-  marginTop: '-1rem',
-  fontWeight: 300,
-
-  span: {
-    color: '$blue400',
-  },
-
-  '&:hover': {
-    color: '$gray300',
-    transition: '200ms',
-  },
-
-  '@media (min-width: 480px)': {
-    fontSize: '0.9rem',
+  h2: {
+    alignSelf: 'flex-start',
+    fontSize: '$headingLg',
+    fontWeight: 300,
   },
 })
 
@@ -38,30 +26,16 @@ export const Divider = styled('span', {
   marginTop: 1,
 })
 
-export const Input = styled('input', {
-  backgroundColor: 'transparent',
-  border: 'solid 1px $blue600',
-  color: '$gray100',
-  padding: '0.75rem 0.6rem',
-  fontSize: '0.95rem',
-  borderRadius: 6,
-
-  '&:focus': {
-    backgroundColor: 'transparent',
-    outline: 'none',
-    boxShadow: 'none',
-  },
-})
-
 export const AuthContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  gap: '1.8rem',
-  color: '$gray300',
-  fontSize: '0.9rem',
+  gap: '1rem',
+  color: '$white',
+  fontSize: '$bodyMd',
+  marginTop: '1.5rem',
 })
 
 export const AuthOptions = styled('div', {
@@ -115,8 +89,8 @@ export const AuthItem = styled('button', {
   },
 })
 
-export const HorizontalDivider = styled('span', {
-  backgroundColor: '$gray600',
+export const VerticalDivider = styled('span', {
+  backgroundColor: 'rgba(255, 255, 255, 0.2)',
   height: '2rem',
   color: '$gray300',
   width: 1,

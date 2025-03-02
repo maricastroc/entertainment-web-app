@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Container, SearchButton, SearchContent, SearchInput } from './styles'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { Container, SearchContent, SearchInput } from './styles'
+import SearchIcon from '../../../public/assets/icon-search.svg'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 interface SearchBarProps {
   searchPath: string
@@ -11,29 +11,38 @@ interface SearchBarProps {
 
 export function SearchBar({ searchPath, placeholder }: SearchBarProps) {
   const router = useRouter()
-
   const [query, setQuery] = useState('')
 
-  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  const [debouncedQuery, setDebouncedQuery] = useState('')
 
-    if (query.length !== 0) {
-      router.push(`${searchPath}${query.trim()}?page=1`)
-      setQuery('')
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [query])
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      const currentQuery = router.query.id
+
+      if (debouncedQuery !== currentQuery) {
+        router.push(`${searchPath}${debouncedQuery.trim()}?page=1`)
+      }
     }
-  }
+  }, [debouncedQuery, searchPath, router])
 
   return (
-    <Container onSubmit={handleSearch}>
+    <Container>
       <SearchContent>
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <Image alt="" src={SearchIcon} />
         <SearchInput
           placeholder={placeholder}
           onChange={(e) => setQuery(e.target.value)}
           value={query}
         />
       </SearchContent>
-      <SearchButton type="submit">Search</SearchButton>
     </Container>
   )
 }

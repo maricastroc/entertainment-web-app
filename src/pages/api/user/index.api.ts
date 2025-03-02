@@ -39,7 +39,6 @@ export default async function handler(
     }
 
     try {
-      const name = getSingleString(fields.name)
       const email = getSingleString(fields.email)
       const password = getSingleString(fields.password)
       const avatarFile = files.avatarUrl?.[0]
@@ -49,7 +48,6 @@ export default async function handler(
       }
 
       const createUserSchema = z.object({
-        name: z.string().min(1, 'Name is required'),
         email: z
           .string()
           .email('Invalid email')
@@ -70,7 +68,7 @@ export default async function handler(
           .regex(/[0-9]/, 'Password must contain at least one number'),
       })
 
-      await createUserSchema.parseAsync({ name, email, password })
+      await createUserSchema.parseAsync({ email, password })
 
       const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -85,7 +83,6 @@ export default async function handler(
 
       const user = await prisma.user.create({
         data: {
-          name,
           email,
           password: hashedPassword,
           avatarUrl: `/users/images/${avatarFile.originalFilename}`,

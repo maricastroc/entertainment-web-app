@@ -16,23 +16,22 @@ export const {
       gray100: '#F8F9FC',
       gray300: '#D1D6E4',
       gray400: '#AFB3BC',
-      gray600: '#252D4A',
 
       red300: '#FC4747',
-
       green500: '#0F766E',
-      green100: '#50B2C0',
-      purple50: '#B2AFF0',
-      purple80: '#7f7cff',
-      purple100: '#8381D9',
 
-      blue400: '#7493C4',
-      blue500: '#0E7490',
-      blue600: '#486399',
-      blue650: '#4E5C72',
+      blue500: '#1085A0',
+      blue600: '#5A698F',
       blue700: '#161D2F',
       blue800: '#10141E',
-      blue900: '#0E1116',
+    },
+
+    fontSizes: {
+      headingLg: '2rem',
+      headingMd: '1.5rem',
+      headingXs: '1.125rem',
+      bodyMd: '0.9375rem',
+      bodySm: '0.8125rem',
     },
   },
 })

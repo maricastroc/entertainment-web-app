@@ -7,6 +7,7 @@ export const Container = styled('div', {
   height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'auto',
 })
 
 export const LogoWrapper = styled('div', {

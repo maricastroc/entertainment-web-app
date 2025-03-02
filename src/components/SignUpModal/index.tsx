@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { Pencil, SignIn, User, X } from 'phosphor-react'
+import { Pencil, User, X } from 'phosphor-react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -21,9 +21,9 @@ import {
   Description,
 } from './styles'
 import { CustomLabel } from '@/components/Label'
-import { FormErrors } from '@/components/FormErrors'
+import { FormErrors } from '@/components/Core/FormErrors'
 import { InputContainer } from '@/components/InputContainer'
-import { CustomButton } from '@/components/Button'
+import { Button } from '@/components/Core/Button'
 import { api } from '@/lib/axios'
 import { handleApiError } from '@/utils/handleApiError'
 import toast from 'react-hot-toast'
@@ -197,9 +197,8 @@ export function SignUpModal({ onClose }: SignUpModalProps) {
               )}
             </InputContainer>
 
-            <CustomButton
+            <Button
               hasRoundedBorder
-              icon={<SignIn size={24} />}
               content="Sign Up"
               onClick={handleSubmit(handleCreateUser)}
               disabled={isSubmitting}

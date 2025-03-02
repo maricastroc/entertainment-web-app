@@ -7,7 +7,7 @@ export const StyledFormErrors = styled('div', {
   gap: '0.4rem',
 
   span: {
-    color: '#F75A68',
-    fontSize: '0.8rem',
+    color: '$red300',
+    fontSize: '$bodySm',
   },
 })
