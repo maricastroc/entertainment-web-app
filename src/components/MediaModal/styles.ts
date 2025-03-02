@@ -131,6 +131,7 @@ export const MovieContent = styled('div', {
   backgroundColor: '$blue700',
   borderRadius: '12px',
   padding: '1.5rem',
+  boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
   alignItems: 'center',
   width: '100%',
 
@@ -169,6 +170,27 @@ export const MovieImage = styled('img', {
   },
 })
 
+export const NotFoundImage = styled('div', {
+  width: 'clamp(10rem, 40vw, 12rem)',
+  height: 'auto',
+  minHeight: '20rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 8,
+  backgroundColor: '$blue800',
+  boxShadow: '0 8px 12px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
+
+  '@media (min-width: 680px)': {
+    width: 'clamp(11rem, 40vw, 12rem)',
+  },
+
+  p: {
+    color: 'white',
+    fontSize: '$bodyMd',
+  },
+})
+
 export const Separator = styled('span', {
   width: '100%',
   height: 1.5,
@@ -203,6 +225,7 @@ export const SynopsisContainer = styled('div', {
 
   '> p': {
     fontSize: '0.85rem',
+    paddingRight: '0.5rem',
     fontWeight: 300,
     color: '$gray100',
     lineHeight: '1.4rem',

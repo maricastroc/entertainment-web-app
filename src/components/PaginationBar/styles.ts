@@ -29,15 +29,17 @@ export const PrevButton = styled('button', {
     disabled: {
       true: {
         cursor: 'not-allowed',
+        pointerEvents: 'none',
       },
     },
   },
 
   svg: {
     marginRight: '0.5rem',
+    marginTop: '0.1rem',
   },
 
-  '&:not(:disabled):hover': {
+  '&:hover': {
     color: '$gray100',
     transition: 'all 200ms',
   },
@@ -61,17 +63,20 @@ export const NextButton = styled('button', {
     disabled: {
       true: {
         cursor: 'not-allowed',
+        opacity: 0.5,
+        pointerEvents: 'none',
       },
     },
   },
 
-  '&:not(:disabled):hover': {
+  '&:hover': {
     color: '$gray100',
     transition: 'all 200ms',
   },
 
   svg: {
     marginLeft: '0.5rem',
+    marginTop: '0.1rem',
   },
 })
 

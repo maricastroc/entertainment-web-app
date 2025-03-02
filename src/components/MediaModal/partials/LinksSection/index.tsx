@@ -15,17 +15,21 @@ interface Props {
 export function LinksSection({ mediaData, hasTrailer, handleClick }: Props) {
   return (
     <LinksContainer>
-      <LinkItem href={mediaData?.detail?.homepage} target="_blank">
-        <span>Website</span>
-        <FontAwesomeIcon icon={faLink} />
-      </LinkItem>
-      <LinkItem
-        href={`https://www.imdb.com/title/${mediaData?.detail?.imdb_id}`}
-        target="_blank"
-      >
-        <span>IMDB</span>
-        <Icon icon="bxl:imdb" color="white" />
-      </LinkItem>
+      {mediaData?.detail?.homepage && (
+        <LinkItem href={mediaData?.detail?.homepage} target="_blank">
+          <span>Website</span>
+          <FontAwesomeIcon icon={faLink} />
+        </LinkItem>
+      )}
+      {mediaData?.detail?.imdb_id && (
+        <LinkItem
+          href={`https://www.imdb.com/title/${mediaData?.detail?.imdb_id}`}
+          target="_blank"
+        >
+          <span>IMDB</span>
+          <Icon icon="bxl:imdb" color="white" />
+        </LinkItem>
+      )}
       {hasTrailer && (
         <LinkItem onClick={handleClick}>
           <span>Trailer</span>

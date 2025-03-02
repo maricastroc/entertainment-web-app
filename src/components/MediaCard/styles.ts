@@ -11,7 +11,7 @@ export const Container = styled('div', {
   position: 'relative',
 
   '&:hover': {
-    '& img': {
+    '& > img': {
       filter: 'brightness(0.6)',
     },
   },
@@ -27,13 +27,20 @@ export const BackgroundImage = styled('img', {
   boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.1)',
 })
 
-export const NotFoundImage = styled('img', {
+export const NotFound = styled('div', {
   width: '100%',
   aspectRatio: '1 / 1',
   borderRadius: 8,
-  filter: 'blur(2px)',
-  objectFit: 'cover',
+  backgroundColor: '$blue700',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   maxHeight: 140,
+
+  p: {
+    color: 'white',
+    fontSize: '$bodySm',
+  },
 })
 
 export const CardInfo = styled('div', {
@@ -56,9 +63,8 @@ export const CardInfoData = styled('div', {
     fontSize: '0.75rem',
     fontWeight: 300,
 
-    svg: {
-      color: '$gray300',
-      fontSize: '0.75rem',
+    img: {
+      marginTop: '0.2rem',
       marginRight: '0.4rem',
     },
   },

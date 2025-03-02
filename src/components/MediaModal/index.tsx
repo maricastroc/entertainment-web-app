@@ -15,6 +15,7 @@ import {
   OverlayBackground,
   MovieImageWrapper,
   SaveBtn,
+  NotFoundImage,
 } from './styles'
 
 import {
@@ -300,44 +301,56 @@ export default function MediaModal({
           <MovieContainer>
             <MovieContent>
               <MovieInfo>
-                <MovieImageWrapper>
-                  <MovieImage
-                    src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
-                  />
-                  <SaveBtn
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    onClick={() => {
-                      if (isInUserList) {
-                        deleteMedia()
-                      } else {
-                        saveMedia()
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={
-                        isHovered || isInUserList
-                          ? faBookmarkSolid
-                          : faBookmarkRegular
-                      }
+                {mediaData?.detail?.poster_path ? (
+                  <MovieImageWrapper>
+                    <MovieImage
+                      src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
                     />
-                  </SaveBtn>
-                </MovieImageWrapper>
+                    <SaveBtn
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                      onClick={() => {
+                        if (isInUserList) {
+                          deleteMedia()
+                        } else {
+                          saveMedia()
+                        }
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={
+                          isHovered || isInUserList
+                            ? faBookmarkSolid
+                            : faBookmarkRegular
+                        }
+                      />
+                    </SaveBtn>
+                  </MovieImageWrapper>
+                ) : (
+                  <MovieImageWrapper>
+                    <NotFoundImage>
+                      <p>Not found</p>
+                    </NotFoundImage>
+                  </MovieImageWrapper>
+                )}
                 <DetailsSection media={media} mediaData={mediaData} />
               </MovieInfo>
-              <Separator />
-              <VisibleSeparator />
-              <SynopsisContainer>
-                <p>{mediaData?.detail?.overview || 'N/A'}</p>
-                <Separator />
-                <VisibleSeparator />
-                <LinksSection
-                  hasTrailer={trailerLink?.length > 0}
-                  mediaData={mediaData}
-                  handleClick={() => setIsTrailerModalOpen(true)}
-                />
-              </SynopsisContainer>
+              {mediaData?.detail?.overview && (
+                <>
+                  <Separator />
+                  <VisibleSeparator />
+                  <SynopsisContainer>
+                    <p>{mediaData?.detail?.overview}</p>
+                    <Separator />
+                    <VisibleSeparator />
+                    <LinksSection
+                      hasTrailer={trailerLink?.length > 0}
+                      mediaData={mediaData}
+                      handleClick={() => setIsTrailerModalOpen(true)}
+                    />
+                  </SynopsisContainer>
+                </>
+              )}
             </MovieContent>
 
             {similarMedias && similarMedias?.length > 0 && (

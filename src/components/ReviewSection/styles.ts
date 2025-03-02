@@ -3,9 +3,9 @@ import { styled } from '@/styles'
 export const ReviewsContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: '1.4rem',
   width: '100%',
-  marginTop: '2rem',
+  marginTop: '2.5rem',
 
   '> h2': {
     fontSize: '1.2rem',
@@ -24,6 +24,7 @@ export const ReviewCard = styled('div', {
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   backgroundColor: '$blue700',
+  boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
   padding: '1.2rem',
   borderRadius: 8,
   width: '100%',

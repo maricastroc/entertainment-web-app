@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   BackgroundImage,
   CardInfo,
@@ -7,8 +6,10 @@ import {
   Container,
   NotFoundImage,
 } from './styles'
-import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
+import IconMovie from '../../../public/assets/icon-category-movie.svg'
+import IconTv from '../../../public/assets/icon-category-tv.svg'
 import { getFullYear } from '@/utils/getFullYear'
+import Image from 'next/image'
 
 export interface SimilarCardProps {
   backdrop_path?: string
@@ -47,12 +48,12 @@ export function SimilarCard({
           <span>•</span>
           {media_type === 'movie' ? (
             <p>
-              <FontAwesomeIcon icon={faFilm} />
+              <Image alt="" src={IconMovie} />
               Movie
             </p>
           ) : (
             <p>
-              <FontAwesomeIcon icon={faTv} />
+              <Image alt="" src={IconTv} />
               TV Series
             </p>
           )}

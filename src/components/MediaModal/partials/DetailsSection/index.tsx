@@ -25,35 +25,40 @@ export function DetailsSection({ media, mediaData }: Props) {
   return (
     <MovieDetails>
       <Heading>
-        <h2>{mediaData?.detail?.original_title || mediaData?.detail?.name}</h2>
+        <h2>
+          {mediaData?.detail?.original_title ||
+            mediaData?.detail?.name ||
+            'N/A'}
+        </h2>
         <p>{mediaData?.detail?.tagline}</p>
       </Heading>
       <Separator />
       <MovieDetailsWrapper>
-        <RatingContainer>
-          <p>
-            {convertRatingTo5Scale(mediaData?.detail?.vote_average).toFixed(2)}
-          </p>
-          <RatingWrapper>
-            <StarsRating
-              rating={convertRatingTo5Scale(mediaData?.detail?.vote_average)}
-            />
-            <span>({mediaData?.detail?.vote_count} ratings)</span>
-          </RatingWrapper>
-        </RatingContainer>
+        {mediaData?.detail?.vote_average && (
+          <RatingContainer>
+            <p>
+              {convertRatingTo5Scale(mediaData?.detail?.vote_average).toFixed(
+                2,
+              )}
+            </p>
+            <RatingWrapper>
+              <StarsRating
+                rating={convertRatingTo5Scale(mediaData?.detail?.vote_average)}
+              />
+              <span>({mediaData?.detail?.vote_count} ratings)</span>
+            </RatingWrapper>
+          </RatingContainer>
+        )}
         <Separator />
         <GeneralInfoSection media={media} mediaData={mediaData} />
         <Separator />
         <GenresContainer>
           <h2>Genres</h2>
           <GenresContent>
-            {mediaData?.detail?.genres?.length > 0 ? (
+            {mediaData?.detail?.genres?.length > 0 &&
               mediaData?.detail?.genres?.map((genre) => {
                 return <GenreItem key={genre.id}>{genre.name}</GenreItem>
-              })
-            ) : (
-              <p>N/A</p>
-            )}
+              })}
           </GenresContent>
         </GenresContainer>
       </MovieDetailsWrapper>

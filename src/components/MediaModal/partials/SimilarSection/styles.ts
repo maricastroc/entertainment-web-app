@@ -3,9 +3,9 @@ import { styled } from '@/styles'
 export const SimilarContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
   width: '100%',
-  marginTop: '2rem',
+  marginTop: '2.5rem',
+  scrollPaddingBottom: '2rem',
 
   '> h2': {
     fontSize: '1.2rem',
@@ -34,12 +34,13 @@ export const SimilarContainer = styled('div', {
 
 export const SimilarContent = styled('div', {
   display: 'flex',
-  overflowX: 'scroll',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  backgroundColor: '$blue700',
+  overflowX: 'scroll',
+  backgroundColor: 'transparent',
   borderRadius: '12px',
   padding: '1.5rem',
+  paddingLeft: 0,
   gap: '1.5rem',
   width: '100%',
 })

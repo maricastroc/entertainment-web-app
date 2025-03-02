@@ -18,7 +18,7 @@ export const Container = styled('div', {
   cursor: 'pointer',
 
   '&:hover': {
-    '& img': {
+    '& > img': {
       filter: 'brightness(0.6)',
     },
   },
@@ -62,9 +62,8 @@ export const CardInfoData = styled('div', {
     fontSize: '0.75rem',
     fontWeight: 300,
 
-    svg: {
-      color: '$gray300',
-      fontSize: '0.75rem',
+    img: {
+      marginTop: '0.2rem',
       marginRight: '0.4rem',
     },
   },

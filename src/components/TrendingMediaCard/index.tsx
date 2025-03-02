@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   BackgroundImage,
   CardInfo,
@@ -8,10 +7,12 @@ import {
   Container,
   Wrapper,
 } from './styles'
-import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
+import IconMovie from '../../../public/assets/icon-category-movie.svg'
+import IconTv from '../../../public/assets/icon-category-tv.svg'
 import { getFullYear } from '@/utils/getFullYear'
 import { MediaCardProps } from '@/pages/home/index.page'
 import Loading from '../Loading'
+import Image from 'next/image'
 
 export function TrendingMediaCard({
   backdrop_path,
@@ -44,12 +45,12 @@ export function TrendingMediaCard({
               <span>•</span>
               {media_type === 'movie' ? (
                 <p>
-                  <FontAwesomeIcon icon={faFilm} />
+                  <Image alt="" src={IconMovie} />
                   Movie
                 </p>
               ) : (
                 <p>
-                  <FontAwesomeIcon icon={faTv} />
+                  <Image alt="" src={IconTv} />
                   TV Series
                 </p>
               )}
