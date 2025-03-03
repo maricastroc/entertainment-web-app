@@ -30,7 +30,7 @@ export default function Bookmark() {
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-  const { data, mutate, isValidating } = useRequest<UserProps | null>({
+  const { data, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
   })
@@ -73,11 +73,7 @@ export default function Bookmark() {
                     <MediaModal
                       media_type={'movie'}
                       id={selectedMediaId}
-                      savedMovies={
-                        data?.savedMovies?.map((movie) => movie.id) || null
-                      }
                       onClose={() => setIsMovieMediaModalOpen(false)}
-                      mutate={mutate}
                     />
                   )}
                 </Dialog.Root>
@@ -112,12 +108,8 @@ export default function Bookmark() {
                   {isSeriesMediaModalOpen && selectedMediaId && (
                     <MediaModal
                       media_type={'tv'}
-                      savedSeries={
-                        data?.savedSeries?.map((series) => series.id) || null
-                      }
                       id={selectedMediaId}
                       onClose={() => setIsSeriesMediaModalOpen(false)}
-                      mutate={mutate}
                     />
                   )}
                 </MediaContent>

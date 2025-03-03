@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 
 import {
@@ -41,13 +40,12 @@ import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons
 import { handleApiError } from '@/utils/handleApiError'
 import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
+import useRequest from '@/utils/useRequest'
+import { UserProps } from '@/types/user'
 
 interface Props {
   id: string
   media_type: string
-  savedSeries?: string[] | null
-  savedMovies?: string[] | null
-  mutate?: any
   onClose: () => void
 }
 
@@ -94,14 +92,7 @@ export interface ReviewDataProps {
   total_results: number
 }
 
-export default function MediaModal({
-  id,
-  media_type,
-  savedMovies = null,
-  savedSeries = null,
-  mutate,
-  onClose,
-}: Props) {
+export default function MediaModal({ id, media_type, onClose }: Props) {
   const [isHovered, setIsHovered] = useState(false)
 
   const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
@@ -121,6 +112,11 @@ export default function MediaModal({
   const [isInUserList, setIsInUserList] = useState(false)
 
   const media = media_type === 'movie' ? 'movie' : 'tv'
+
+  const { data, mutate } = useRequest<UserProps | null>({
+    url: '/profile',
+    method: 'GET',
+  })
 
   async function saveMedia() {
     try {
@@ -276,12 +272,16 @@ export default function MediaModal({
   }, [updatedId, media])
 
   useEffect(() => {
-    if (savedMovies && media === 'movie') {
-      setIsInUserList(savedMovies.includes(id))
-    } else if (savedSeries && media === 'tv') {
-      setIsInUserList(savedSeries.includes(id))
+    if (data?.savedMovies && media === 'movie') {
+      const savedMovies = data?.savedMovies?.map((movie) => movie.id)
+
+      setIsInUserList(savedMovies.includes(String(id)))
+    } else if (data?.savedSeries && media === 'tv') {
+      const savedSeries = data?.savedSeries?.map((movie) => movie.id)
+
+      setIsInUserList(savedSeries.includes(String(id)))
     }
-  }, [media, id, savedMovies, savedSeries])
+  }, [media, id, data?.savedMovies, data?.savedSeries])
 
   return isTrailerModalOpen && trailerLink?.length > 0 ? (
     <TrailerSection
