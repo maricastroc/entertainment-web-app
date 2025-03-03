@@ -73,24 +73,22 @@ export const Header = styled('div', {
 
 export const CloseButton = styled('button', {
   cursor: 'pointer',
+  zIndex: 1,
   backgroundColor: '$blue800',
   border: '1px solid $gray300',
   color: '$gray300',
-  padding: '0.15rem',
+  padding: '0.2rem',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 8,
   opacity: 0.7,
-  transition: '200ms',
+  marginTop: '-0.5rem',
+  marginRight: '-0.5rem',
 
   svg: {
-    fontSize: '1rem',
+    fontSize: '1.2rem',
     color: '$gray400',
-  },
-
-  '&:hover': {
-    color: 'white',
   },
 })
 
@@ -100,13 +98,11 @@ export const InfoContainer = styled('div', {
   alignItems: 'flex-start',
   justifyContent: 'center',
   gap: '0.55rem',
-  borderBottom: '1px solid $blue650',
-  paddingBottom: '2rem',
-  marginBottom: '1.8rem',
   width: '100%',
 
   h2: {
     fontWeight: 400,
+    fontSize: '$headingMd',
   },
 })
 
@@ -129,5 +125,19 @@ export const InfoData = styled('div', {
   span: {
     color: '$gray300',
     margin: '0 0.5rem',
+  },
+})
+
+export const Divider = styled('span', {
+  backgroundColor: '$blue600',
+  height: 0.5,
+  color: '$blue600',
+  width: '100%',
+  marginTop: '1.5rem',
+  marginBottom: '1.5rem',
+
+  '@media (min-width: 680px)': {
+    marginTop: '2rem',
+    marginBottom: '2.5rem',
   },
 })

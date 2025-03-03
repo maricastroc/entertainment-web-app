@@ -120,13 +120,42 @@ export default function Search({ data, id, page }: SearchProps) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id, page } = context.query
-  const url = search(String(id), String(page))
-  const response = await fetch(url)
-  const data = await response.json()
+  let currentPage = Number(page) || 1
+  let results: SearchResultItemProps[] = []
+  let totalResults = 0
+
+  while (results.length < 20) {
+    const url = search(String(id), String(currentPage))
+    const response = await fetch(url)
+    const data = await response.json()
+
+    const filteredResults = data.results.filter(
+      (item: SearchResultItemProps) => item.media_type !== 'person',
+    )
+
+    results = [...results, ...filteredResults]
+
+    if (currentPage === 1) {
+      totalResults = filteredResults.length
+    } else {
+      totalResults += filteredResults.length
+    }
+
+    // Se não houver mais páginas, saia do loop
+    if (currentPage >= data.total_pages) break
+
+    currentPage++
+  }
+
+  const totalPages = Math.ceil(totalResults / 20) // Recalculando corretamente o total de páginas
 
   return {
     props: {
-      data,
+      data: {
+        total_results: totalResults,
+        total_pages: totalPages,
+        results,
+      },
       id,
       page,
     },

@@ -113,7 +113,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   const media = media_type === 'movie' ? 'movie' : 'tv'
 
-  const { data, mutate } = useRequest<UserProps | null>({
+  const { data, mutate, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
   })
@@ -293,11 +293,11 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   ) : (
     <LateralMenuWrapper>
       <OverlayBackground onClick={onClose} />
-      <CloseButton onClick={onClose}>
-        <X />
-      </CloseButton>
       {mediaData?.detail ? (
         <Wrapper>
+          <CloseButton onClick={onClose}>
+            <X />
+          </CloseButton>
           <MovieContainer>
             <MovieContent>
               <MovieInfo>
@@ -363,7 +363,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
             <ReviewSection results={reviewData?.results} />
 
-            {isLoading && <LoadingComponent hasOverlay />}
+            {(isLoading || isValidating) && <LoadingComponent hasOverlay />}
           </MovieContainer>
         </Wrapper>
       ) : (

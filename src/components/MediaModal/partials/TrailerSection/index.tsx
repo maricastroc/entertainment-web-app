@@ -1,6 +1,7 @@
 import {
   CloseButton,
   Content,
+  Divider,
   Header,
   InfoContainer,
   InfoData,
@@ -57,9 +58,10 @@ export function TrailerSection({
             </h2>
           </InfoContainer>
           <CloseButton onClick={onClose}>
-            <X size={16} />
+            <X />
           </CloseButton>
         </Header>
+        <Divider />
         <iframe
           src={`https://www.youtube.com/embed/${trailerLink}?autoplay=1&showinfo=0&rel=0&modestbranding=1&`}
           title="Trailer"
