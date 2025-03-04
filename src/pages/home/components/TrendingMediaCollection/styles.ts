@@ -30,7 +30,7 @@ export const CaretRightIcon = styled('div', {
   top: '50%',
   zIndex: 997,
   color: '$gray300',
-  fontSize: 24,
+  fontSize: 30,
 
   '@media (min-width: 640px)': {
     fontSize: 36,
@@ -49,7 +49,7 @@ export const CaretLeftIcon = styled('div', {
   zIndex: 997,
   opacity: 0.85,
   color: '$gray300',
-  fontSize: 24,
+  fontSize: 30,
 
   '@media (min-width: 640px)': {
     fontSize: 36,
