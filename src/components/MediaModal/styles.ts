@@ -37,7 +37,7 @@ export const OverlayBackground = styled('div', {
 
 export const CloseButton = styled('button', {
   cursor: 'pointer',
-  position: 'absolute',
+  position: 'fixed',
   zIndex: 1,
   top: '5%',
   left: '92%',
@@ -50,7 +50,7 @@ export const CloseButton = styled('button', {
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 8,
-  opacity: 0.7,
+  opacity: 0.8,
 
   svg: {
     fontSize: '1.2rem',
@@ -59,7 +59,7 @@ export const CloseButton = styled('button', {
 
   '@media (min-width: 580px)': {
     top: '6%',
-    left: '92%',
+    left: '96.5%',
   },
 })
 
