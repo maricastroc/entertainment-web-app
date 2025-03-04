@@ -12,7 +12,7 @@ import {
   movieTopRated,
 } from '../../lib/tmdb'
 
-import { Container, MainContent, ScrollableContainer, Wrapper } from './styles'
+import { Container, MainContent, Wrapper } from './styles'
 
 import { Header } from '@/components/Header'
 import { SearchBar } from '@/components/SearchBar'
@@ -220,17 +220,15 @@ export default function Home({
                   endpoint={endpoint}
                 />
               ))}
-              <ScrollableContainer>
-                {mediaTrendingSeriesLists.map(({ title, items }) => (
-                  <TrendingMediaCollection
-                    withTopMargin
-                    key={title}
-                    title={title}
-                    items={items}
-                    media_type="TV series"
-                  />
-                ))}
-              </ScrollableContainer>
+              {mediaTrendingSeriesLists.map(({ title, items }) => (
+                <TrendingMediaCollection
+                  withTopMargin
+                  key={title}
+                  title={title}
+                  items={items}
+                  media_type="TV series"
+                />
+              ))}
               {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
                 <MediaList
                   key={title}

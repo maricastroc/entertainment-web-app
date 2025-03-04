@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { MediaCardProps } from '../../index.page'
 import {
+  CaretLeftIcon,
+  CaretRightIcon,
   MediaHeader,
   MediaTag,
   MediaTitle,
@@ -10,8 +12,9 @@ import {
 import { TrendingMediaCard } from '@/components/TrendingMediaCard'
 import { ScrollableContainer } from '../../styles'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import MediaModal from '@/components/MediaModal'
+import { CaretLeft, CaretRight } from 'phosphor-react'
 
 interface TrendingMediaCollectionProps {
   title: string
@@ -28,6 +31,8 @@ export default function TrendingMediaCollection({
 }: TrendingMediaCollectionProps) {
   const router = useRouter()
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
@@ -42,6 +47,18 @@ export default function TrendingMediaCollection({
       : await router.push(`${seriesPath}/1`)
   }
 
+  function handleScrollRight() {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 450, behavior: 'smooth' })
+    }
+  }
+
+  function handleScrollLeft() {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -450, behavior: 'smooth' })
+    }
+  }
+
   return (
     <TrendingContainer className={withTopMargin ? 'with_top_margin' : ''}>
       <MediaHeader>
@@ -53,7 +70,10 @@ export default function TrendingMediaCollection({
         </MediaTitle>
         <button onClick={handleGoToTrendingMedia}>See More</button>
       </MediaHeader>
-      <ScrollableContainer>
+      <ScrollableContainer ref={scrollContainerRef}>
+        <CaretLeftIcon onClick={handleScrollLeft}>
+          <CaretLeft />
+        </CaretLeftIcon>
         <TrendingContent>
           <Dialog.Root open={isMediaModalOpen}>
             {items.map((trendingCard: MediaCardProps) => {
@@ -86,6 +106,9 @@ export default function TrendingMediaCollection({
               />
             )}
           </Dialog.Root>
+          <CaretRightIcon onClick={handleScrollRight}>
+            <CaretRight />
+          </CaretRightIcon>
         </TrendingContent>
       </ScrollableContainer>
     </TrendingContainer>

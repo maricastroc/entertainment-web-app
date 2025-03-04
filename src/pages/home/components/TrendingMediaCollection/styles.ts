@@ -3,6 +3,7 @@ import { styled } from '../../../../styles'
 export const TrendingContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  position: 'relative',
   paddingBottom: '0.5rem',
 
   '&.with_top_margin': {
@@ -22,6 +23,43 @@ export const TrendingContainer = styled('div', {
   },
 })
 
+export const CaretRightIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  right: 0,
+  top: '50%',
+  zIndex: 997,
+  color: '$gray300',
+  fontSize: 24,
+
+  '@media (min-width: 640px)': {
+    fontSize: 36,
+  },
+
+  '@media (min-width: 920px)': {
+    fontSize: 42,
+  },
+})
+
+export const CaretLeftIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  left: 0,
+  top: '50%',
+  zIndex: 997,
+  opacity: 0.85,
+  color: '$gray300',
+  fontSize: 24,
+
+  '@media (min-width: 640px)': {
+    fontSize: 36,
+  },
+
+  '@media (min-width: 920px)': {
+    fontSize: 42,
+  },
+})
+
 export const TrendingContent = styled('div', {
   display: 'flex',
   overflowX: 'scroll',
@@ -31,7 +69,7 @@ export const TrendingContent = styled('div', {
   paddingBottom: '1rem',
 
   '@media (min-width: 640px)': {
-    gap: '2.5rem',
+    gap: '2rem',
   },
 })
 

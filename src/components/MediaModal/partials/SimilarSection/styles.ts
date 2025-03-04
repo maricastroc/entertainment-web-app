@@ -3,6 +3,7 @@ import { styled } from '@/styles'
 export const SimilarContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  position: 'relative',
   width: '100%',
   marginTop: '2.5rem',
   scrollPaddingBottom: '2rem',
@@ -43,4 +44,25 @@ export const SimilarContent = styled('div', {
   paddingLeft: 0,
   gap: '1.5rem',
   width: '100%',
+})
+
+export const CaretRightIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  right: 0,
+  top: '38%',
+  zIndex: 999,
+  color: '$gray100',
+  fontSize: 36,
+})
+
+export const CaretLeftIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  left: 0,
+  top: '38%',
+  zIndex: 999,
+  opacity: 0.85,
+  color: '$gray100',
+  fontSize: 36,
 })

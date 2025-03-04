@@ -1,5 +1,12 @@
 import { SimilarCard, SimilarCardProps } from '@/components/SimilarCard'
-import { SimilarContainer, SimilarContent } from './styles'
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  SimilarContainer,
+  SimilarContent,
+} from './styles'
+import { CaretLeft, CaretRight } from 'phosphor-react'
+import { useRef } from 'react'
 
 interface Props {
   media: string
@@ -8,10 +15,27 @@ interface Props {
 }
 
 export function SimilarSection({ similarMedias, media, handleClick }: Props) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  function handleScrollRight() {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 450, behavior: 'smooth' })
+    }
+  }
+
+  function handleScrollLeft() {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -450, behavior: 'smooth' })
+    }
+  }
+
   return (
     <SimilarContainer>
       <h2>You may also like</h2>
-      <SimilarContent>
+      <SimilarContent ref={scrollContainerRef}>
+        <CaretLeftIcon onClick={handleScrollLeft}>
+          <CaretLeft />
+        </CaretLeftIcon>
         {similarMedias &&
           similarMedias.map((item) => {
             return (
@@ -26,6 +50,9 @@ export function SimilarSection({ similarMedias, media, handleClick }: Props) {
               />
             )
           })}
+        <CaretRightIcon onClick={handleScrollRight}>
+          <CaretRight />
+        </CaretRightIcon>
       </SimilarContent>
     </SimilarContainer>
   )
