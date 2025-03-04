@@ -33,6 +33,11 @@ export const Heading = styled('div', {
     fontSize: '1.5rem',
     fontWeight: 300,
     textAlign: 'center',
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 3,
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
   },
 
   '> p': {
