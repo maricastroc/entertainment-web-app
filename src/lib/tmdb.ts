@@ -56,7 +56,7 @@ export function getTvCasts(id: string) {
   return `${TMDB_ENDPOINT}/tv/${id}/credits?api_key=${TMDB_API_KEY}`
 }
 
-export function geTvSimilars(id: string) {
+export function getTvSimilars(id: string) {
   return `${TMDB_ENDPOINT}/movie/${id}/recommendations?api_key=${TMDB_API_KEY}`
 }
 
