@@ -7,25 +7,33 @@ import {
   InfoData,
   OverlayBackground,
   Wrapper,
+  CastCard,
+  CastContainer,
+  CastInfo,
+  CastWrapper,
 } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
-import { DetailProps } from '../..'
+import { CastCardProps, DetailProps } from '../..'
 import { X } from 'phosphor-react'
 
 interface Props {
   media: string
-  trailerLink: string
+  type: 'trailer' | 'cast'
+  trailerLink?: string
   mediaData: {
     detail: DetailProps | undefined
   }
+  castData?: CastCardProps[] | []
   onClose: () => void
 }
 
-export function TrailerSection({
+export function ModalSection({
   media,
   mediaData,
   trailerLink,
+  castData,
+  type,
   onClose,
 }: Props) {
   return (
@@ -62,13 +70,43 @@ export function TrailerSection({
           </CloseButton>
         </Header>
         <Divider />
-        <iframe
-          src={`https://www.youtube.com/embed/${trailerLink}?autoplay=1&showinfo=0&rel=0&modestbranding=1&`}
-          title="Trailer"
-          frameBorder={0}
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        />
+        {type === 'trailer' && (
+          <iframe
+            src={`https://www.youtube.com/embed/${trailerLink}?autoplay=1&showinfo=0&rel=0&modestbranding=1&`}
+            title="Trailer"
+            frameBorder={0}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+        )}
+
+        {type === 'cast' && (
+          <CastWrapper>
+            <h2>Cast</h2>
+            <CastContainer>
+              {castData?.map((item, index) => {
+                return (
+                  <CastCard key={index}>
+                    <div>
+                      <img
+                        src={
+                          item?.profile_path
+                            ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
+                            : 'https://github.com/octocat.png'
+                        }
+                        alt={item?.name || 'Imagem de perfil'}
+                      />
+                    </div>
+                    <CastInfo>
+                      <p>{item.name}</p>
+                      <span>{item.character}</span>
+                    </CastInfo>
+                  </CastCard>
+                )
+              })}
+            </CastContainer>
+          </CastWrapper>
+        )}
       </Content>
     </Wrapper>
   )

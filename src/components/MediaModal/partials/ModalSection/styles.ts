@@ -141,3 +141,76 @@ export const Divider = styled('span', {
     marginBottom: '2.5rem',
   },
 })
+
+export const CastWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  height: '80%',
+  width: '100%',
+  gap: '1rem',
+  overflowY: 'scroll',
+
+  '> h2': {
+    fontSize: '1.2rem',
+    fontWeight: 300,
+    color: '$gray100',
+  },
+})
+
+export const CastContainer = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  alignSelf: 'flex-start',
+  gap: '1rem',
+  width: '100%',
+  paddingRight: '1rem',
+
+  '@media (min-width: 360px)': {
+    gridTemplateColumns: '1fr 1fr',
+  },
+})
+
+export const CastCard = styled('div', {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: '100%',
+  gap: '0.7rem',
+  backgroundColor: '$blue800',
+  boxShadow: '0 2px 3px rgba(0, 0, 0, 0.4), 0 3px 8px rgba(0, 0, 0, 0.2)',
+  padding: '0.8rem',
+  borderRadius: 8,
+
+  img: {
+    display: 'block',
+    overflow: 'hidden',
+    outline: '1.5px solid $blue500',
+    outlineOffset: 2,
+    objectFit: 'cover',
+    borderRadius: '50%',
+    width: 42,
+    height: 42,
+    opacity: 0.85,
+  },
+})
+
+export const CastInfo = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  gap: '0.1rem',
+  width: '100%',
+
+  p: {
+    fontSize: '0.85rem',
+    fontWeight: 500,
+  },
+
+  '> span': {
+    fontSize: '0.85rem',
+    color: '$gray300',
+  },
+})

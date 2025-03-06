@@ -24,6 +24,8 @@ import {
   getTvReviews,
   getMovieVideos,
   getTvVideos,
+  getMovieCredits,
+  getTvCredits,
 } from '@/lib/tmdb'
 import { ReviewProps } from '@/types/review'
 import { SimilarCardProps } from '@/components/SimilarCard'
@@ -32,7 +34,7 @@ import { ReviewSection } from '../ReviewSection'
 import { SimilarSection } from './partials/SimilarSection'
 import { LinksSection } from './partials/LinksSection'
 import { DetailsSection } from './partials/DetailsSection'
-import { TrailerSection } from './partials/TrailerSection'
+import { ModalSection } from './partials/ModalSection'
 import { LoadingComponent } from '../LoadingComponent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
@@ -42,6 +44,7 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 import useRequest from '@/utils/useRequest'
 import { UserProps } from '@/types/user'
+import { CastSection } from './partials/CastSection'
 
 interface Props {
   id: string
@@ -92,8 +95,16 @@ export interface ReviewDataProps {
   total_results: number
 }
 
+export interface CastCardProps {
+  profile_path: string
+  name: string
+  character: string
+}
+
 export default function MediaModal({ id, media_type, onClose }: Props) {
   const [isHovered, setIsHovered] = useState(false)
+
+  const [castData, setCastData] = useState<CastCardProps[] | []>([])
 
   const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
 
@@ -106,6 +117,8 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   const [trailerLink, setTrailerLink] = useState('')
 
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false)
+
+  const [isCastModalOpen, setIsCastModalOpen] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -171,94 +184,85 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   useEffect(() => {
     if (!updatedId) return
 
-    fetch(`/api/${media}/${updatedId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMediaData(data)
-      })
-      .catch((error) => {
-        console.error('Error getting details:', error)
-      })
-  }, [updatedId, media])
-
-  useEffect(() => {
-    if (!updatedId) return
-
-    async function fetchReviews() {
+    async function fetchData() {
       try {
-        const response = await fetch(
+        const detailsResponse = await fetch(`/api/${media}/${updatedId}`)
+
+        const detailsData = await detailsResponse.json()
+
+        setMediaData(detailsData)
+
+        const reviewsResponse = await fetch(
           media === 'movie'
             ? getMovieReviews(updatedId as string)
             : getTvReviews(updatedId as string),
         )
 
-        if (!response.ok) {
-          throw new Error('Error getting movie reviews')
+        if (!reviewsResponse.ok) {
+          toast.error('Error during reviews loading!')
         }
 
-        const data = await response.json()
+        const reviewsData = await reviewsResponse.json()
 
-        setReviewData(data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+        setReviewData(reviewsData)
 
-    fetchReviews()
-  }, [updatedId, media])
-
-  useEffect(() => {
-    if (!updatedId) return
-
-    async function fetchSimilarMedias() {
-      try {
-        const response = await fetch(
-          `${
-            media === 'movie'
-              ? getMovieSimilars(updatedId as string)
-              : getTvSimilars(updatedId as string)
-          }`,
+        const similarResponse = await fetch(
+          media === 'movie'
+            ? getMovieSimilars(updatedId as string)
+            : getTvSimilars(updatedId as string),
         )
 
-        if (!response.ok) {
-          throw new Error('Error getting similar movies')
+        if (!similarResponse.ok) {
+          throw new Error('Error during recommendations loading!')
         }
 
-        const data = await response.json()
+        const similarData = await similarResponse.json()
 
-        const similarMedias = data?.results?.filter(
+        const filteredSimilar = similarData?.results?.filter(
           (item: SimilarCardProps) => item.backdrop_path !== null,
         )
 
-        setSimilarMedias(similarMedias.slice(0, 5))
+        setSimilarMedias(filteredSimilar.slice(0, 5))
       } catch (error) {
-        console.error(error)
+        console.error('Error loading data:', error)
       }
     }
 
-    fetchSimilarMedias()
+    fetchData()
   }, [updatedId, media])
 
   useEffect(() => {
     if (!updatedId) return
 
-    async function fetchTrailerLink() {
+    async function fetchCreditsAndTrailer() {
       try {
-        const response = await fetch(
-          `${
-            media === 'movie'
-              ? getMovieVideos(updatedId as string)
-              : getTvVideos(updatedId as string)
-          }`,
+        const creditsResponse = await fetch(
+          media === 'movie'
+            ? getMovieCredits(updatedId as string)
+            : getTvCredits(updatedId as string),
         )
 
-        if (!response.ok) {
-          throw new Error('Error getting trailer link')
+        if (!creditsResponse.ok) {
+          toast.error('Error loading credits')
         }
 
-        const data = await response.json()
+        const creditsData = await creditsResponse.json()
 
-        const trailer = data?.results
+        console.log(creditsData)
+        setCastData(creditsData.cast)
+
+        const trailerResponse = await fetch(
+          media === 'movie'
+            ? getMovieVideos(updatedId as string)
+            : getTvVideos(updatedId as string),
+        )
+
+        if (!trailerResponse.ok) {
+          toast.error('Error loading trailer')
+        }
+
+        const trailerData = await trailerResponse.json()
+        const trailer = trailerData?.results
           ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
           .slice(0, 1)
 
@@ -268,7 +272,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
       }
     }
 
-    fetchTrailerLink()
+    fetchCreditsAndTrailer()
   }, [updatedId, media])
 
   useEffect(() => {
@@ -283,12 +287,18 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     }
   }, [media, id, data?.savedMovies, data?.savedSeries])
 
-  return isTrailerModalOpen && trailerLink?.length > 0 ? (
-    <TrailerSection
+  return (isTrailerModalOpen && trailerLink?.length > 0) ||
+    (isCastModalOpen && castData?.length > 0) ? (
+    <ModalSection
+      type={isTrailerModalOpen ? 'trailer' : 'cast'}
       media={media}
       mediaData={mediaData as MediaDataProps}
       trailerLink={trailerLink}
-      onClose={() => setIsTrailerModalOpen(false)}
+      castData={castData}
+      onClose={() => {
+        setIsTrailerModalOpen(false)
+        setIsCastModalOpen(false)
+      }}
     />
   ) : (
     <LateralMenuWrapper>
@@ -352,6 +362,13 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
                 </>
               )}
             </MovieContent>
+
+            {castData?.length > 0 && (
+              <CastSection
+                handleOpenModal={() => setIsCastModalOpen(true)}
+                castData={castData}
+              />
+            )}
 
             {similarMedias && similarMedias?.length > 0 && (
               <SimilarSection
