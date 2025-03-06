@@ -19,13 +19,13 @@ export function SimilarSection({ similarMedias, media, handleClick }: Props) {
 
   function handleScrollRight() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 450, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: 200, behavior: 'smooth' })
     }
   }
 
   function handleScrollLeft() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -450, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' })
     }
   }
 

@@ -1,12 +1,16 @@
 import { styled } from '../../styles'
 
 export const Container = styled('div', {
-  margin: '1.5rem 0',
+  margin: '0.5rem 0 1.5rem',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'stretch',
   gap: '1rem',
   width: '100%',
+
+  '@media (min-width: 1024px)': {
+    margin: '1.5rem 0',
+  },
 })
 
 export const SearchContent = styled('div', {
@@ -30,7 +34,7 @@ export const SearchInput = styled('input', {
   backgroundColor: '$blue800',
   width: '100%',
   color: '$white',
-  fontSize: '0.9rem',
+  fontSize: '0.95rem',
   padding: '0.7rem',
   border: 'none',
   borderBottom: '2px solid transparent',

@@ -49,13 +49,13 @@ export default function TrendingMediaCollection({
 
   function handleScrollRight() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 450, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: 250, behavior: 'smooth' })
     }
   }
 
   function handleScrollLeft() {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -450, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: -250, behavior: 'smooth' })
     }
   }
 
