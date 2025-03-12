@@ -6,8 +6,6 @@ import {
   MediaContent,
   MovieImage,
   MediaInfo,
-  Separator,
-  VisibleSeparator,
   Wrapper,
   LateralMenuWrapper,
   OverlayBackground,
@@ -16,7 +14,8 @@ import {
 } from './styles'
 import { X } from 'phosphor-react'
 import { LoadingComponent } from '../LoadingComponent'
-import { MediaDetailsProps } from '@/types/media-details'
+import { PersonDataProps } from '@/types/person-data'
+import { DetailsSection } from './DetailsSection'
 
 interface Props {
   id: string
@@ -25,7 +24,7 @@ interface Props {
 }
 
 export default function PersonModal({ id, media_type, onClose }: Props) {
-  const [mediaData, setMediaData] = useState<MediaDetailsProps | undefined>()
+  const [personData, setPersonData] = useState<PersonDataProps | undefined>()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -36,11 +35,11 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
       try {
         setIsLoading(true)
 
-        const detailsResponse = await fetch(`/api/person/${id}`)
+        const response = await fetch(`/api/person/${id}`)
 
-        const detailsData = await detailsResponse.json()
+        const data = await response.json()
 
-        setMediaData(detailsData)
+        setPersonData(data?.detail)
       } catch (error) {
         console.error('Error loading data:', error)
       } finally {
@@ -54,7 +53,7 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
   return (
     <LateralMenuWrapper>
       <OverlayBackground onClick={onClose} />
-      {mediaData ? (
+      {personData ? (
         <Wrapper>
           <CloseButton onClick={onClose}>
             <X />
@@ -62,12 +61,10 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
           <MediaContainer>
             <MediaContent>
               <MediaInfo>
-                {mediaData?.poster_path || mediaData?.profile_path ? (
+                {personData?.profile_path ? (
                   <MovieImageWrapper>
                     <MovieImage
-                      src={`https://image.tmdb.org/t/p/original${
-                        mediaData?.poster_path || mediaData?.profile_path
-                      }`}
+                      src={`https://image.tmdb.org/t/p/original${personData?.profile_path}`}
                     />
                   </MovieImageWrapper>
                 ) : (
@@ -77,13 +74,9 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
                     </NotFoundImage>
                   </MovieImageWrapper>
                 )}
+
+                <DetailsSection personData={personData} />
               </MediaInfo>
-              {mediaData?.overview && (
-                <>
-                  <Separator />
-                  <VisibleSeparator />
-                </>
-              )}
             </MediaContent>
 
             {isLoading && <LoadingComponent hasOverlay />}

@@ -14,6 +14,7 @@ export const CastWrapper = styled('div', {
 export const CastContainer = styled('div', {
   display: 'flex',
   alignItems: 'stretch',
+  justifyContent: 'flex-start',
   overflowX: 'auto',
   gap: '0.7rem',
   width: '100%',

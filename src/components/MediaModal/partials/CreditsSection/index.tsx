@@ -43,7 +43,7 @@ export function CreditsSection({
     <CastWrapper>
       <CastHeader>
         <h2>{`${creditsType === 'cast' ? `Main Cast` : `Main Crew`}`}</h2>
-        <button onClick={handleOpenModal}>view all</button>
+        <button onClick={handleOpenModal}>see all credits</button>
       </CastHeader>
       <CastContainer ref={scrollContainerRef}>
         <CaretLeftIcon onClick={handleScrollLeft}>

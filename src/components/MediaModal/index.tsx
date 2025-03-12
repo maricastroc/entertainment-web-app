@@ -264,15 +264,6 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
               />
             )}
 
-            {crewData?.length > 0 && (
-              <CreditsSection
-                creditsType="crew"
-                castData={castData}
-                handleOpenModal={() => setIsCreditsModalOpen(true)}
-                crewData={crewData}
-              />
-            )}
-
             {similarMedias && similarMedias?.length > 0 && (
               <SimilarSection
                 media={media}

@@ -173,7 +173,7 @@ export const MovieImage = styled('img', {
 export const NotFoundImage = styled('div', {
   width: 'clamp(10rem, 40vw, 12rem)',
   height: 'auto',
-  minHeight: '20rem',
+  minHeight: '17rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

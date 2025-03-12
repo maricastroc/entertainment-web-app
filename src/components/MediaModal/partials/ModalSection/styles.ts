@@ -175,7 +175,7 @@ export const CastContainer = styled('div', {
   paddingRight: '1rem',
   height: '100%',
 
-  '@media (min-width: 360px)': {
+  '@media (min-width: 520px)': {
     gridTemplateColumns: '1fr 1fr',
   },
 })

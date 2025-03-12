@@ -11,6 +11,8 @@ import { MediaCardProps } from '@/pages/home/index.page'
 import IconMovie from '../../../public/assets/icon-category-movie.svg'
 import IconTv from '../../../public/assets/icon-category-tv.svg'
 import Image from 'next/image'
+import { faPerson } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function MediaCard({
   backdrop_path,
@@ -35,17 +37,33 @@ export function MediaCard({
         <CardInfoData>
           {first_air_date ? <p>{getFullYear(first_air_date)}</p> : <p>N/A</p>}
           <span>•</span>
-          {media_type === 'movie' ? (
-            <p>
-              <Image alt="" src={IconMovie} />
-              Movie
-            </p>
-          ) : (
-            <p>
-              <Image alt="" src={IconTv} />
-              TV Series
-            </p>
-          )}
+          {(() => {
+            switch (media_type) {
+              case 'movie':
+                return (
+                  <p>
+                    <Image alt="" src={IconMovie} />
+                    Movie
+                  </p>
+                )
+              case 'tv':
+                return (
+                  <p>
+                    <Image alt="" src={IconTv} />
+                    TV Series
+                  </p>
+                )
+              case 'person':
+                return (
+                  <p>
+                    <FontAwesomeIcon icon={faPerson} />
+                    Person
+                  </p>
+                )
+              default:
+                return <p>N/A</p>
+            }
+          })()}
         </CardInfoData>
         <CardInfoTitle>{name}</CardInfoTitle>
       </CardInfo>

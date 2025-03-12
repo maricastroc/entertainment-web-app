@@ -28,17 +28,15 @@ export function DetailsSection({ media, mediaData }: Props) {
       </Heading>
       <Separator />
       <MovieDetailsWrapper>
-        {mediaData?.vote_average && (
-          <RatingContainer>
-            <p>{convertRatingTo5Scale(mediaData?.vote_average).toFixed(2)}</p>
-            <RatingWrapper>
-              <StarsRating
-                rating={convertRatingTo5Scale(mediaData?.vote_average)}
-              />
-              <span>({mediaData?.vote_count} ratings)</span>
-            </RatingWrapper>
-          </RatingContainer>
-        )}
+        <RatingContainer>
+          <p>{convertRatingTo5Scale(mediaData?.vote_average).toFixed(2)}</p>
+          <RatingWrapper>
+            <StarsRating
+              rating={convertRatingTo5Scale(mediaData?.vote_average)}
+            />
+            <span>({mediaData?.vote_count} ratings)</span>
+          </RatingWrapper>
+        </RatingContainer>
         <Separator />
         <GeneralInfoSection media={media} mediaData={mediaData} />
         <Separator />

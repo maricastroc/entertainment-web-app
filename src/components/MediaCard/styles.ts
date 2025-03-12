@@ -67,6 +67,10 @@ export const CardInfoData = styled('div', {
       marginTop: '0.2rem',
       marginRight: '0.4rem',
     },
+
+    svg: {
+      marginRight: '0.4rem',
+    },
   },
 
   span: {
