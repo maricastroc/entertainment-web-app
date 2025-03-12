@@ -98,6 +98,10 @@ export function searchTv(query: string, page: string) {
   )}&page=${page}`
 }
 
+export function getPersonDetail(id: string) {
+  return `${TMDB_ENDPOINT}/person/${id}?api_key=${TMDB_API_KEY}`
+}
+
 // Endpoints
 
 // Trending

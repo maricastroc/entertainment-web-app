@@ -1,4 +1,4 @@
-import { CastCardProps } from '../..'
+import { CastProps } from '@/types/cast'
 import {
   CastCard,
   CastContainer,
@@ -8,7 +8,7 @@ import {
 } from './styles'
 
 interface Props {
-  castData: CastCardProps[] | []
+  castData: CastProps[] | []
   handleOpenModal: () => void
 }
 

@@ -14,17 +14,16 @@ import {
 } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
-import { CastCardProps, DetailProps } from '../..'
 import { X } from 'phosphor-react'
+import { MediaDetailsProps } from '@/types/media-details'
+import { CastProps } from '@/types/cast'
 
 interface Props {
   media: string
   type: 'trailer' | 'cast'
   trailerLink?: string
-  mediaData: {
-    detail: DetailProps | undefined
-  }
-  castData?: CastCardProps[] | []
+  mediaData: MediaDetailsProps | undefined
+  castData?: CastProps[] | []
   onClose: () => void
 }
 
@@ -44,9 +43,9 @@ export function ModalSection({
           <InfoContainer>
             <InfoData>
               <p>
-                {mediaData?.detail?.last_air_date?.split('-')[0] ||
-                  mediaData?.detail?.first_air_date?.split('-')[0] ||
-                  mediaData?.detail?.release_date?.split('-')[0]}
+                {mediaData?.last_air_date?.split('-')[0] ||
+                  mediaData?.first_air_date?.split('-')[0] ||
+                  mediaData?.release_date?.split('-')[0]}
               </p>
               <span>•</span>
               {media === 'movie' ? (
@@ -61,9 +60,7 @@ export function ModalSection({
                 </p>
               )}
             </InfoData>
-            <h2>
-              {mediaData?.detail?.original_title || mediaData?.detail?.name}
-            </h2>
+            <h2>{mediaData?.original_title || mediaData?.name}</h2>
           </InfoContainer>
           <CloseButton onClick={onClose}>
             <X />

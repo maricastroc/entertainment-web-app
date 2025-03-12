@@ -2,28 +2,26 @@ import { faCirclePlay, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LinkItem, LinksContainer } from './styles'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { DetailProps } from '../..'
+import { MediaDetailsProps } from '@/types/media-details'
 
 interface Props {
   handleClick: () => void
   hasTrailer: boolean
-  mediaData: {
-    detail: DetailProps
-  }
+  mediaData: MediaDetailsProps
 }
 
 export function LinksSection({ mediaData, hasTrailer, handleClick }: Props) {
   return (
     <LinksContainer>
-      {mediaData?.detail?.homepage && (
-        <LinkItem href={mediaData?.detail?.homepage} target="_blank">
+      {mediaData?.homepage && (
+        <LinkItem href={mediaData?.homepage} target="_blank">
           <span>Website</span>
           <FontAwesomeIcon icon={faLink} />
         </LinkItem>
       )}
-      {mediaData?.detail?.imdb_id && (
+      {mediaData?.imdb_id && (
         <LinkItem
-          href={`https://www.imdb.com/title/${mediaData?.detail?.imdb_id}`}
+          href={`https://www.imdb.com/title/${mediaData?.imdb_id}`}
           target="_blank"
         >
           <span>IMDB</span>

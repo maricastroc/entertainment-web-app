@@ -2,32 +2,20 @@ import { useEffect, useState } from 'react'
 
 import {
   CloseButton,
-  MovieContainer,
-  MovieContent,
-  MovieImage,
-  MovieInfo,
+  MediaContainer,
+  MediaContent,
+  MediaImage,
+  MediaInfo,
   Separator,
   SynopsisContainer,
   VisibleSeparator,
   Wrapper,
   LateralMenuWrapper,
   OverlayBackground,
-  MovieImageWrapper,
+  MediaImageWrapper,
   SaveBtn,
   NotFoundImage,
 } from './styles'
-
-import {
-  getMovieSimilars,
-  getMovieReviews,
-  getTvSimilars,
-  getTvReviews,
-  getMovieVideos,
-  getTvVideos,
-  getMovieCredits,
-  getTvCredits,
-} from '@/lib/tmdb'
-import { ReviewProps } from '@/types/review'
 import { SimilarCardProps } from '@/components/SimilarCard'
 import { X } from 'phosphor-react'
 import { ReviewSection } from '../ReviewSection'
@@ -45,6 +33,9 @@ import toast from 'react-hot-toast'
 import useRequest from '@/utils/useRequest'
 import { UserProps } from '@/types/user'
 import { CastSection } from './partials/CastSection'
+import { MediaDetailsProps } from '@/types/media-details'
+import { ReviewDataProps } from '@/types/review-data'
+import { CastProps } from '@/types/cast'
 
 interface Props {
   id: string
@@ -52,61 +43,12 @@ interface Props {
   onClose: () => void
 }
 
-export interface SpokenLanguagesProps {
-  name: string
-}
-
-export interface GenresProps {
-  id: number
-  name: string
-}
-
-export interface DetailProps {
-  original_title: string
-  overview: string
-  name: string
-  tagline: string
-  poster_path: string
-  vote_average: number
-  number_of_episodes?: number
-  runtime: number
-  release_date: string
-  first_air_date?: string
-  backdrop_path?: string
-  vote_count?: number
-  last_air_date?: string
-  spoken_languages: SpokenLanguagesProps[]
-  status: string
-  genres: GenresProps[]
-  homepage: string
-  imdb_id: string
-  original_language: string
-}
-
-export interface MediaDataProps {
-  detail: DetailProps
-}
-
-export interface ReviewDataProps {
-  id: string
-  page: number
-  results: ReviewProps[]
-  total_pages: number
-  total_results: number
-}
-
-export interface CastCardProps {
-  profile_path: string
-  name: string
-  character: string
-}
-
 export default function MediaModal({ id, media_type, onClose }: Props) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const [castData, setCastData] = useState<CastCardProps[] | []>([])
+  const [castData, setCastData] = useState<CastProps[] | []>([])
 
-  const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
+  const [mediaData, setMediaData] = useState<MediaDetailsProps | undefined>()
 
   const [updatedId, setUpdatedId] = useState(id)
 
@@ -149,7 +91,9 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
       if (response.data) {
         toast.success(response.data.message)
+
         setIsInUserList(true)
+
         mutate && mutate()
       }
     } catch (error) {
@@ -171,7 +115,9 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
       if (response.data) {
         toast.success(response.data.message)
+
         setIsInUserList(false)
+
         mutate && mutate()
       }
     } catch (error) {
@@ -186,39 +132,23 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
     async function fetchData() {
       try {
-        const detailsResponse = await fetch(`/api/${media}/${updatedId}`)
+        const response = await fetch(`/api/${media_type}/${updatedId}`)
 
-        const detailsData = await detailsResponse.json()
+        const data = await response.json()
 
-        setMediaData(detailsData)
+        setMediaData(data?.detail)
 
-        const reviewsResponse = await fetch(
-          media === 'movie'
-            ? getMovieReviews(updatedId as string)
-            : getTvReviews(updatedId as string),
-        )
+        setReviewData(data?.reviews)
 
-        if (!reviewsResponse.ok) {
-          toast.error('Error during reviews loading!')
-        }
+        setCastData(data?.credits?.cast)
 
-        const reviewsData = await reviewsResponse.json()
+        const trailer = data?.videos?.results
+          ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
+          .slice(0, 1)
 
-        setReviewData(reviewsData)
+        setTrailerLink(trailer[0]?.key || '')
 
-        const similarResponse = await fetch(
-          media === 'movie'
-            ? getMovieSimilars(updatedId as string)
-            : getTvSimilars(updatedId as string),
-        )
-
-        if (!similarResponse.ok) {
-          throw new Error('Error during recommendations loading!')
-        }
-
-        const similarData = await similarResponse.json()
-
-        const filteredSimilar = similarData?.results?.filter(
+        const filteredSimilar = data?.similars?.results?.filter(
           (item: SimilarCardProps) => item.backdrop_path !== null,
         )
 
@@ -229,51 +159,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     }
 
     fetchData()
-  }, [updatedId, media])
-
-  useEffect(() => {
-    if (!updatedId) return
-
-    async function fetchCreditsAndTrailer() {
-      try {
-        const creditsResponse = await fetch(
-          media === 'movie'
-            ? getMovieCredits(updatedId as string)
-            : getTvCredits(updatedId as string),
-        )
-
-        if (!creditsResponse.ok) {
-          toast.error('Error loading credits')
-        }
-
-        const creditsData = await creditsResponse.json()
-
-        console.log(creditsData)
-        setCastData(creditsData.cast)
-
-        const trailerResponse = await fetch(
-          media === 'movie'
-            ? getMovieVideos(updatedId as string)
-            : getTvVideos(updatedId as string),
-        )
-
-        if (!trailerResponse.ok) {
-          toast.error('Error loading trailer')
-        }
-
-        const trailerData = await trailerResponse.json()
-        const trailer = trailerData?.results
-          ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
-          .slice(0, 1)
-
-        setTrailerLink(trailer[0]?.key || '')
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchCreditsAndTrailer()
-  }, [updatedId, media])
+  }, [updatedId, media_type])
 
   useEffect(() => {
     if (data?.savedMovies && media === 'movie') {
@@ -292,7 +178,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     <ModalSection
       type={isTrailerModalOpen ? 'trailer' : 'cast'}
       media={media}
-      mediaData={mediaData as MediaDataProps}
+      mediaData={mediaData as MediaDetailsProps}
       trailerLink={trailerLink}
       castData={castData}
       onClose={() => {
@@ -303,18 +189,18 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   ) : (
     <LateralMenuWrapper>
       <OverlayBackground onClick={onClose} />
-      {mediaData?.detail ? (
+      {mediaData ? (
         <Wrapper>
           <CloseButton onClick={onClose}>
             <X />
           </CloseButton>
-          <MovieContainer>
-            <MovieContent>
-              <MovieInfo>
-                {mediaData?.detail?.poster_path ? (
-                  <MovieImageWrapper>
-                    <MovieImage
-                      src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.poster_path}`}
+          <MediaContainer>
+            <MediaContent>
+              <MediaInfo>
+                {mediaData?.poster_path ? (
+                  <MediaImageWrapper>
+                    <MediaImage
+                      src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
                     />
                     <SaveBtn
                       onMouseEnter={() => setIsHovered(true)}
@@ -335,22 +221,22 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
                         }
                       />
                     </SaveBtn>
-                  </MovieImageWrapper>
+                  </MediaImageWrapper>
                 ) : (
-                  <MovieImageWrapper>
+                  <MediaImageWrapper>
                     <NotFoundImage>
                       <p>Not found</p>
                     </NotFoundImage>
-                  </MovieImageWrapper>
+                  </MediaImageWrapper>
                 )}
                 <DetailsSection media={media} mediaData={mediaData} />
-              </MovieInfo>
-              {mediaData?.detail?.overview && (
+              </MediaInfo>
+              {mediaData?.overview && (
                 <>
                   <Separator />
                   <VisibleSeparator />
                   <SynopsisContainer>
-                    <p>{mediaData?.detail?.overview}</p>
+                    <p>{mediaData?.overview}</p>
                     <Separator />
                     <VisibleSeparator />
                     <LinksSection
@@ -361,7 +247,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
                   </SynopsisContainer>
                 </>
               )}
-            </MovieContent>
+            </MediaContent>
 
             {castData?.length > 0 && (
               <CastSection
@@ -381,7 +267,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
             <ReviewSection results={reviewData?.results} />
 
             {(isLoading || isValidating) && <LoadingComponent hasOverlay />}
-          </MovieContainer>
+          </MediaContainer>
         </Wrapper>
       ) : (
         <LoadingComponent />

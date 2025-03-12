@@ -10,7 +10,7 @@ import {
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { getFullYear } from '@/utils/getFullYear'
 import { useEffect, useState } from 'react'
-import { MediaDataProps } from '../MediaModal'
+import { MediaDetailsProps } from '@/types/media-details'
 
 export function BookmarkCard({
   id,
@@ -21,7 +21,7 @@ export function BookmarkCard({
   media: string
   handleClick: () => void
 }) {
-  const [mediaData, setMediaData] = useState<MediaDataProps | undefined>()
+  const [mediaData, setMediaData] = useState<MediaDetailsProps | undefined>()
 
   useEffect(() => {
     if (!id) return
@@ -40,9 +40,9 @@ export function BookmarkCard({
     <Container onClick={handleClick}>
       {mediaData && (
         <>
-          {mediaData?.detail?.backdrop_path ? (
+          {mediaData?.backdrop_path ? (
             <BackgroundImage
-              src={`https://image.tmdb.org/t/p/original${mediaData?.detail?.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original${mediaData?.backdrop_path}`}
               alt=""
             />
           ) : (
@@ -53,11 +53,11 @@ export function BookmarkCard({
           )}
           <CardInfo>
             <CardInfoData>
-              {mediaData?.detail?.first_air_date && (
-                <p>{getFullYear(mediaData?.detail?.first_air_date)}</p>
+              {mediaData?.first_air_date && (
+                <p>{getFullYear(mediaData?.first_air_date)}</p>
               )}
-              {mediaData?.detail?.release_date && (
-                <p>{getFullYear(mediaData?.detail?.release_date)}</p>
+              {mediaData?.release_date && (
+                <p>{getFullYear(mediaData?.release_date)}</p>
               )}
               <span>•</span>
               {media === 'movie' ? (
@@ -73,7 +73,7 @@ export function BookmarkCard({
               )}
             </CardInfoData>
             <CardInfoTitle>
-              {mediaData?.detail?.name || mediaData?.detail?.original_title}
+              {mediaData?.name || mediaData?.original_title}
             </CardInfoTitle>
           </CardInfo>
         </>

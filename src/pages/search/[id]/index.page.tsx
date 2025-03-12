@@ -18,6 +18,7 @@ import { useState } from 'react'
 import MediaModal from '@/components/MediaModal'
 import { LoadingComponent } from '@/components/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import PersonModal from '@/components/PersonModal'
 
 export interface SearchResultItemProps {
   id: string
@@ -86,21 +87,27 @@ export default function Search({ data, id, page }: SearchProps) {
                           handleClick={() => {
                             setIsMediaModalOpen(true)
                             setSelectedMediaId(item.id || '')
-                            setSelectedMediaType(
-                              item.media_type === 'movie' ? 'movie' : 'tv',
-                            )
+                            setSelectedMediaType(item.media_type)
                           }}
                         />
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen && selectedMediaId && (
-                    <MediaModal
-                      media_type={selectedMediaType}
-                      id={selectedMediaId}
-                      onClose={() => setIsMediaModalOpen(false)}
-                    />
-                  )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    (selectedMediaType === 'person' ? (
+                      <PersonModal
+                        media_type={selectedMediaType}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                      />
+                    ))}
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>
@@ -121,40 +128,16 @@ export default function Search({ data, id, page }: SearchProps) {
 export async function getServerSideProps(context: NextPageContext) {
   const { id, page } = context.query
 
-  let currentPage = Number(page) || 1
-  let results: SearchResultItemProps[] = []
-  let totalResults = 0
-
-  while (results.length < 20) {
-    const url = search(String(id), String(currentPage))
-    const response = await fetch(url)
-    const data = await response.json()
-
-    totalResults =
-      data.total_results -
-      data.results.filter(
-        (item: SearchResultItemProps) => item.media_type === 'person',
-      ).length
-
-    const filteredResults = data.results.filter(
-      (item: SearchResultItemProps) => item.media_type !== 'person',
-    )
-
-    results = [...results, ...filteredResults]
-
-    if (currentPage >= data.total_pages) break
-
-    currentPage++
-  }
-
-  const totalPages = Math.ceil(totalResults / 20)
+  const url = search(String(id), String(page))
+  const response = await fetch(url)
+  const data = await response.json()
 
   return {
     props: {
       data: {
-        total_results: totalResults,
-        total_pages: totalPages,
-        results: results.slice(0, 20),
+        total_results: data.total_results,
+        total_pages: data.total_pages,
+        results: data.results,
       },
       id,
       page,

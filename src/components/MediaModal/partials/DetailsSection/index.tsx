@@ -11,41 +11,31 @@ import {
   RatingWrapper,
 } from './styles'
 import { GeneralInfoSection } from '../GeneralInfoSection'
-import { DetailProps } from '../..'
 import { convertRatingTo5Scale } from '@/utils/convertRatingTo5Scale'
+import { MediaDetailsProps } from '@/types/media-details'
 
 interface Props {
   media: string
-  mediaData: {
-    detail: DetailProps
-  }
+  mediaData: MediaDetailsProps
 }
 
 export function DetailsSection({ media, mediaData }: Props) {
   return (
     <MovieDetails>
       <Heading>
-        <h2>
-          {mediaData?.detail?.original_title ||
-            mediaData?.detail?.name ||
-            'N/A'}
-        </h2>
-        <p>{mediaData?.detail?.tagline}</p>
+        <h2>{mediaData?.original_title || mediaData?.name || 'N/A'}</h2>
+        <p>{mediaData?.tagline}</p>
       </Heading>
       <Separator />
       <MovieDetailsWrapper>
-        {mediaData?.detail?.vote_average && (
+        {mediaData?.vote_average && (
           <RatingContainer>
-            <p>
-              {convertRatingTo5Scale(mediaData?.detail?.vote_average).toFixed(
-                2,
-              )}
-            </p>
+            <p>{convertRatingTo5Scale(mediaData?.vote_average).toFixed(2)}</p>
             <RatingWrapper>
               <StarsRating
-                rating={convertRatingTo5Scale(mediaData?.detail?.vote_average)}
+                rating={convertRatingTo5Scale(mediaData?.vote_average)}
               />
-              <span>({mediaData?.detail?.vote_count} ratings)</span>
+              <span>({mediaData?.vote_count} ratings)</span>
             </RatingWrapper>
           </RatingContainer>
         )}
@@ -55,8 +45,8 @@ export function DetailsSection({ media, mediaData }: Props) {
         <GenresContainer>
           <h2>Genres</h2>
           <GenresContent>
-            {mediaData?.detail?.genres?.length > 0 &&
-              mediaData?.detail?.genres?.map((genre) => {
+            {mediaData?.genres?.length > 0 &&
+              mediaData?.genres?.map((genre) => {
                 return <GenreItem key={genre.id}>{genre.name}</GenreItem>
               })}
           </GenresContent>

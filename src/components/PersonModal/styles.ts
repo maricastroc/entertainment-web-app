@@ -154,12 +154,12 @@ export const MediaInfo = styled('div', {
   },
 })
 
-export const MediaImageWrapper = styled('div', {
+export const MovieImageWrapper = styled('div', {
   position: 'relative',
   display: 'inline-block',
 })
 
-export const MediaImage = styled('img', {
+export const MovieImage = styled('img', {
   width: 'clamp(10rem, 40vw, 12rem)',
   height: 'auto',
   borderRadius: 8,
