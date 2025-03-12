@@ -142,20 +142,27 @@ export const Divider = styled('span', {
   },
 })
 
-export const CastWrapper = styled('div', {
+export const CreditsContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  height: '80%',
+  overflowY: 'scroll',
+  width: '100%',
+  height: '100%',
+  gap: '2rem',
+})
+
+export const CastWrapper = styled('div', {
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
   width: '100%',
   gap: '1rem',
-  overflowY: 'scroll',
 
   '> h2': {
     fontSize: '1.2rem',
     fontWeight: 300,
     color: '$gray100',
+    position: 'sticky',
   },
 })
 
@@ -166,6 +173,7 @@ export const CastContainer = styled('div', {
   gap: '1rem',
   width: '100%',
   paddingRight: '1rem',
+  height: '100%',
 
   '@media (min-width: 360px)': {
     gridTemplateColumns: '1fr 1fr',

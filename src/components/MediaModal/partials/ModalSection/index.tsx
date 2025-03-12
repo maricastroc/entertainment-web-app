@@ -11,20 +11,58 @@ import {
   CastContainer,
   CastInfo,
   CastWrapper,
+  CreditsContainer,
 } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilm, faTv } from '@fortawesome/free-solid-svg-icons'
 import { X } from 'phosphor-react'
 import { MediaDetailsProps } from '@/types/media-details'
 import { CastProps } from '@/types/cast'
+import { CrewProps } from '@/types/crew'
 
 interface Props {
   media: string
-  type: 'trailer' | 'cast'
+  type: 'trailer' | 'credits'
   trailerLink?: string
   mediaData: MediaDetailsProps | undefined
   castData?: CastProps[] | []
+  crewData?: CrewProps[] | []
   onClose: () => void
+}
+
+interface CastOrCrewProps {
+  data: CastProps[] | CrewProps[]
+  type: 'Cast' | 'Crew'
+}
+
+const CastOrCrewSection = ({ data, type }: CastOrCrewProps) => {
+  return (
+    <CastWrapper>
+      <h2>{type}</h2>
+      <CastContainer>
+        {data?.map((item, index) => (
+          <CastCard key={index}>
+            <div>
+              <img
+                src={
+                  item?.profile_path
+                    ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
+                    : 'https://github.com/octocat.png'
+                }
+                alt={item?.name || 'Imagem de perfil'}
+              />
+            </div>
+            <CastInfo>
+              <p>{item.name}</p>
+              <span>
+                {type === 'Cast' ? item?.character : item?.known_for_department}
+              </span>
+            </CastInfo>
+          </CastCard>
+        ))}
+      </CastContainer>
+    </CastWrapper>
+  )
 }
 
 export function ModalSection({
@@ -32,6 +70,7 @@ export function ModalSection({
   mediaData,
   trailerLink,
   castData,
+  crewData,
   type,
   onClose,
 }: Props) {
@@ -77,33 +116,15 @@ export function ModalSection({
           />
         )}
 
-        {type === 'cast' && (
-          <CastWrapper>
-            <h2>Cast</h2>
-            <CastContainer>
-              {castData?.map((item, index) => {
-                return (
-                  <CastCard key={index}>
-                    <div>
-                      <img
-                        src={
-                          item?.profile_path
-                            ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
-                            : 'https://github.com/octocat.png'
-                        }
-                        alt={item?.name || 'Imagem de perfil'}
-                      />
-                    </div>
-                    <CastInfo>
-                      <p>{item.name}</p>
-                      <span>{item.character}</span>
-                    </CastInfo>
-                  </CastCard>
-                )
-              })}
-            </CastContainer>
-          </CastWrapper>
-        )}
+        <CreditsContainer>
+          {type === 'credits' && castData && castData?.length > 0 && (
+            <CastOrCrewSection data={castData} type="Cast" />
+          )}
+
+          {type === 'credits' && crewData && crewData?.length > 0 && (
+            <CastOrCrewSection data={crewData} type="Crew" />
+          )}
+        </CreditsContainer>
       </Content>
     </Wrapper>
   )

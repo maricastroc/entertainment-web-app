@@ -1,6 +1,7 @@
 import { styled } from '@/styles'
 
 export const CastWrapper = styled('div', {
+  position: 'relative',
   marginTop: '2.5rem',
   display: 'flex',
   flexDirection: 'column',
@@ -11,15 +12,12 @@ export const CastWrapper = styled('div', {
 })
 
 export const CastContainer = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  alignSelf: 'flex-start',
+  display: 'flex',
+  alignItems: 'stretch',
+  overflowX: 'auto',
   gap: '0.7rem',
   width: '100%',
-
-  '@media (min-width: 360px)': {
-    gap: '1rem',
-  },
+  paddingBottom: '0.5rem',
 })
 
 export const CastHeader = styled('div', {
@@ -52,60 +50,77 @@ export const CastHeader = styled('div', {
 
 export const CastCard = styled('div', {
   display: 'flex',
+  flexDirection: 'column',
+  padding: '0.85rem 0.5rem',
+  minWidth: '7.5rem',
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
   gap: '0.7rem',
   backgroundColor: '$blue700',
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
-  padding: '0.8rem',
   borderRadius: 8,
 
   img: {
     display: 'block',
     overflow: 'hidden',
-    outline: '1.5px solid $blue500',
+    outline: '1.5px solid $blue600',
     outlineOffset: 2,
     objectFit: 'cover',
     borderRadius: '50%',
-    width: 32,
-    height: 32,
-    opacity: 0.85,
-  },
-
-  '@media (min-width: 360px)': {
-    img: {
-      width: 42,
-      height: 42,
-    },
+    width: 58,
+    height: 58,
+    opacity: 0.95,
   },
 })
 
 export const CastInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
+  justifyContent: 'center',
+  alignItems: 'center',
   gap: '0.1rem',
   width: '100%',
+  textAlign: 'center',
 
   p: {
-    fontSize: '0.72rem',
+    fontSize: '0.8rem',
     fontWeight: 500,
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    wordBreak: 'break-all',
+    overflow: 'hidden',
+    maxWidth: '90%',
   },
 
   span: {
-    fontSize: '0.72rem',
+    fontSize: '0.8rem',
     color: '$gray300',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    wordBreak: 'break-all',
+    overflow: 'hidden',
+    maxWidth: '90%',
   },
+})
 
-  '@media (min-width: 360px)': {
-    p: {
-      fontSize: '0.85rem',
-    },
+export const CaretRightIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  right: 0,
+  top: '47%',
+  zIndex: 999,
+  color: '$gray100',
+  fontSize: 30,
+})
 
-    span: {
-      fontSize: '0.85rem',
-    },
-  },
+export const CaretLeftIcon = styled('div', {
+  position: 'absolute',
+  cursor: 'pointer',
+  left: 0,
+  top: '47%',
+  zIndex: 999,
+  opacity: 0.85,
+  color: '$gray100',
+  fontSize: 30,
 })

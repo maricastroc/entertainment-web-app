@@ -32,10 +32,11 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 import useRequest from '@/utils/useRequest'
 import { UserProps } from '@/types/user'
-import { CastSection } from './partials/CastSection'
 import { MediaDetailsProps } from '@/types/media-details'
 import { ReviewDataProps } from '@/types/review-data'
 import { CastProps } from '@/types/cast'
+import { CrewProps } from '@/types/crew'
+import { CreditsSection } from './partials/CreditsSection'
 
 interface Props {
   id: string
@@ -47,6 +48,8 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   const [isHovered, setIsHovered] = useState(false)
 
   const [castData, setCastData] = useState<CastProps[] | []>([])
+
+  const [crewData, setCrewData] = useState<CrewProps[] | []>([])
 
   const [mediaData, setMediaData] = useState<MediaDetailsProps | undefined>()
 
@@ -60,7 +63,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false)
 
-  const [isCastModalOpen, setIsCastModalOpen] = useState(false)
+  const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -142,6 +145,8 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
         setCastData(data?.credits?.cast)
 
+        setCrewData(data?.credits?.crew)
+
         const trailer = data?.videos?.results
           ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
           .slice(0, 1)
@@ -174,16 +179,17 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   }, [media, id, data?.savedMovies, data?.savedSeries])
 
   return (isTrailerModalOpen && trailerLink?.length > 0) ||
-    (isCastModalOpen && castData?.length > 0) ? (
+    (isCreditsModalOpen && castData?.length > 0) ? (
     <ModalSection
-      type={isTrailerModalOpen ? 'trailer' : 'cast'}
+      type={isTrailerModalOpen ? 'trailer' : 'credits'}
       media={media}
       mediaData={mediaData as MediaDetailsProps}
       trailerLink={trailerLink}
       castData={castData}
+      crewData={crewData}
       onClose={() => {
         setIsTrailerModalOpen(false)
-        setIsCastModalOpen(false)
+        setIsCreditsModalOpen(false)
       }}
     />
   ) : (
@@ -250,9 +256,20 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
             </MediaContent>
 
             {castData?.length > 0 && (
-              <CastSection
-                handleOpenModal={() => setIsCastModalOpen(true)}
+              <CreditsSection
+                creditsType="cast"
                 castData={castData}
+                handleOpenModal={() => setIsCreditsModalOpen(true)}
+                crewData={crewData}
+              />
+            )}
+
+            {crewData?.length > 0 && (
+              <CreditsSection
+                creditsType="crew"
+                castData={castData}
+                handleOpenModal={() => setIsCreditsModalOpen(true)}
+                crewData={crewData}
               />
             )}
 
