@@ -7,8 +7,8 @@ import {
   Container,
   Wrapper,
 } from './styles'
-import IconMovie from '../../../public/assets/icon-category-movie.svg'
-import IconTv from '../../../public/assets/icon-category-tv.svg'
+import IconMovie from '../../../../public/assets/icon-category-movie.svg'
+import IconTv from '../../../../public/assets/icon-category-tv.svg'
 import { getFullYear } from '@/utils/getFullYear'
 import { MediaCardProps } from '@/pages/home/index.page'
 import Loading from '@/components/Core/Loading'

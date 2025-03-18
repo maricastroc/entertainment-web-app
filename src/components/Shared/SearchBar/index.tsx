@@ -1,5 +1,5 @@
 import { Container, SearchContent, SearchInput } from './styles'
-import SearchIcon from '../../../public/assets/icon-search.svg'
+import SearchIcon from '../../../../public/assets/icon-search.svg'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'

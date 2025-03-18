@@ -6,8 +6,8 @@ import {
   Container,
   NotFoundImage,
 } from './styles'
-import IconMovie from '../../../public/assets/icon-category-movie.svg'
-import IconTv from '../../../public/assets/icon-category-tv.svg'
+import IconMovie from '../../../../public/assets/icon-category-movie.svg'
+import IconTv from '../../../../public/assets/icon-category-tv.svg'
 import { getFullYear } from '@/utils/getFullYear'
 import Image from 'next/image'
 
