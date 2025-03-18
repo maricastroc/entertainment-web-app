@@ -1,5 +1,5 @@
 import { genreTV, getGenre } from '@/lib/tmdb'
-import GenreCollection from '@/components/GenreCollection'
+import GenreCollection from '@/components/Shared/GenreCollection'
 
 interface GenreItem {
   name: string

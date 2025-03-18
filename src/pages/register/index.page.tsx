@@ -6,7 +6,7 @@ import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useAppContext } from '@/contexts/AppContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { LoadingComponent } from '@/components/LoadingComponent'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import Logo from '../../../public/logo.svg'
 import Image from 'next/image'
 

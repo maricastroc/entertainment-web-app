@@ -6,18 +6,18 @@ import {
   MediaContent,
   Wrapper,
 } from '@/styles/shared'
-import { SearchBar } from '@/components/SearchBar'
-import { Header } from '@/components/Header'
+import { SearchBar } from '@/components/Shared/SearchBar'
+import { Header } from '@/components/Shared/Header'
 import { pathToSearchMovie } from '@/utils'
-import { MediaCard } from '@/components/MediaCard'
-import { PaginationBar } from '@/components/PaginationBar'
+import { MediaCard } from '@/components/Shared/MediaCard'
+import { PaginationBar } from '@/components/Shared/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/MediaModal'
+import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { LoadingComponent } from '@/components/LoadingComponent'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
 
 interface SearchResultItemProps {
   id: string

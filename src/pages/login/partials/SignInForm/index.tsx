@@ -6,7 +6,7 @@ import { RocketLaunch } from 'phosphor-react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputContainer } from '@/components/InputContainer'
+import { InputContainer } from '@/components/Core/InputContainer'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
 

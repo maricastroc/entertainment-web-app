@@ -1,9 +1,9 @@
 import { search } from '@/lib/tmdb'
-import { SearchBar } from '@/components/SearchBar'
-import { Header } from '@/components/Header'
+import { SearchBar } from '@/components/Shared/SearchBar'
+import { Header } from '@/components/Shared/Header'
 import { pathToSearchAll } from '@/utils'
-import { MediaCard } from '@/components/MediaCard'
-import { PaginationBar } from '@/components/PaginationBar'
+import { MediaCard } from '@/components/Shared/MediaCard'
+import { PaginationBar } from '@/components/Shared/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
 import {
@@ -15,10 +15,10 @@ import {
 } from '@/styles/shared'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/MediaModal'
-import { LoadingComponent } from '@/components/LoadingComponent'
+import MediaModal from '@/components/Shared/MediaModal'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import PersonModal from '@/components/PersonModal'
+import PersonModal from '@/components/Shared/PersonModal'
 
 export interface SearchResultItemProps {
   id: string

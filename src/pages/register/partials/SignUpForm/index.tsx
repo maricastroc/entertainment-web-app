@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
 import { z } from 'zod'
 
-import { InputContainer } from '@/components/InputContainer'
+import { InputContainer } from '@/components/Core/InputContainer'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
 

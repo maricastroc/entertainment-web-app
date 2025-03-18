@@ -1,4 +1,4 @@
-import { BookmarkCard } from '@/components/BookmarkCard'
+import { BookmarkCard } from '@/components/Shared/BookmarkCard'
 import {
   Container,
   MainContent,
@@ -9,17 +9,17 @@ import {
   Wrapper,
 } from './styles'
 
-import { Header } from '@/components/Header'
-import { SearchBar } from '@/components/SearchBar'
+import { Header } from '@/components/Shared/Header'
+import { SearchBar } from '@/components/Shared/SearchBar'
 import { UserProps } from '@/types/user'
 import { pathToSearchAll } from '@/utils'
 import useRequest from '@/utils/useRequest'
 import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/MediaModal'
+import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { LoadingComponent } from '@/components/LoadingComponent'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()

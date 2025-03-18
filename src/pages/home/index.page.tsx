@@ -14,14 +14,14 @@ import {
 
 import { Container, MainContent, Wrapper } from './styles'
 
-import { Header } from '@/components/Header'
-import { SearchBar } from '@/components/SearchBar'
+import { Header } from '@/components/Shared/Header'
+import { SearchBar } from '@/components/Shared/SearchBar'
 import { pathToSearchAll } from '@/utils'
-import MediaList from './components/MediaList'
-import TrendingMediaCollection from './components/TrendingMediaCollection'
+import MediaList from './partials/MediaList'
+import TrendingMediaCollection from './partials/TrendingMediaCollection'
 import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { LoadingComponent } from '@/components/LoadingComponent'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useEffect, useState } from 'react'
 
 export interface MediaCardProps {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { SearchResultItemProps } from '@/types/search_result'
-import ThemePage from '@/components/ThemePage'
+import ThemePage from '@/components/Shared/ThemePage'
 
 export default function NowPlayingMovies() {
   const router = useRouter()
