@@ -20,9 +20,12 @@ import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
+import { useAppContext } from '@/contexts/AppContext'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const { isLoading } = useAppContext()
 
   const [isMovieMediaModalOpen, setIsMovieMediaModalOpen] = useState(false)
 
@@ -30,7 +33,7 @@ export default function Bookmark() {
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-  const { data, isValidating } = useRequest<UserProps | null>({
+  const { data, mutate, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
   })
@@ -60,6 +63,7 @@ export default function Bookmark() {
                         <BookmarkCard
                           id={item.id}
                           media={'movie'}
+                          mutate={mutate}
                           handleClick={() => {
                             setIsMovieMediaModalOpen(true)
                             setIsSeriesMediaModalOpen(false)
@@ -96,6 +100,7 @@ export default function Bookmark() {
                         <BookmarkCard
                           id={item.id}
                           media={'tv'}
+                          mutate={mutate}
                           handleClick={() => {
                             setIsSeriesMediaModalOpen(true)
                             setIsMovieMediaModalOpen(false)
@@ -120,7 +125,9 @@ export default function Bookmark() {
             </MediaContainer>
           </MainContent>
         </Container>
-        {(isRouteLoading || isValidating) && <LoadingComponent hasOverlay />}
+        {(isRouteLoading || isValidating || isLoading) && (
+          <LoadingComponent hasOverlay />
+        )}
       </Wrapper>
     </>
   )

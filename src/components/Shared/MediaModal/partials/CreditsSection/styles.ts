@@ -59,7 +59,7 @@ export const CastCard = styled('div', {
   width: '100%',
   gap: '0.7rem',
   backgroundColor: '$blue700',
-  boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
+  boxShadow: '0 3px 2px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
   borderRadius: 8,
 
   img: {

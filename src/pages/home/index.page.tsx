@@ -23,6 +23,9 @@ import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useEffect, useState } from 'react'
+import { useAppContext } from '@/contexts/AppContext'
+import { SignUpModal } from '@/components/Shared/SignUpModal'
+import * as Dialog from '@radix-ui/react-dialog'
 
 export interface MediaCardProps {
   id?: string
@@ -82,6 +85,8 @@ export default function Home({
   topRatedSeries,
 }: HomeProps) {
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const { isLoading, isSignUpModalOpen } = useAppContext()
 
   const [isClient, setIsClient] = useState(false)
 
@@ -202,6 +207,9 @@ export default function Home({
               searchPath={pathToSearchAll}
               placeholder="Search for movie / TV series"
             />
+            <Dialog.Root open={isSignUpModalOpen}>
+              <SignUpModal />
+            </Dialog.Root>
             <MainContent>
               {mediaTrendingMoviesLists.map(({ title, items }) => (
                 <TrendingMediaCollection
@@ -240,7 +248,7 @@ export default function Home({
               ))}
             </MainContent>
           </Container>
-          {isRouteLoading && <LoadingComponent hasOverlay />}
+          {(isRouteLoading || isLoading) && <LoadingComponent hasOverlay />}
         </Wrapper>
       )}
     </>

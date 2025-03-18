@@ -40,7 +40,6 @@ export const Container = styled('div', {
 export const MediaContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginTop: '2rem',
 
   '> h2': {
     fontWeight: 300,

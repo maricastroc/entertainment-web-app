@@ -12,6 +12,18 @@ export const Wrapper = styled('div', {
   },
 })
 
+export const MediaImageWrapper = styled('div', {
+  position: 'relative',
+  display: 'inline-block',
+  width: '100%',
+
+  '&:hover': {
+    '& > img': {
+      filter: 'brightness(0.6)',
+    },
+  },
+})
+
 export const Container = styled('div', {
   position: 'relative',
   display: 'flex',

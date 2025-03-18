@@ -109,22 +109,39 @@ export const ButtonDropdown = styled('div', {
   top: '200%',
   right: '100%',
   transform: 'translate(50%, -50%)',
-  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 8,
-  width: '3.5rem',
-  height: '3.5rem',
+  width: '5.7rem',
+  height: '2.8rem',
   backgroundColor: '$blue700',
+  gap: '0.3rem',
+
+  p: {
+    fontSize: '$bodyMd',
+    color: '$gray300',
+  },
+
+  svg: {
+    fontSize: '$bodyMd',
+    color: '$red300',
+  },
 
   '@media (min-width: 1024px)': {
     top: '50%',
-    left: '80%',
+    left: '50%',
   },
 
   '&:hover': {
-    color: '$red300',
-    transition: '200ms ease',
+    p: {
+      filter: 'brightness(1.2)',
+      transition: '200ms ease',
+    },
+
+    svg: {
+      filter: 'brightness(1.4)',
+      transition: '200ms ease',
+    },
   },
 })
 

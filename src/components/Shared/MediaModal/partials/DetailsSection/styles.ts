@@ -35,7 +35,7 @@ export const Heading = styled('div', {
     textAlign: 'center',
     display: '-webkit-box',
     WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 3,
+    WebkitLineClamp: 2,
     overflow: 'scroll',
     textOverflow: 'ellipsis',
   },
@@ -50,7 +50,7 @@ export const Heading = styled('div', {
 
   '@media (min-width: 580px)': {
     '> h2': {
-      fontSize: '1.85rem',
+      fontSize: '1.8rem',
     },
 
     '> p': {

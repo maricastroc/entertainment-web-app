@@ -108,8 +108,9 @@ export function Header() {
         />
 
         {isLogoutModalOpen && (
-          <ButtonDropdown ref={logoutModalRef}>
-            <SignOut size={24} onClick={handleLogout} />
+          <ButtonDropdown ref={logoutModalRef} onClick={handleLogout}>
+            <p>sign out</p>
+            <SignOut />
           </ButtonDropdown>
         )}
       </AvatarContainer>

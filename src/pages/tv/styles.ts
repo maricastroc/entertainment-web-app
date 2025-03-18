@@ -39,7 +39,6 @@ export const MainContent = styled('div', {
 })
 
 export const GenresContainer = styled('div', {
-  marginTop: '2rem',
   display: 'grid',
   gridTemplateColumns: '1fr',
   gap: '1rem',

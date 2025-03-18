@@ -13,7 +13,6 @@ import {
   LateralMenuWrapper,
   OverlayBackground,
   MediaImageWrapper,
-  SaveBtn,
   NotFoundImage,
 } from './styles'
 import { SimilarCardProps } from '@/components/Shared/SimilarCard'
@@ -24,9 +23,6 @@ import { LinksSection } from './partials/LinksSection'
 import { DetailsSection } from './partials/DetailsSection'
 import { ModalSection } from './partials/ModalSection'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
-import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { handleApiError } from '@/utils/handleApiError'
 import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
@@ -37,6 +33,9 @@ import { ReviewDataProps } from '@/types/review-data'
 import { CastProps } from '@/types/cast'
 import { CrewProps } from '@/types/crew'
 import { CreditsSection } from './partials/CreditsSection'
+import { SaveButton } from '../SaveButton'
+import { useAppContext } from '@/contexts/AppContext'
+import { useSession } from 'next-auth/react'
 
 interface Props {
   id: string
@@ -45,8 +44,6 @@ interface Props {
 }
 
 export default function MediaModal({ id, media_type, onClose }: Props) {
-  const [isHovered, setIsHovered] = useState(false)
-
   const [castData, setCastData] = useState<CastProps[] | []>([])
 
   const [crewData, setCrewData] = useState<CrewProps[] | []>([])
@@ -69,6 +66,10 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   const [isInUserList, setIsInUserList] = useState(false)
 
+  const { handleSetIsSignUpModalOpen } = useAppContext()
+
+  const { status } = useSession()
+
   const media = media_type === 'movie' ? 'movie' : 'tv'
 
   const { data, mutate, isValidating } = useRequest<UserProps | null>({
@@ -76,51 +77,25 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     method: 'GET',
   })
 
-  async function saveMedia() {
+  async function handleMediaAction(action: 'save' | 'delete') {
     try {
       setIsLoading(true)
 
       const mediaRoute = media === 'movie' ? 'movies' : 'series'
+      const endpoint = `/user/${mediaRoute}`
+      const options =
+        action === 'save'
+          ? { method: 'post', data: { mediaId: String(id) } }
+          : { method: 'delete', data: { mediaId: String(id) } }
 
-      const response = await api.post(
-        `/user/${mediaRoute}`,
-        { mediaId: String(id) },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-
-      if (response.data) {
-        toast.success(response.data.message)
-
-        setIsInUserList(true)
-
-        mutate && mutate()
-      }
-    } catch (error) {
-      handleApiError(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  async function deleteMedia() {
-    try {
-      setIsLoading(true)
-
-      const mediaRoute = media === 'movie' ? 'movies' : 'series'
-
-      const response = await api.delete(`/user/${mediaRoute}`, {
-        data: { mediaId: String(id) },
+      const response = await api(endpoint, {
+        ...options,
+        headers: { 'Content-Type': 'application/json' },
       })
 
       if (response.data) {
         toast.success(response.data.message)
-
-        setIsInUserList(false)
-
+        setIsInUserList(action === 'save')
         mutate && mutate()
       }
     } catch (error) {
@@ -208,25 +183,20 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
                     <MediaImage
                       src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
                     />
-                    <SaveBtn
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
+                    <SaveButton
+                      isInUserList={isInUserList}
                       onClick={() => {
-                        if (isInUserList) {
-                          deleteMedia()
+                        if (status === 'authenticated') {
+                          if (isInUserList) {
+                            handleMediaAction('delete')
+                          } else {
+                            handleMediaAction('save')
+                          }
                         } else {
-                          saveMedia()
+                          handleSetIsSignUpModalOpen(true)
                         }
                       }}
-                    >
-                      <FontAwesomeIcon
-                        icon={
-                          isHovered || isInUserList
-                            ? faBookmarkSolid
-                            : faBookmarkRegular
-                        }
-                      />
-                    </SaveBtn>
+                    />
                   </MediaImageWrapper>
                 ) : (
                   <MediaImageWrapper>

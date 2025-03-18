@@ -40,7 +40,6 @@ export const MainContent = styled('div', {
 })
 
 export const MovieGenresContainer = styled('div', {
-  marginTop: '2rem',
   display: 'grid',
   gridTemplateColumns: '1fr',
   gap: '1rem',
@@ -96,7 +95,6 @@ export const MovieGenresContainer = styled('div', {
 })
 
 export const TvGenresContainer = styled('div', {
-  marginTop: '2rem',
   display: 'grid',
   gridTemplateColumns: '1fr',
   gap: '1rem',

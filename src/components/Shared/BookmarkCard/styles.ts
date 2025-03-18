@@ -11,7 +11,19 @@ export const Container = styled('div', {
   position: 'relative',
 
   '&:hover': {
-    '& img': {
+    '& > img': {
+      filter: 'brightness(0.6)',
+    },
+  },
+})
+
+export const MediaImageWrapper = styled('div', {
+  position: 'relative',
+  display: 'inline-block',
+  width: '100%',
+
+  '&:hover': {
+    '& > img': {
       filter: 'brightness(0.6)',
     },
   },

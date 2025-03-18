@@ -18,6 +18,8 @@ import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { SignUpModal } from '../SignUpModal'
+import { useAppContext } from '@/contexts/AppContext'
 
 interface GenrePageProps {
   data: {
@@ -38,6 +40,8 @@ export default function GenrePage({
   currentPage,
 }: GenrePageProps) {
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const { isSignUpModalOpen, isLoading } = useAppContext()
 
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
@@ -65,6 +69,9 @@ export default function GenrePage({
             <MainContent>
               <MediaContainer>
                 <MediaContent>
+                  <Dialog.Root open={isSignUpModalOpen}>
+                    <SignUpModal />
+                  </Dialog.Root>
                   <Dialog.Root>
                     {data.results.map((item: SearchResultItemProps) => {
                       return (
@@ -107,7 +114,7 @@ export default function GenrePage({
               />
             </MainContent>
           </Container>
-          {isRouteLoading && <LoadingComponent hasOverlay />}
+          {(isRouteLoading || isLoading) && <LoadingComponent hasOverlay />}
         </Wrapper>
       ) : (
         <Loading />

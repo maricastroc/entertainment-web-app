@@ -10,8 +10,10 @@ import {
 
 interface AppContextData {
   isLoading: boolean
+  isSignUpModalOpen: boolean
   loggedUser: UserProps | null
   handleSetIsLoading: (value: boolean) => void
+  handleSetIsSignUpModalOpen: (value: boolean) => void
   handleSetLoggedUser: (data: UserProps) => void
 }
 
@@ -32,10 +34,16 @@ interface AppContextProviderProps {
 export function AppContextProvider({ children }: AppContextProviderProps) {
   const [isLoading, setIsLoading] = useState(false)
 
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
+
   const [loggedUser, setLoggedUser] = useState<UserProps | null>(null)
 
   function handleSetIsLoading(value: boolean) {
     setIsLoading(value)
+  }
+
+  function handleSetIsSignUpModalOpen(value: boolean) {
+    setIsSignUpModalOpen(value)
   }
 
   const handleSetLoggedUser = useCallback(
@@ -47,9 +55,11 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     <AppContext.Provider
       value={{
         isLoading,
+        isSignUpModalOpen,
         loggedUser,
         handleSetIsLoading,
         handleSetLoggedUser,
+        handleSetIsSignUpModalOpen,
       }}
     >
       {children}

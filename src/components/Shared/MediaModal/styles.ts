@@ -78,17 +78,27 @@ export const SaveBtn = styled('button', {
   border: 'none',
   color: '$blue700',
   cursor: 'pointer',
-  backgroundColor: 'rgba(209, 214, 228, 1)',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
   fontSize: '1.2rem',
   transition: '200ms ease',
 
-  svg: {
+  img: {
     marginTop: '0.6rem',
   },
 
-  '&:focus': {
+  '&:focus, &:focus-visible': {
     border: 'none',
     outline: 'none',
+    boxShadow: 'none',
+  },
+
+  '&:hover': {
+    backgroundColor: '$gray100',
+
+    img: {
+      filter:
+        'invert(90%) brightness(80%) sepia(100%) saturate(592%) hue-rotate(-50deg)',
+    },
   },
 })
 
@@ -157,11 +167,11 @@ export const MediaInfo = styled('div', {
 export const MediaImageWrapper = styled('div', {
   position: 'relative',
   display: 'inline-block',
+  height: '100%',
 })
 
 export const MediaImage = styled('img', {
   width: 'clamp(10rem, 40vw, 12rem)',
-  height: 'auto',
   borderRadius: 8,
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
 

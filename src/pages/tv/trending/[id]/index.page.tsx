@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import ThemePage from '@/components/Shared/ThemePage'
 import { SearchResultItemProps } from '@/types/search_result'
 
-export default function TrendingMovie() {
+export default function TrendingTv() {
   const router = useRouter()
 
   const { id } = router.query
@@ -14,7 +14,7 @@ export default function TrendingMovie() {
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/movie/trending/${id}`)
+      fetch(`/api/tv/trending/${id}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data.results)

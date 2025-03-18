@@ -9,6 +9,12 @@ export const Container = styled('div', {
   width: '100%',
   minWidth: '5rem',
   position: 'relative',
+})
+
+export const MediaImageWrapper = styled('div', {
+  position: 'relative',
+  display: 'inline-block',
+  width: '100%',
 
   '&:hover': {
     '& > img': {
@@ -18,6 +24,7 @@ export const Container = styled('div', {
 })
 
 export const BackgroundImage = styled('img', {
+  position: 'relative',
   width: '100%',
   aspectRatio: '1 / 1',
   borderRadius: 8,

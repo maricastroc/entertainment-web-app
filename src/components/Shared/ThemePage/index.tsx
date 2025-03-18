@@ -18,6 +18,8 @@ import * as Dialog from '@radix-ui/react-dialog'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
+import { SignUpModal } from '../SignUpModal'
+import { useAppContext } from '@/contexts/AppContext'
 
 interface Props {
   data: SearchResultItemProps[]
@@ -37,6 +39,8 @@ export default function ThemePage({
   media,
 }: Props) {
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const { isSignUpModalOpen, isLoading } = useAppContext()
 
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
@@ -58,6 +62,9 @@ export default function ThemePage({
             <MainContent>
               <MediaContainer>
                 <MediaContent>
+                  <Dialog.Root open={isSignUpModalOpen}>
+                    <SignUpModal />
+                  </Dialog.Root>
                   <Dialog.Root open={isMediaModalOpen}>
                     {data.map((item: SearchResultItemProps) => {
                       return (
@@ -100,7 +107,7 @@ export default function ThemePage({
               />
             </MainContent>
           </Container>
-          {isRouteLoading && <LoadingComponent hasOverlay />}
+          {(isRouteLoading || isLoading) && <LoadingComponent hasOverlay />}
         </Wrapper>
       ) : (
         <Loading />
