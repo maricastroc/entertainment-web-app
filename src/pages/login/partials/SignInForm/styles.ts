@@ -40,16 +40,9 @@ export const AuthContainer = styled('div', {
 
 export const AuthOptions = styled('div', {
   display: 'flex',
-  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.5rem',
-  width: '100%',
-
-  '@media (min-width: 480px)': {
-    flexDirection: 'row',
-    width: 'auto',
-  },
+  width: 'auto',
 })
 
 export const AuthItem = styled('button', {
@@ -59,11 +52,11 @@ export const AuthItem = styled('button', {
   gap: '0.5rem',
   color: '$gray300',
   fontSize: '0.9rem',
-  border: '1px solid $gray500',
   borderRadius: 8,
   padding: '0.8rem 1rem',
+  border: 'none',
+  width: 'auto',
   backgroundColor: 'transparent',
-  width: '100%',
   cursor: 'pointer',
 
   p: {
@@ -74,17 +67,10 @@ export const AuthItem = styled('button', {
     color: '$purple100',
   },
 
-  '@media (min-width: 480px)': {
-    border: 'none',
-    width: 'auto',
-    backgroundColor: 'transparent',
-    padding: 0,
-
-    '&:hover': {
-      p: {
-        borderBottom: '1px solid $gray300',
-        transition: '200ms',
-      },
+  '&:hover': {
+    p: {
+      borderBottom: '1px solid $gray300',
+      transition: '200ms',
     },
   },
 })

@@ -1,15 +1,15 @@
 import { signOut, useSession } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
+  AuthButton,
   AvatarContainer,
-  ButtonDropdown,
   ButtonPage,
   ButtonPagesContainer,
   Container,
 } from './styles'
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
-import { SignOut } from 'phosphor-react'
+import { SignIn, SignOut } from 'phosphor-react'
 import IconBookmark from '../../../../public/assets/icon-nav-bookmark.svg'
 import IconHome from '../../../../public/assets/icon-nav-home.svg'
 import IconMovie from '../../../../public/assets/icon-nav-movies.svg'
@@ -108,10 +108,23 @@ export function Header() {
         />
 
         {isLogoutModalOpen && (
-          <ButtonDropdown ref={logoutModalRef} onClick={handleLogout}>
-            <p>sign out</p>
-            <SignOut />
-          </ButtonDropdown>
+          <AuthButton
+            ref={logoutModalRef}
+            onClick={() => {
+              if (session?.data?.user) {
+                handleLogout()
+              } else {
+                router.push('/')
+              }
+            }}
+          >
+            <p>{session?.data?.user ? 'sign out' : 'sign in'}</p>
+            {session?.data?.user ? (
+              <SignOut style={{ color: '#FC4747' }} />
+            ) : (
+              <SignIn style={{ color: '#F8F9FC' }} />
+            )}
+          </AuthButton>
         )}
       </AvatarContainer>
     </Container>

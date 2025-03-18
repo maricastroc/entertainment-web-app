@@ -5,10 +5,14 @@ import { Icon } from '@iconify/react'
 import { RocketLaunch } from 'phosphor-react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InputContainer } from '@/components/Core/InputContainer'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
+import { Input } from '@/components/Core/Input'
+import { Form } from '@/components/Core/Form'
+import { LinkButton } from '@/components/Core/LinkButton'
 
 import {
   Divider,
@@ -18,12 +22,6 @@ import {
   VerticalDivider,
   Wrapper,
 } from './styles'
-
-import { useScreenSize } from '@/utils/useScreenSize'
-import toast from 'react-hot-toast'
-import { Input } from '@/components/Core/Input'
-import { Form } from '@/components/Core/Form'
-import { LinkButton } from '@/components/Core/LinkButton'
 
 const signInFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -47,8 +45,6 @@ export default function SignInForm({ onClose }: SignInFormProps) {
   })
 
   const router = useRouter()
-
-  const isMobile = useScreenSize(480)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -143,7 +139,7 @@ export default function SignInForm({ onClose }: SignInFormProps) {
               <p>Google</p>
             </AuthItem>
 
-            {!isMobile && <VerticalDivider />}
+            <VerticalDivider />
             <AuthItem type="button" onClick={() => handleSignIn('github')}>
               <Icon
                 icon="ant-design:github-outlined"
@@ -153,7 +149,7 @@ export default function SignInForm({ onClose }: SignInFormProps) {
               <p>Github</p>
             </AuthItem>
 
-            {!isMobile && <VerticalDivider />}
+            <VerticalDivider />
             <AuthItem type="button" onClick={() => router.push('/home')}>
               {<RocketLaunch size={24} />}
               <p>Guest</p>

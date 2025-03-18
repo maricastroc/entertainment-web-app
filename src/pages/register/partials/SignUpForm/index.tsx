@@ -2,11 +2,17 @@ import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
+import { handleApiError } from '@/utils/handleApiError'
+import { api } from '@/lib/axios'
 import { z } from 'zod'
 
 import { InputContainer } from '@/components/Core/InputContainer'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
+import { Input } from '@/components/Core/Input'
+import { LinkButton } from '@/components/Core/LinkButton'
+import { Form } from '@/components/Core/Form'
 
 import {
   Wrapper,
@@ -15,13 +21,6 @@ import {
   AvatarSection,
   AvatarPreviewWrapper,
 } from './styles'
-
-import toast from 'react-hot-toast'
-import { handleApiError } from '@/utils/handleApiError'
-import { api } from '@/lib/axios'
-import { Input } from '@/components/Core/Input'
-import { LinkButton } from '@/components/Core/LinkButton'
-import { Form } from '@/components/Core/Form'
 
 const signUpFormSchema = z
   .object({

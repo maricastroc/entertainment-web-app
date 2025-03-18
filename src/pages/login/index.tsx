@@ -1,14 +1,13 @@
 import { NextSeo } from 'next-seo'
-import { Container, LogoWrapper } from './styles'
-
-import SignInForm from '@/pages/login/partials/SignInForm'
-import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { LoadingComponent } from '@/components/Core/LoadingComponent'
-import Logo from '../../../public/logo.svg'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
+import { Container, LogoWrapper } from './styles'
+import SignInForm from '@/pages/login/partials/SignInForm'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import { LoadingComponent } from '@/components/Core/LoadingComponent'
+import Logo from '../../../public/logo.svg'
 
 export default function Login() {
   const isRouteLoading = useLoadingOnRouteChange()
@@ -27,7 +26,7 @@ export default function Login() {
     <>
       <NextSeo title="Login | Book Wise" />
       {isRouteLoading ? (
-        <LoadingComponent hasOverlay withBackground />
+        <LoadingComponent withBackground />
       ) : (
         <Container>
           <LogoWrapper>

@@ -1,33 +1,32 @@
-import { NextSeo } from 'next-seo'
-import { Container, LogoWrapper } from './styles'
-
-import SignUpForm from '@/pages/register/partials/SignUpForm'
-import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { useAppContext } from '@/contexts/AppContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { NextSeo } from 'next-seo'
+import { Container, LogoWrapper } from './styles'
+import SignUpForm from '@/pages/register/partials/SignUpForm'
+import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import Logo from '../../../public/logo.svg'
-import Image from 'next/image'
 
-export default function Login() {
+export default function Register() {
   const isRouteLoading = useLoadingOnRouteChange()
 
   const router = useRouter()
 
-  const { loggedUser } = useAppContext()
+  const { status } = useSession()
 
   useEffect(() => {
-    if (loggedUser) {
+    if (status === 'authenticated') {
       router.push('/home')
     }
-  }, [loggedUser, router])
+  }, [status, router])
 
   return (
     <>
       <NextSeo title="Login | Book Wise" />
       {isRouteLoading ? (
-        <LoadingComponent hasOverlay withBackground />
+        <LoadingComponent withBackground />
       ) : (
         <Container>
           <LogoWrapper>

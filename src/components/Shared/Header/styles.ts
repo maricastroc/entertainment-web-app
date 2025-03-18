@@ -103,7 +103,7 @@ export const ButtonPage = styled('button', {
   },
 })
 
-export const ButtonDropdown = styled('div', {
+export const AuthButton = styled('div', {
   display: 'flex',
   position: 'absolute',
   top: '200%',
@@ -124,7 +124,6 @@ export const ButtonDropdown = styled('div', {
 
   svg: {
     fontSize: '$bodyMd',
-    color: '$red300',
   },
 
   '@media (min-width: 1024px)': {

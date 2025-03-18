@@ -25,8 +25,8 @@ export const StyledButton = styled('button', {
   },
 
   '&:disabled': {
-    backgroundColor: '$gray400',
-    border: 'solid 1px $gray400',
+    backgroundColor: '$blue600',
+    border: 'solid 1px $blue600',
     color: '$gray100',
     cursor: 'not-allowed !important',
     pointerEvents: 'none',
