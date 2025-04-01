@@ -144,7 +144,9 @@ export default function SignUpForm() {
               control={control}
               render={({ field }) => <Input placeholder="Name" {...field} />}
             />
-            {errors.name && <FormErrors error={errors.name.message} />}
+            {errors.name && (
+              <FormErrors error={errors.name.message && 'Name is required.'} />
+            )}
           </InputContainer>
 
           <InputContainer>

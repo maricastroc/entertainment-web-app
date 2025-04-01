@@ -25,7 +25,7 @@ import {
 
 const signInFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
-  password: z.string().min(3, { message: 'Password is required' }),
+  password: z.string().min(3, { message: 'Password is required.' }),
 })
 
 type SignInFormData = z.infer<typeof signInFormSchema>

@@ -14,11 +14,9 @@ import {
 } from './styles'
 
 import { Rating } from 'react-simple-star-rating'
-
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { useAppContext } from '@/contexts/AppContext'
 
 import { AVATAR_URL_DEFAULT, REVIEW_MAX_LENGTH } from '@/utils/constants'
@@ -33,21 +31,18 @@ import { ReviewProps } from '@/types/review'
 interface RatingCardFormProps {
   isEdit?: boolean
   id: string
-  media: string
+  media: 'movie' | 'tv'
   rating?: ReviewProps | null
-  mutate: any
+  mutate: () => void
   onClose: () => void
 }
 
-const ratingCardFormSchema = z.object({
-  description: z.string().nullable(),
-  rate: z
-    .number()
-    .positive({ message: 'Please choose a rating from 1 to 5.' })
-    .max(5),
+const ratingSchema = z.object({
+  description: z.string().min(1, 'Description is required.'),
+  rate: z.number().positive().max(5, 'Please choose a rating from 1 to 5.'),
 })
 
-type RatingCardFormData = z.infer<typeof ratingCardFormSchema>
+type RatingFormData = z.infer<typeof ratingSchema>
 
 export function RatingCardForm({
   onClose,
@@ -56,73 +51,43 @@ export function RatingCardForm({
   rating = null,
   isEdit = false,
   id,
-  ...rest
 }: RatingCardFormProps) {
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { isSubmitting, errors },
-  } = useForm<RatingCardFormData>({
-    resolver: zodResolver(ratingCardFormSchema),
-    defaultValues: {
-      description: isEdit ? rating?.content : '',
-      rate: isEdit ? rating?.author_details?.rating : 0,
-    },
-  })
+  const { register, watch, setValue, formState, handleSubmit } =
+    useForm<RatingFormData>({
+      resolver: zodResolver(ratingSchema),
+      defaultValues: {
+        description: isEdit ? rating?.content : '',
+        rate: isEdit ? rating?.author_details?.rating ?? 0 : 0,
+      },
+    })
+
+  const { isSubmitting, errors } = formState
 
   const session = useSession()
 
   const { handleSetIsLoading } = useAppContext()
 
-  const handleRating = (rate: number) => {
-    setValue('rate', rate)
-  }
+  const characterCount = watch('description')?.length || 0
 
-  const characterCount = watch('description')?.split('').length || 0
+  const handleRating = (rate: number) => setValue('rate', rate)
 
-  async function handleCreateReview(event: React.FormEvent) {
-    event.preventDefault()
-
+  const handleSubmitReview = async (data: RatingFormData) => {
     try {
       handleSetIsLoading(true)
 
-      const response = await api.post(`/ratings`, {
-        movieId: media === 'movie' ? String(id) : undefined,
-        seriesId: media === 'tv' ? String(id) : undefined,
-        description: watch('description'),
-        rate: Number(watch('rate')),
-      })
-
-      if (response.data) {
-        toast.success(response.data.message)
-        mutate()
+      const payload = {
+        movieId: media === 'movie' ? id : undefined,
+        seriesId: media === 'tv' ? id : undefined,
+        description: data.description,
+        rate: data.rate,
       }
-    } catch (error) {
-      handleApiError(error)
-    } finally {
-      handleSetIsLoading(false)
-      onClose()
-    }
-  }
 
-  async function handleEditReview(event: React.FormEvent) {
-    event.preventDefault()
+      const response = isEdit
+        ? await api.put(`/ratings/edit`, payload)
+        : await api.post(`/ratings`, payload)
 
-    try {
-      handleSetIsLoading(true)
-
-      const response = await api.put(`/ratings/edit`, {
-        movieId: media === 'movie' ? String(id) : undefined,
-        seriesId: media === 'tv' ? String(id) : undefined,
-        description: watch('description'),
-        rate: Number(watch('rate')),
-      })
-
-      if (response.data) {
-        toast.success(response.data.message)
-        mutate()
-      }
+      toast.success(response.data.message)
+      mutate()
     } catch (error) {
       handleApiError(error)
     } finally {
@@ -132,10 +97,7 @@ export function RatingCardForm({
   }
 
   return (
-    <RatingCardFormWrapper
-      onSubmit={isEdit ? handleEditReview : handleCreateReview}
-      {...rest}
-    >
+    <RatingCardFormWrapper onSubmit={handleSubmit(handleSubmitReview)}>
       <RatingCardFormHeader>
         <UserDetailsWrapper>
           <Avatar
@@ -146,7 +108,7 @@ export function RatingCardForm({
           <p>{session?.data?.user?.name}</p>
         </UserDetailsWrapper>
         <Rating
-          initialValue={rating?.author_details?.rating}
+          initialValue={watch('rate')}
           onClick={handleRating}
           emptyIcon={<Star size={20} />}
           fillIcon={<Star weight="fill" size={20} />}
@@ -155,6 +117,7 @@ export function RatingCardForm({
           {...register('rate')}
         />
       </RatingCardFormHeader>
+
       <ReviewFormWrapper>
         <ReviewForm
           placeholder="Write your review here"
@@ -163,6 +126,7 @@ export function RatingCardForm({
           {...register('description')}
         />
       </ReviewFormWrapper>
+
       <FooterWrapper>
         <CharacterCounterWrapper>
           <CharacterCounter>
@@ -170,17 +134,18 @@ export function RatingCardForm({
           </CharacterCounter>
           {(errors.rate || errors.description) && (
             <>
-              <FormErrors error={errors?.rate?.message} />
-              <FormErrors error={errors?.description?.message} />
+              <FormErrors
+                error={
+                  errors.rate?.message && 'Please choose a rating from 1 to 5.'
+                }
+              />
+              <FormErrors error={errors.description?.message} />
             </>
           )}
         </CharacterCounterWrapper>
+
         <UserActionsWrapper>
-          <ActionButton
-            type="button"
-            disabled={isSubmitting}
-            onClick={() => onClose()}
-          >
+          <ActionButton type="button" disabled={isSubmitting} onClick={onClose}>
             <X color="#8381D9" />
           </ActionButton>
           <ActionButton type="submit" disabled={isSubmitting}>
