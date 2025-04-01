@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 
 import {
@@ -22,7 +23,6 @@ import { SimilarSection } from './partials/SimilarSection'
 import { LinksSection } from './partials/LinksSection'
 import { DetailsSection } from './partials/DetailsSection'
 import { ModalSection } from './partials/ModalSection'
-import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { handleApiError } from '@/utils/handleApiError'
 import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
@@ -63,11 +63,9 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false)
 
-  const [isLoading, setIsLoading] = useState(false)
-
   const [isInUserList, setIsInUserList] = useState(false)
 
-  const { handleSetIsSignUpModalOpen } = useAppContext()
+  const { handleSetIsSignUpModalOpen, handleSetIsLoading } = useAppContext()
 
   const { status } = useSession()
 
@@ -89,7 +87,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   async function handleMediaAction(action: 'save' | 'delete') {
     try {
-      setIsLoading(true)
+      handleSetIsLoading(true)
 
       const mediaRoute = media === 'movie' ? 'movies' : 'series'
       const endpoint = `/user/${mediaRoute}`
@@ -111,7 +109,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     } catch (error) {
       handleApiError(error)
     } finally {
-      setIsLoading(false)
+      handleSetIsLoading(false)
     }
   }
 
@@ -151,6 +149,14 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     }
   }, [media, id, data?.savedMovies, data?.savedSeries])
 
+  useEffect(() => {
+    if (isValidatingMedia || isValidating) {
+      handleSetIsLoading(true)
+    } else {
+      handleSetIsLoading(false)
+    }
+  }, [isValidatingMedia, isValidating])
+
   return (isTrailerModalOpen && trailerLink?.length > 0) ||
     (isCreditsModalOpen && castData?.length > 0) ? (
     <ModalSection
@@ -168,93 +174,87 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   ) : (
     <LateralMenuWrapper>
       <OverlayBackground onClick={onClose} />
-      {mediaData ? (
-        <Wrapper>
-          <CloseButton onClick={onClose}>
-            <X />
-          </CloseButton>
-          <MediaContainer>
-            <MediaContent>
-              <MediaInfo>
-                {mediaData?.poster_path ? (
-                  <MediaImageWrapper>
-                    <MediaImage
-                      src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
-                    />
-                    <SaveButton
-                      isInUserList={isInUserList}
-                      onClick={() => {
-                        if (status === 'authenticated') {
-                          if (isInUserList) {
-                            handleMediaAction('delete')
-                          } else {
-                            handleMediaAction('save')
-                          }
+      <Wrapper>
+        <CloseButton onClick={onClose}>
+          <X />
+        </CloseButton>
+        <MediaContainer>
+          <MediaContent>
+            <MediaInfo>
+              {mediaData?.poster_path ? (
+                <MediaImageWrapper>
+                  <MediaImage
+                    src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
+                  />
+                  <SaveButton
+                    isInUserList={isInUserList}
+                    onClick={() => {
+                      if (status === 'authenticated') {
+                        if (isInUserList) {
+                          handleMediaAction('delete')
                         } else {
-                          handleSetIsSignUpModalOpen(true)
+                          handleMediaAction('save')
                         }
-                      }}
-                    />
-                  </MediaImageWrapper>
-                ) : (
-                  <MediaImageWrapper>
-                    <NotFoundImage>
-                      <p>Not found</p>
-                    </NotFoundImage>
-                  </MediaImageWrapper>
-                )}
+                      } else {
+                        handleSetIsSignUpModalOpen(true)
+                      }
+                    }}
+                  />
+                </MediaImageWrapper>
+              ) : (
+                <MediaImageWrapper>
+                  <NotFoundImage>
+                    <p>Not found</p>
+                  </NotFoundImage>
+                </MediaImageWrapper>
+              )}
+              {mediaData && (
                 <DetailsSection media={media} mediaData={mediaData} />
-              </MediaInfo>
-              {mediaData?.overview && (
-                <>
+              )}
+            </MediaInfo>
+            {mediaData?.overview && (
+              <>
+                <Separator />
+                <VisibleSeparator />
+                <SynopsisContainer>
+                  <p>{mediaData?.overview}</p>
                   <Separator />
                   <VisibleSeparator />
-                  <SynopsisContainer>
-                    <p>{mediaData?.overview}</p>
-                    <Separator />
-                    <VisibleSeparator />
-                    <LinksSection
-                      hasTrailer={trailerLink?.length > 0}
-                      mediaData={mediaData}
-                      handleClick={() => setIsTrailerModalOpen(true)}
-                    />
-                  </SynopsisContainer>
-                </>
-              )}
-            </MediaContent>
-
-            {castData?.length > 0 && (
-              <CreditsSection
-                creditsType="cast"
-                castData={castData}
-                handleOpenModal={() => setIsCreditsModalOpen(true)}
-                crewData={crewData}
-              />
+                  <LinksSection
+                    hasTrailer={trailerLink?.length > 0}
+                    mediaData={mediaData}
+                    handleClick={() => setIsTrailerModalOpen(true)}
+                  />
+                </SynopsisContainer>
+              </>
             )}
+          </MediaContent>
 
-            {similarMedias && similarMedias?.length > 0 && (
-              <SimilarSection
-                media={media}
-                similarMedias={similarMedias}
-                handleClick={(item) => setUpdatedId(item)}
-              />
-            )}
-
-            <ReviewSection
-              id={id}
-              media={media_type}
-              results={reviewData?.results}
-              mutate={mediaMutate}
+          {castData?.length > 0 && (
+            <CreditsSection
+              creditsType="cast"
+              castData={castData}
+              handleOpenModal={() => setIsCreditsModalOpen(true)}
+              crewData={crewData}
             />
+          )}
 
-            {(isLoading || isValidating || isValidatingMedia) && (
-              <LoadingComponent hasOverlay />
-            )}
-          </MediaContainer>
-        </Wrapper>
-      ) : (
-        <LoadingComponent />
-      )}
+          {similarMedias && similarMedias?.length > 0 && (
+            <SimilarSection
+              media={media}
+              similarMedias={similarMedias}
+              handleClick={(item) => setUpdatedId(item)}
+            />
+          )}
+
+          <ReviewSection
+            id={id}
+            media={media_type}
+            results={reviewData?.results}
+            mutate={mediaMutate}
+          />
+        </MediaContainer>
+      </Wrapper>
     </LateralMenuWrapper>
   )
 }

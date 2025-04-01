@@ -1,18 +1,18 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'phosphor-react'
 
-import {
-  Title,
-  Content,
-  CloseButton,
-  Header,
-  Overlay,
-  Description,
-} from './styles'
 import { useAppContext } from '@/contexts/AppContext'
 import { Button } from '@/components/Core/Button'
 import { useRouter } from 'next/router'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
+import {
+  ModalCloseButton,
+  ModalContent,
+  ModalDescription,
+  ModalHeader,
+  ModalOverlay,
+  ModalTitle,
+} from '@/styles/shared'
 
 export function SignUpModal() {
   const router = useRouter()
@@ -23,24 +23,24 @@ export function SignUpModal() {
 
   return (
     <Dialog.Portal>
-      <Overlay
+      <ModalOverlay
         className="DialogOverlay"
         onClick={() => handleSetIsSignUpModalOpen(false)}
       />
 
-      <Content className="DialogContent">
-        <Header>
-          <Title className="DialogTitle">
+      <ModalContent className="DialogContent">
+        <ModalHeader>
+          <ModalTitle className="DialogTitle">
             Ooops... You&apos;re not logged in!
-          </Title>
-          <CloseButton onClick={() => handleSetIsSignUpModalOpen(false)}>
+          </ModalTitle>
+          <ModalCloseButton onClick={() => handleSetIsSignUpModalOpen(false)}>
             <X alt="Close" />
-          </CloseButton>
-        </Header>
+          </ModalCloseButton>
+        </ModalHeader>
 
-        <Description className="DialogDescription">
+        <ModalDescription className="DialogDescription">
           <p>Sign in to bookmark and revisit your favorite media anytime!</p>
-        </Description>
+        </ModalDescription>
 
         <Button
           type="button"
@@ -54,7 +54,7 @@ export function SignUpModal() {
             marginTop: '1rem',
           }}
         />
-      </Content>
+      </ModalContent>
     </Dialog.Portal>
   )
 }
