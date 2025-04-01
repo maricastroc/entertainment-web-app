@@ -10,7 +10,7 @@ export function DetailsSection({ personData }: Props) {
     const paragraphs = text.trim().split('\n\n')
     return paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)
   }
-  console.log(personData)
+
   return (
     <MovieDetails>
       <Heading>

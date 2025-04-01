@@ -12,33 +12,26 @@ import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
 import { Input } from '@/components/Core/Input'
 import { LinkButton } from '@/components/Core/LinkButton'
-import { Form } from '@/components/Core/Form'
 
 import {
-  Wrapper,
   AvatarUploadButton,
   AvatarPreview,
   AvatarSection,
   AvatarPreviewWrapper,
+  Wrapper,
 } from './styles'
+import { Form } from '@/components/Core/Form'
 
-const signUpFormSchema = z
-  .object({
-    email: z.string().min(3, { message: 'E-mail is required.' }),
-    password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters long.' }),
-    passwordConfirm: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters long.' }),
-    avatarUrl: z.custom<File>((file) => file instanceof File && file.size > 0, {
-      message: 'Avatar file is required.',
-    }),
-  })
-  .refine((data) => data.password === data.passwordConfirm, {
-    message: "Passwords don't match",
-    path: ['passwordConfirm'],
-  })
+const signUpFormSchema = z.object({
+  email: z.string().min(3, { message: 'E-mail is required.' }),
+  name: z.string().min(3, { message: 'Name is required.' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long.' }),
+  avatarUrl: z.custom<File>((file) => file instanceof File && file.size > 0, {
+    message: 'Avatar file is required.',
+  }),
+})
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>
 
@@ -68,6 +61,7 @@ export default function SignUpForm() {
     formData.append('email', data.email)
     formData.append('password', data.password)
     formData.append('avatarUrl', data.avatarUrl)
+    formData.append('name', data.name)
 
     try {
       setIsLoading(true)
@@ -90,7 +84,6 @@ export default function SignUpForm() {
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      // Set avatar file in form value
       setValue('avatarUrl', file)
 
       const reader = new FileReader()
@@ -147,6 +140,15 @@ export default function SignUpForm() {
 
           <InputContainer>
             <Controller
+              name="name"
+              control={control}
+              render={({ field }) => <Input placeholder="Name" {...field} />}
+            />
+            {errors.name && <FormErrors error={errors.name.message} />}
+          </InputContainer>
+
+          <InputContainer>
+            <Controller
               name="email"
               control={control}
               render={({ field }) => (
@@ -165,23 +167,6 @@ export default function SignUpForm() {
               )}
             />
             {errors.password && <FormErrors error={errors.password.message} />}
-          </InputContainer>
-
-          <InputContainer>
-            <Controller
-              name="passwordConfirm"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  type="password"
-                  placeholder="Repeat Password"
-                  {...field}
-                />
-              )}
-            />
-            {errors.passwordConfirm && (
-              <FormErrors error={errors.passwordConfirm.message} />
-            )}
           </InputContainer>
 
           <Button

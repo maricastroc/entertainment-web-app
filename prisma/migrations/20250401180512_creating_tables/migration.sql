@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" TEXT,
     "avatarUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "email" TEXT,
@@ -23,8 +23,6 @@ CREATE TABLE "movies" (
 -- CreateTable
 CREATE TABLE "series" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
 
@@ -39,7 +37,8 @@ CREATE TABLE "ratings" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
-    "movieId" TEXT NOT NULL,
+    "movieId" TEXT,
+    "seriesId" TEXT,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "ratings_pkey" PRIMARY KEY ("id")
@@ -102,6 +101,9 @@ CREATE TABLE "_UserSavedSeries" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE INDEX "ratings_seriesId_idx" ON "ratings"("seriesId");
+
+-- CreateIndex
 CREATE INDEX "ratings_movieId_idx" ON "ratings"("movieId");
 
 -- CreateIndex
@@ -117,7 +119,10 @@ CREATE INDEX "_UserSavedMovies_B_index" ON "_UserSavedMovies"("B");
 CREATE INDEX "_UserSavedSeries_B_index" ON "_UserSavedSeries"("B");
 
 -- AddForeignKey
-ALTER TABLE "ratings" ADD CONSTRAINT "ratings_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "movies"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ratings" ADD CONSTRAINT "ratings_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "movies"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ratings" ADD CONSTRAINT "ratings_seriesId_fkey" FOREIGN KEY ("seriesId") REFERENCES "series"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ratings" ADD CONSTRAINT "ratings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

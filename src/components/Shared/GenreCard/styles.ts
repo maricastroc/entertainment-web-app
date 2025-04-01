@@ -27,7 +27,7 @@ export const Container = styled('div', {
   },
 
   '&.isEvenMovie': {
-    backgroundColor: '$blue500',
+    backgroundColor: '$green400',
   },
 
   '&.notEven': {

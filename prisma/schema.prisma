@@ -43,6 +43,7 @@ model Series {
   updatedAt   DateTime? @updatedAt
 
   users       User[]   @relation("UserSavedSeries")
+  ratings     Rating[]
 
   @@map("series")
 }
@@ -55,12 +56,16 @@ model Rating {
   updatedAt   DateTime? @updatedAt
   deletedAt   DateTime?
 
-  movie   Movie   @relation(fields: [movieId], references: [id])
-  movieId  String
+  movie   Movie?   @relation(fields: [movieId], references: [id])
+  movieId  String?
+
+  series   Series?   @relation(fields: [seriesId], references: [id])
+  seriesId  String?
 
   user    User   @relation(fields: [userId], references: [id])
   userId  String
 
+  @@index([seriesId])
   @@index([movieId])
   @@index([userId])
   @@map("ratings")

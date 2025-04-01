@@ -12,6 +12,7 @@ import { getFullYear } from '@/utils/getFullYear'
 import Image from 'next/image'
 
 export interface SimilarCardProps {
+  key: string
   backdrop_path?: string
   release_date?: string
   first_air_date?: string

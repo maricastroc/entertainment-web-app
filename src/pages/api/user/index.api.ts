@@ -39,6 +39,7 @@ export default async function handler(
     }
 
     try {
+      const name = getSingleString(fields.name)
       const email = getSingleString(fields.email)
       const password = getSingleString(fields.password)
       const avatarFile = files.avatarUrl?.[0]
@@ -83,6 +84,7 @@ export default async function handler(
 
       const user = await prisma.user.create({
         data: {
+          name,
           email,
           password: hashedPassword,
           avatarUrl: `/users/images/${avatarFile.originalFilename}`,

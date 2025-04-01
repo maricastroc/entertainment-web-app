@@ -8,7 +8,7 @@ export const Rating = styled('div', {
 
   svg: {
     fontSize: '1.1rem',
-    color: '$blue500',
+    color: '$green400',
   },
 
   '@media (min-width: 580px)': {
@@ -24,7 +24,7 @@ export const Rating = styled('div', {
       smaller: {
         gap: '0.1rem',
         svg: {
-          fontSize: '1rem',
+          fontSize: '1.1rem',
         },
       },
     },

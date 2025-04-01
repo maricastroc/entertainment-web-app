@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '@/lib/prisma'
 import {
   getMovieCasts,
   getMovieDetail,
@@ -15,24 +16,62 @@ export default async function handler(
   const { id } = req.query
 
   try {
-    const response = await fetch(getMovieDetail(id as string))
-    const response2 = await fetch(getMovieCasts(id as string))
-    const response3 = await fetch(getMovieReviews(id as string))
-    const response4 = await fetch(getMovieSimilars(id as string))
-    const response5 = await fetch(getMovieVideos(id as string))
+    const [detailRes, creditsRes, reviewsRes, similarsRes, videosRes] =
+      await Promise.all([
+        fetch(getMovieDetail(id as string)),
+        fetch(getMovieCasts(id as string)),
+        fetch(getMovieReviews(id as string)),
+        fetch(getMovieSimilars(id as string)),
+        fetch(getMovieVideos(id as string)),
+      ])
 
-    const data = await response.json()
-    const data2 = await response2.json()
-    const data3 = await response3.json()
-    const data4 = await response4.json()
-    const data5 = await response5.json()
+    const [detail, credits, reviewsData, similars, videos] = await Promise.all([
+      detailRes.json(),
+      creditsRes.json(),
+      reviewsRes.json(),
+      similarsRes.json(),
+      videosRes.json(),
+    ])
+
+    const movieRatings = await prisma.rating.findMany({
+      where: { movieId: id as string },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+      },
+    })
+
+    const formattedLocalReviews = movieRatings.map((rating) => ({
+      id: rating.id,
+      is_from_app_user: true,
+      user_id: rating.user.id,
+      author: rating.user.name,
+      author_details: {
+        avatar_user_path: rating.user.avatarUrl,
+        rating: rating.rate,
+      },
+      content: rating.description,
+      created_at: rating.createdAt,
+      rating: rating.rate,
+    }))
+
+    const mergedReviews = [...reviewsData.results, ...formattedLocalReviews]
+
+    mergedReviews.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime()
+      const dateB = new Date(b.created_at).getTime()
+      return dateB - dateA
+    })
 
     res.status(200).json({
-      detail: data,
-      credits: data2,
-      reviews: data3,
-      similars: data4,
-      videos: data5,
+      data: {
+        detail,
+        credits,
+        reviews: { ...reviewsData, results: mergedReviews },
+        similars,
+        videos,
+      },
     })
   } catch (err: any) {
     res.status(500).json({ error: err.message })

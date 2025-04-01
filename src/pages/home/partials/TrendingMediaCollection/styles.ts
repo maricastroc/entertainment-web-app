@@ -84,7 +84,7 @@ export const MediaHeader = styled('div', {
     cursor: 'pointer',
     backgroundColor: 'transparent',
     border: 'none',
-    color: '$blue600',
+    color: '$blue400',
     fontSize: '0.8rem',
     fontWeight: 500,
     textTransform: 'uppercase',

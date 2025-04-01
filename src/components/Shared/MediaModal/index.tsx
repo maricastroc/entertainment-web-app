@@ -36,6 +36,7 @@ import { CreditsSection } from './partials/CreditsSection'
 import { SaveButton } from '../SaveButton'
 import { useAppContext } from '@/contexts/AppContext'
 import { useSession } from 'next-auth/react'
+import { MediaResultProps } from '@/types/media-result'
 
 interface Props {
   id: string
@@ -77,6 +78,15 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     method: 'GET',
   })
 
+  const {
+    data: mediaResult,
+    mutate: mediaMutate,
+    isValidating: isValidatingMedia,
+  } = useRequest<MediaResultProps | null>({
+    url: `/${media_type}/${updatedId}`,
+    method: 'GET',
+  })
+
   async function handleMediaAction(action: 'save' | 'delete') {
     try {
       setIsLoading(true)
@@ -96,7 +106,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
       if (response.data) {
         toast.success(response.data.message)
         setIsInUserList(action === 'save')
-        mutate && mutate()
+        mutate()
       }
     } catch (error) {
       handleApiError(error)
@@ -106,40 +116,28 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   }
 
   useEffect(() => {
-    if (!updatedId) return
+    if (!updatedId || !mediaResult) return
 
-    async function fetchData() {
-      try {
-        const response = await fetch(`/api/${media_type}/${updatedId}`)
+    setMediaData(mediaResult?.detail)
 
-        const data = await response.json()
+    setReviewData(mediaResult?.reviews)
 
-        setMediaData(data?.detail)
+    setCastData(mediaResult?.credits?.cast)
 
-        setReviewData(data?.reviews)
+    setCrewData(mediaResult?.credits?.crew)
 
-        setCastData(data?.credits?.cast)
+    const trailer = mediaResult?.videos?.results
+      ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
+      .slice(0, 1)
 
-        setCrewData(data?.credits?.crew)
+    setTrailerLink(trailer[0]?.key || '')
 
-        const trailer = data?.videos?.results
-          ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
-          .slice(0, 1)
+    const filteredSimilar = mediaResult?.similars?.results?.filter(
+      (item: SimilarCardProps) => item.backdrop_path !== null,
+    )
 
-        setTrailerLink(trailer[0]?.key || '')
-
-        const filteredSimilar = data?.similars?.results?.filter(
-          (item: SimilarCardProps) => item.backdrop_path !== null,
-        )
-
-        setSimilarMedias(filteredSimilar.slice(0, 5))
-      } catch (error) {
-        console.error('Error loading data:', error)
-      }
-    }
-
-    fetchData()
-  }, [updatedId, media_type])
+    setSimilarMedias(filteredSimilar.slice(0, 5))
+  }, [updatedId, media_type, mediaResult])
 
   useEffect(() => {
     if (data?.savedMovies && media === 'movie') {
@@ -242,9 +240,16 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
               />
             )}
 
-            <ReviewSection results={reviewData?.results} />
+            <ReviewSection
+              id={id}
+              media={media_type}
+              results={reviewData?.results}
+              mutate={mediaMutate}
+            />
 
-            {(isLoading || isValidating) && <LoadingComponent hasOverlay />}
+            {(isLoading || isValidating || isValidatingMedia) && (
+              <LoadingComponent hasOverlay />
+            )}
           </MediaContainer>
         </Wrapper>
       ) : (

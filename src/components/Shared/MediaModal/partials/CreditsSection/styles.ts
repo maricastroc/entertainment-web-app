@@ -37,13 +37,13 @@ export const CastHeader = styled('div', {
     cursor: 'pointer',
     backgroundColor: 'transparent',
     border: 'none',
-    color: '$gray400',
-    fontSize: '0.7rem',
+    color: '$blue400',
+    fontSize: '0.75rem',
     fontWeight: 500,
     textTransform: 'uppercase',
 
     '&:hover': {
-      filter: 'brightness(1.6)',
+      filter: 'brightness(1.3)',
       transition: 'all 200ms',
     },
   },

@@ -18,10 +18,15 @@ export const {
       gray400: '#AFB3BC',
 
       red300: '#FC4747',
+
+      green400: '#1595AA',
       green500: '#0F766E',
 
-      blue500: '#1085A0',
+      purple100: '#8381D9',
+
+      blue400: '#7E93BC',
       blue600: '#5A698F',
+      blue650: '#26334F',
       blue700: '#161D2F',
       blue800: '#10141E',
     },

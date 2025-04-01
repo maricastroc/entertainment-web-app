@@ -49,7 +49,7 @@ const CastOrCrewSection = ({ data, type }: CastOrCrewProps) => {
                     ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
                     : 'https://github.com/octocat.png'
                 }
-                alt={item?.name || 'Imagem de perfil'}
+                alt={item?.name || 'Profile Image'}
               />
             </div>
             <CastInfo>

@@ -13,7 +13,6 @@ interface TvGenreProps {
 }
 
 export default function TvGenres({ data }: TvGenreProps) {
-  console.log(data)
   return <GenreCollection data={data} media="tv" />
 }
 

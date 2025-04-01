@@ -194,7 +194,7 @@ export const CastCard = styled('div', {
   img: {
     display: 'block',
     overflow: 'hidden',
-    outline: '1.5px solid $blue500',
+    outline: '1.5px solid $green400',
     outlineOffset: 2,
     objectFit: 'cover',
     borderRadius: '50%',
