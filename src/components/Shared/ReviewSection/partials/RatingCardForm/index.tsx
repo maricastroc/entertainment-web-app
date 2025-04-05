@@ -31,7 +31,7 @@ import { ReviewProps } from '@/types/review'
 interface RatingCardFormProps {
   isEdit?: boolean
   id: string
-  media: 'movie' | 'tv'
+  media: string
   rating?: ReviewProps | null
   mutate: () => void
   onClose: () => void
