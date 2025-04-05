@@ -76,8 +76,8 @@ export function RatingCardForm({
       handleSetIsLoading(true)
 
       const payload = {
-        movieId: media === 'movie' ? id : undefined,
-        seriesId: media === 'tv' ? id : undefined,
+        movieId: media === 'movie' ? String(id) : undefined,
+        seriesId: media === 'tv' ? String(id) : undefined,
         description: data.description,
         rate: data.rate,
       }
