@@ -81,7 +81,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     mutate: mediaMutate,
     isValidating: isValidatingMedia,
   } = useRequest<MediaResultProps | null>({
-    url: `/${media_type}/${updatedId}`,
+    url: `/${media}/${updatedId}`,
     method: 'GET',
   })
 

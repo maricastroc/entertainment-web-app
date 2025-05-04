@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '@/lib/prisma'
 import {
   getTvCasts,
   getTvDetail,
@@ -15,24 +16,89 @@ export default async function handler(
   const { id } = req.query
 
   try {
-    const response = await fetch(getTvDetail(id as string))
-    const response2 = await fetch(getTvCasts(id as string))
-    const response3 = await fetch(getTvReviews(id as string))
-    const response4 = await fetch(getTvSimilars(id as string))
-    const response5 = await fetch(getTvVideos(id as string))
+    const [detailRes, creditsRes, reviewsRes, similarsRes, videosRes] =
+      await Promise.all([
+        fetch(getTvDetail(id as string)),
+        fetch(getTvCasts(id as string)),
+        fetch(getTvReviews(id as string)),
+        fetch(getTvSimilars(id as string)),
+        fetch(getTvVideos(id as string)),
+      ])
 
-    const data = await response.json()
-    const data2 = await response2.json()
-    const data3 = await response3.json()
-    const data4 = await response4.json()
-    const data5 = await response5.json()
+    const [detail, credits, reviewsData, similars, videos] = await Promise.all([
+      detailRes.json(),
+      creditsRes.json(),
+      reviewsRes.json(),
+      similarsRes.json(),
+      videosRes.json(),
+    ])
+
+    const tvRatings = await prisma.rating.findMany({
+      where: { seriesId: id as string },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+      },
+    })
+
+    const formattedLocalReviews = tvRatings.map((rating) => ({
+      id: rating.id,
+      is_from_app_user: true,
+      user_id: rating.user.id,
+      author: rating.user.name,
+      author_details: {
+        avatar_user_path: rating.user.avatarUrl,
+        rating: rating.rate,
+      },
+      content: rating.description,
+      created_at: rating.createdAt,
+      rating: rating.rate,
+    }))
+
+    const mergedReviews = [...reviewsData.results, ...formattedLocalReviews]
+
+    mergedReviews.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime()
+      const dateB = new Date(b.created_at).getTime()
+      return dateB - dateA
+    })
+
+    const localVotes = {
+      count: tvRatings.length,
+      average:
+        tvRatings.reduce((sum, rating) => sum + rating.rate, 0) /
+        (tvRatings.length || 1), // Evita divisão por zero
+    }
+
+    const tmdbVotes = {
+      count: detail.vote_count || 0,
+      average: detail.vote_average || 0,
+    }
+
+    const combinedVoteCount = tmdbVotes.count + localVotes.count
+
+    const combinedVoteAverage =
+      combinedVoteCount > 0
+        ? (tmdbVotes.average * tmdbVotes.count +
+            localVotes.average * localVotes.count) /
+          combinedVoteCount
+        : 0
+
+    const updatedDetail = {
+      ...detail,
+      vote_count: combinedVoteCount,
+      vote_average: parseFloat(combinedVoteAverage.toFixed(1)),
+    }
 
     res.status(200).json({
-      detail: data,
-      credits: data2,
-      reviews: data3,
-      similars: data4,
-      videos: data5,
+      data: {
+        detail: updatedDetail,
+        credits,
+        reviews: { ...reviewsData, results: mergedReviews },
+        similars,
+        videos,
+      },
     })
   } catch (err: any) {
     res.status(500).json({ error: err.message })

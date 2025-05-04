@@ -64,9 +64,36 @@ export default async function handler(
       return dateB - dateA
     })
 
+    const localVotes = {
+      count: movieRatings.length,
+      average:
+        movieRatings.reduce((sum, rating) => sum + rating.rate, 0) /
+        (movieRatings.length || 1), // Evita divisão por zero
+    }
+
+    const tmdbVotes = {
+      count: detail.vote_count || 0,
+      average: detail.vote_average || 0,
+    }
+
+    const combinedVoteCount = tmdbVotes.count + localVotes.count
+
+    const combinedVoteAverage =
+      combinedVoteCount > 0
+        ? (tmdbVotes.average * tmdbVotes.count +
+            localVotes.average * localVotes.count) /
+          combinedVoteCount
+        : 0
+
+    const updatedDetail = {
+      ...detail,
+      vote_count: combinedVoteCount,
+      vote_average: parseFloat(combinedVoteAverage.toFixed(1)),
+    }
+
     res.status(200).json({
       data: {
-        detail,
+        detail: updatedDetail,
         credits,
         reviews: { ...reviewsData, results: mergedReviews },
         similars,
