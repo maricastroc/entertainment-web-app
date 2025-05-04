@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 import { useAppContext } from '@/contexts/AppContext'
 import { handleApiError } from '@/utils/handleApiError'
 import { SaveButton } from '../SaveButton'
+import { MOVIE_MEDIA } from '@/utils/constants'
 
 export function BookmarkCard({
   id,
@@ -40,7 +41,7 @@ export function BookmarkCard({
     try {
       handleSetIsLoading(true)
 
-      const mediaRoute = media === 'movie' ? 'movies' : 'series'
+      const mediaRoute = media === MOVIE_MEDIA ? 'movies' : 'series'
 
       const response = await api.delete(`/user/${mediaRoute}`, {
         data: { mediaId: String(id) },
@@ -66,7 +67,7 @@ export function BookmarkCard({
     fetch(`/api/${media}/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setMediaData(data.detail)
+        setMediaData(data.data.detail)
       })
       .catch((error) => {
         console.error('Error getting details:', error)
@@ -106,7 +107,7 @@ export function BookmarkCard({
                 <p>{getFullYear(mediaData?.release_date)}</p>
               )}
               <span>•</span>
-              {media === 'movie' ? (
+              {media === MOVIE_MEDIA ? (
                 <p>
                   <FontAwesomeIcon icon={faFilm} />
                   Movie

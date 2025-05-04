@@ -37,6 +37,7 @@ import { SaveButton } from '../SaveButton'
 import { useAppContext } from '@/contexts/AppContext'
 import { useSession } from 'next-auth/react'
 import { MediaResultProps } from '@/types/media-result'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   id: string
@@ -69,8 +70,6 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
   const { status } = useSession()
 
-  const media = media_type === 'movie' ? 'movie' : 'tv'
-
   const { data, mutate, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
     method: 'GET',
@@ -81,7 +80,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     mutate: mediaMutate,
     isValidating: isValidatingMedia,
   } = useRequest<MediaResultProps | null>({
-    url: `/${media}/${updatedId}`,
+    url: `/${media_type}/${updatedId}`,
     method: 'GET',
   })
 
@@ -89,7 +88,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     try {
       handleSetIsLoading(true)
 
-      const mediaRoute = media === 'movie' ? 'movies' : 'series'
+      const mediaRoute = media_type === MOVIE_MEDIA ? 'movies' : 'series'
       const endpoint = `/user/${mediaRoute}`
       const options =
         action === 'save'
@@ -138,16 +137,16 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
   }, [updatedId, media_type, mediaResult])
 
   useEffect(() => {
-    if (data?.savedMovies && media === 'movie') {
+    if (data?.savedMovies && media_type === MOVIE_MEDIA) {
       const savedMovies = data?.savedMovies?.map((movie) => movie.id)
 
       setIsInUserList(savedMovies.includes(String(id)))
-    } else if (data?.savedSeries && media === 'tv') {
+    } else if (data?.savedSeries && media_type === TV_MEDIA) {
       const savedSeries = data?.savedSeries?.map((movie) => movie.id)
 
       setIsInUserList(savedSeries.includes(String(id)))
     }
-  }, [media, id, data?.savedMovies, data?.savedSeries])
+  }, [media_type, id, data?.savedMovies, data?.savedSeries])
 
   useEffect(() => {
     if (isValidatingMedia || isValidating) {
@@ -161,7 +160,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
     (isCreditsModalOpen && castData?.length > 0) ? (
     <ModalSection
       type={isTrailerModalOpen ? 'trailer' : 'credits'}
-      media={media}
+      media={media_type}
       mediaData={mediaData as MediaDetailsProps}
       trailerLink={trailerLink}
       castData={castData}
@@ -209,7 +208,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
                 </MediaImageWrapper>
               )}
               {mediaData && (
-                <DetailsSection media={media} mediaData={mediaData} />
+                <DetailsSection media={media_type} mediaData={mediaData} />
               )}
             </MediaInfo>
             {mediaData?.overview && (
@@ -241,7 +240,7 @@ export default function MediaModal({ id, media_type, onClose }: Props) {
 
           {similarMedias && similarMedias?.length > 0 && (
             <SimilarSection
-              media={media}
+              media={media_type}
               similarMedias={similarMedias}
               handleClick={(item) => setUpdatedId(item)}
             />

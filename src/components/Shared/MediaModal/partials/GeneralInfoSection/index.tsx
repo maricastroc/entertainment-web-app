@@ -1,6 +1,7 @@
 import { convertLanguageCodeToName } from '@/utils/convertLanguageCodeToName'
 import { GeneralInfoContainer, GeneralInfoItem } from './styles'
 import { MediaDetailsProps } from '@/types/media-details'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   media: string
@@ -10,14 +11,14 @@ interface Props {
 export function GeneralInfoSection({ media, mediaData }: Props) {
   return (
     <GeneralInfoContainer>
-      {media === 'tv' && mediaData?.number_of_episodes && (
+      {media === TV_MEDIA && mediaData?.number_of_episodes && (
         <GeneralInfoItem>
           <h2>Episodes</h2>
           <p>{`${mediaData?.number_of_episodes}`}</p>
         </GeneralInfoItem>
       )}
 
-      {media === 'movie' && mediaData?.runtime > 0 && (
+      {media === MOVIE_MEDIA && mediaData?.runtime > 0 && (
         <GeneralInfoItem>
           <h2>Length</h2>
           <p>{`${mediaData?.runtime}min.`}</p>
@@ -36,7 +37,7 @@ export function GeneralInfoSection({ media, mediaData }: Props) {
       {(mediaData?.release_date || mediaData?.last_air_date) && (
         <GeneralInfoItem>
           <h2>Year</h2>
-          {media === 'movie' ? (
+          {media === MOVIE_MEDIA ? (
             <p>{mediaData?.release_date?.split('-')[0]}</p>
           ) : (
             <p>{mediaData?.last_air_date?.split('-')[0]}</p>

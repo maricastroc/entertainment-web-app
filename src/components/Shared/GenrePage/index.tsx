@@ -20,6 +20,7 @@ import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
+import { TV_MEDIA } from '@/utils/constants'
 
 interface GenrePageProps {
   data: {
@@ -29,7 +30,7 @@ interface GenrePageProps {
   id: string
   name: string
   currentPage: number
-  media: 'tv' | 'movie'
+  media: string
 }
 
 export default function GenrePage({
@@ -51,7 +52,7 @@ export default function GenrePage({
     <>
       <NextSeo
         title={
-          media === 'tv'
+          media === TV_MEDIA
             ? 'Genre TV Series | MovieMentor'
             : 'Genre Movies | MovieMentor'
         }
@@ -61,9 +62,13 @@ export default function GenrePage({
           <Header />
           <Container>
             <SearchBar
-              searchPath={media === 'tv' ? pathToSearchTV : pathToSearchMovie}
+              searchPath={
+                media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie
+              }
               placeholder={
-                media === 'tv' ? 'Search for TV series' : 'Search for Movies'
+                media === TV_MEDIA
+                  ? 'Search for TV series'
+                  : 'Search for Movies'
               }
             />
             <MainContent>

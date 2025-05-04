@@ -23,6 +23,7 @@ import { UserProps } from '@/types/user'
 import { useAppContext } from '@/contexts/AppContext'
 import { SaveButton } from '../SaveButton'
 import { useSession } from 'next-auth/react'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 export function MediaCard({
   id,
@@ -47,7 +48,7 @@ export function MediaCard({
     try {
       handleSetIsLoading(true)
 
-      const mediaRoute = media_type === 'movie' ? 'movies' : 'series'
+      const mediaRoute = media_type === MOVIE_MEDIA ? 'movies' : 'series'
       const endpoint = `/user/${mediaRoute}`
       const options =
         action === 'save'
@@ -72,11 +73,11 @@ export function MediaCard({
   }
 
   useEffect(() => {
-    if (data?.savedMovies && media_type === 'movie') {
+    if (data?.savedMovies && media_type === MOVIE_MEDIA) {
       const savedMovies = data?.savedMovies?.map((movie) => movie.id)
 
       setIsInUserList(savedMovies.includes(String(id)))
-    } else if (data?.savedSeries && media_type === 'tv') {
+    } else if (data?.savedSeries && media_type === TV_MEDIA) {
       const savedSeries = data?.savedSeries?.map((movie) => movie.id)
 
       setIsInUserList(savedSeries.includes(String(id)))
@@ -124,14 +125,14 @@ export function MediaCard({
           <span>•</span>
           {(() => {
             switch (media_type) {
-              case 'movie':
+              case MOVIE_MEDIA:
                 return (
                   <p>
                     <Image alt="" src={IconMovie} />
                     Movie
                   </p>
                 )
-              case 'tv':
+              case TV_MEDIA:
                 return (
                   <p>
                     <Image alt="" src={IconTv} />

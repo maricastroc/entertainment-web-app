@@ -23,6 +23,7 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 import { handleApiError } from '@/utils/handleApiError'
 import { useSession } from 'next-auth/react'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 export function TrendingMediaCard({
   id,
@@ -50,7 +51,7 @@ export function TrendingMediaCard({
     try {
       handleSetIsLoading(true)
 
-      const mediaRoute = media_type === 'movie' ? 'movies' : 'series'
+      const mediaRoute = media_type === MOVIE_MEDIA ? 'movies' : 'series'
       const endpoint = `/user/${mediaRoute}`
       const options =
         action === 'save'
@@ -75,11 +76,11 @@ export function TrendingMediaCard({
   }
 
   useEffect(() => {
-    if (data?.savedMovies && media_type === 'movie') {
+    if (data?.savedMovies && media_type === MOVIE_MEDIA) {
       const savedMovies = data?.savedMovies?.map((movie) => movie.id)
 
       setIsInUserList(savedMovies.includes(String(id)))
-    } else if (data?.savedSeries && media_type === 'tv') {
+    } else if (data?.savedSeries && media_type === TV_MEDIA) {
       const savedSeries = data?.savedSeries?.map((movie) => movie.id)
 
       setIsInUserList(savedSeries.includes(String(id)))
@@ -127,7 +128,7 @@ export function TrendingMediaCard({
                 <p>{getFullYear(release_date!)}</p>
               )}
               <span>•</span>
-              {media_type === 'movie' ? (
+              {media_type === MOVIE_MEDIA ? (
                 <p>
                   <Image alt="" src={IconMovie} />
                   Movie

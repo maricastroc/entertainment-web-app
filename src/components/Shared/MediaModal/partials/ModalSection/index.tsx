@@ -19,6 +19,7 @@ import { X } from 'phosphor-react'
 import { MediaDetailsProps } from '@/types/media-details'
 import { CastProps } from '@/types/cast'
 import { CrewProps } from '@/types/crew'
+import { MOVIE_MEDIA } from '@/utils/constants'
 
 interface Props {
   media: string
@@ -87,7 +88,7 @@ export function ModalSection({
                   mediaData?.release_date?.split('-')[0]}
               </p>
               <span>•</span>
-              {media === 'movie' ? (
+              {media === MOVIE_MEDIA ? (
                 <p>
                   <FontAwesomeIcon icon={faFilm} />
                   Movie

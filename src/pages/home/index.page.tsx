@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { useAppContext } from '@/contexts/AppContext'
 import { SignUpModal } from '@/components/Shared/SignUpModal'
 import * as Dialog from '@radix-ui/react-dialog'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 export interface MediaCardProps {
   id?: string
@@ -142,25 +143,25 @@ export default function Home({
     {
       title: 'Popular',
       items: popularMoviesList,
-      media: 'Movie',
+      media: MOVIE_MEDIA,
       endpoint: 'popular',
     },
     {
       title: 'Now Playing',
       items: nowPlayingMoviesList,
-      media: 'Movie',
+      media: MOVIE_MEDIA,
       endpoint: 'nowplaying',
     },
     {
       title: 'Upcoming',
       items: upcomingMoviesList,
-      media: 'Movie',
+      media: MOVIE_MEDIA,
       endpoint: 'upcoming',
     },
     {
       title: 'Top Rated',
       items: topRatedMoviesList,
-      media: 'Movie',
+      media: MOVIE_MEDIA,
       endpoint: 'top',
     },
   ]
@@ -169,25 +170,25 @@ export default function Home({
     {
       title: 'Popular',
       items: popularSeriesList,
-      media: 'TV Series',
+      media: TV_MEDIA,
       endpoint: 'popular',
     },
     {
       title: 'Airing Today',
       items: airingTodaySeriesList,
-      media: 'TV Series',
+      media: TV_MEDIA,
       endpoint: 'airing',
     },
     {
       title: 'On Air',
       items: onAirSeriesList,
-      media: 'TV Series',
+      media: TV_MEDIA,
       endpoint: 'onair',
     },
     {
       title: 'Top Rated',
       items: topRatedSeriesList,
-      media: 'TV Series',
+      media: TV_MEDIA,
       endpoint: 'top',
     },
   ]
@@ -216,7 +217,7 @@ export default function Home({
                   key={title}
                   title={title}
                   items={items}
-                  media_type="movie"
+                  media_type={MOVIE_MEDIA}
                 />
               ))}
               {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
@@ -234,7 +235,7 @@ export default function Home({
                   key={title}
                   title={title}
                   items={items}
-                  media_type="TV series"
+                  media_type={TV_MEDIA}
                 />
               ))}
               {mediaSeriesLists.map(({ title, items, media, endpoint }) => (

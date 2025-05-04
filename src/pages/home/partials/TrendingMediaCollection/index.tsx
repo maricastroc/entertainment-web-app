@@ -15,6 +15,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useRef, useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { CaretLeft, CaretRight } from 'phosphor-react'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface TrendingMediaCollectionProps {
   title: string
@@ -42,7 +43,7 @@ export default function TrendingMediaCollection({
     const moviePath = `${basePath}/movie/trending`
     const seriesPath = `${basePath}/tv/trending`
 
-    media_type.toLowerCase() === 'movie'
+    media_type.toLowerCase() === MOVIE_MEDIA
       ? await router.push(`${moviePath}/1`)
       : await router.push(`${seriesPath}/1`)
   }
@@ -65,7 +66,7 @@ export default function TrendingMediaCollection({
         <MediaTitle>
           <h2>{title}</h2>
           <MediaTag>
-            <p>{media_type}</p>
+            <p>{media_type === TV_MEDIA ? 'TV Series' : 'Movie'}</p>
           </MediaTag>
         </MediaTitle>
         <button onClick={handleGoToTrendingMedia}>See More</button>

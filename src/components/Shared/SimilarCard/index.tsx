@@ -10,6 +10,7 @@ import IconMovie from '../../../../public/assets/icon-category-movie.svg'
 import IconTv from '../../../../public/assets/icon-category-tv.svg'
 import { getFullYear } from '@/utils/getFullYear'
 import Image from 'next/image'
+import { MOVIE_MEDIA } from '@/utils/constants'
 
 export interface SimilarCardProps {
   key: string
@@ -47,7 +48,7 @@ export function SimilarCard({
         <CardInfoData>
           {release_date && <p>{getFullYear(release_date)}</p>}
           <span>•</span>
-          {media_type === 'movie' ? (
+          {media_type === MOVIE_MEDIA ? (
             <p>
               <Image alt="" src={IconMovie} />
               Movie

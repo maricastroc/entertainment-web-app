@@ -21,6 +21,7 @@ import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useAppContext } from '@/contexts/AppContext'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
@@ -62,7 +63,7 @@ export default function Bookmark() {
                       <Dialog.Trigger asChild key={item.id}>
                         <BookmarkCard
                           id={item.id}
-                          media={'movie'}
+                          media={MOVIE_MEDIA}
                           mutate={mutate}
                           handleClick={() => {
                             setIsMovieMediaModalOpen(true)
@@ -75,7 +76,7 @@ export default function Bookmark() {
                   })}
                   {isMovieMediaModalOpen && selectedMediaId && (
                     <MediaModal
-                      media_type={'movie'}
+                      media_type={MOVIE_MEDIA}
                       id={selectedMediaId}
                       onClose={() => setIsMovieMediaModalOpen(false)}
                     />
@@ -99,7 +100,7 @@ export default function Bookmark() {
                       <Dialog.Trigger asChild key={item.id}>
                         <BookmarkCard
                           id={item.id}
-                          media={'tv'}
+                          media={TV_MEDIA}
                           mutate={mutate}
                           handleClick={() => {
                             setIsSeriesMediaModalOpen(true)
@@ -112,7 +113,7 @@ export default function Bookmark() {
                   })}
                   {isSeriesMediaModalOpen && selectedMediaId && (
                     <MediaModal
-                      media_type={'tv'}
+                      media_type={TV_MEDIA}
                       id={selectedMediaId}
                       onClose={() => setIsSeriesMediaModalOpen(false)}
                     />

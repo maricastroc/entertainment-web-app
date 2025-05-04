@@ -16,6 +16,7 @@ import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
+import { TV_MEDIA } from '@/utils/constants'
 
 interface SearchResultItemProps {
   id: string
@@ -87,7 +88,7 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
                   })}
                   {isMediaModalOpen && selectedMediaId && (
                     <MediaModal
-                      media_type={'tv'}
+                      media_type={TV_MEDIA}
                       id={selectedMediaId}
                       onClose={() => setIsMediaModalOpen(false)}
                     />

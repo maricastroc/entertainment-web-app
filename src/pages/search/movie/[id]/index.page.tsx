@@ -18,6 +18,7 @@ import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
+import { MOVIE_MEDIA } from '@/utils/constants'
 
 interface SearchResultItemProps {
   id: string
@@ -80,7 +81,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
                             item.poster_path ||
                             item.profile_path
                           }
-                          media_type={'movie'}
+                          media_type={MOVIE_MEDIA}
                           handleClick={() => {
                             setIsMediaModalOpen(true)
                             setSelectedMediaId(item.id || '')
@@ -91,7 +92,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
                   })}
                   {isMediaModalOpen && selectedMediaId && (
                     <MediaModal
-                      media_type={'movie'}
+                      media_type={MOVIE_MEDIA}
                       id={selectedMediaId}
                       onClose={() => setIsMediaModalOpen(false)}
                     />

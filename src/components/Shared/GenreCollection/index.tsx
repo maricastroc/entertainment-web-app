@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo'
 import {
   Container,
   MainContent,
@@ -9,9 +10,9 @@ import { Header } from '@/components/Shared/Header'
 import { SearchBar } from '@/components/Shared/SearchBar'
 import { pathToSearchMovie, pathToSearchTV } from '@/utils'
 import { GenreCard } from '@/components/Shared/GenreCard'
-import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface GenreItem {
   name: string
@@ -22,7 +23,7 @@ interface GenreCollectionProps {
   data: {
     genres: GenreItem[]
   }
-  media: 'tv' | 'movie'
+  media: string
 }
 
 export default function GenreCollection({ data, media }: GenreCollectionProps) {
@@ -32,7 +33,7 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
     <>
       <NextSeo
         title={
-          media === 'tv'
+          media === TV_MEDIA
             ? 'Genre TV Series | MovieMentor'
             : 'Genre Movies | MovieMentor'
         }
@@ -41,13 +42,13 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
         <Header />
         <Container>
           <SearchBar
-            searchPath={media === 'tv' ? pathToSearchTV : pathToSearchMovie}
+            searchPath={media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie}
             placeholder={
-              media === 'tv' ? 'Search for TV series' : 'Search for Movies'
+              media === TV_MEDIA ? 'Search for TV series' : 'Search for Movies'
             }
           />
           <MainContent>
-            {media === 'tv' ? (
+            {media === TV_MEDIA ? (
               <TvGenresContainer>
                 {data?.genres?.map((item, index) => {
                   return (
@@ -72,7 +73,9 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
                       media_type={media}
                       background={
                         index % 2 === 0
-                          ? `${media === 'movie' ? 'isEvenMovie' : 'isEvenTv'}`
+                          ? `${
+                              media === MOVIE_MEDIA ? 'isEvenMovie' : 'isEvenTv'
+                            }`
                           : 'notEven'
                       }
                     />

@@ -20,13 +20,14 @@ import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
+import { TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   data: SearchResultItemProps[]
   searchPath: string
   totalPages: number
   pageName: string
-  media: 'tv' | 'movie'
+  media: string
   id: string
 }
 
@@ -54,9 +55,13 @@ export default function ThemePage({
           <Header />
           <Container>
             <SearchBar
-              searchPath={media === 'tv' ? pathToSearchTV : pathToSearchMovie}
+              searchPath={
+                media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie
+              }
               placeholder={
-                media === 'tv' ? 'Search for TV series' : 'Search for Movies'
+                media === TV_MEDIA
+                  ? 'Search for TV series'
+                  : 'Search for Movies'
               }
             />
             <MainContent>

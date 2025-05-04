@@ -19,7 +19,12 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppContext } from '@/contexts/AppContext'
 
-import { AVATAR_URL_DEFAULT, REVIEW_MAX_LENGTH } from '@/utils/constants'
+import {
+  AVATAR_URL_DEFAULT,
+  MOVIE_MEDIA,
+  REVIEW_MAX_LENGTH,
+  TV_MEDIA,
+} from '@/utils/constants'
 import { Avatar } from '@/components/Core/Avatar'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { useSession } from 'next-auth/react'
@@ -76,8 +81,8 @@ export function RatingCardForm({
       handleSetIsLoading(true)
 
       const payload = {
-        movieId: media === 'movie' ? String(id) : undefined,
-        seriesId: media === 'tv' ? String(id) : undefined,
+        movieId: media === MOVIE_MEDIA ? String(id) : undefined,
+        seriesId: media === TV_MEDIA ? String(id) : undefined,
         description: data.description,
         rate: data.rate,
       }

@@ -18,6 +18,7 @@ import { api } from '@/lib/axios'
 import { useAppContext } from '@/contexts/AppContext'
 import { SignUpModal } from '../SignUpModal'
 import { ReviewCard } from './partials/ReviewCard'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   results: ReviewProps[] | undefined
@@ -47,8 +48,8 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
 
       const response = await api.delete(`/ratings/delete`, {
         data: {
-          movieId: media === 'movie' ? String(id) : undefined,
-          seriesId: media === 'tv' ? String(id) : undefined,
+          movieId: media === MOVIE_MEDIA ? String(id) : undefined,
+          seriesId: media === TV_MEDIA ? String(id) : undefined,
         },
       })
 
@@ -78,7 +79,7 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
   return (
     <ReviewsContainer>
       <RatingContent>
-        <h2>Ratings</h2>
+        <h2>Reviews</h2>
         {(!session?.data?.user || (!hasUserReview && session?.data?.user)) && (
           <Dialog.Root open={isSignUpModalOpen}>
             <Dialog.Trigger asChild>

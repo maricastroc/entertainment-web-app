@@ -22,9 +22,10 @@ export default async function handler(
   }
 
   const userId = session.user.id
-  const { movieId, tvId } = req.body
 
-  if (!movieId && !tvId) {
+  const { movieId, seriesId } = req.body
+
+  if (!movieId && !seriesId) {
     return res.status(400).json({ message: 'Movie ID or TV ID is required' })
   }
 
@@ -37,9 +38,9 @@ export default async function handler(
       })
     }
 
-    if (tvId) {
+    if (seriesId) {
       media = await prisma.series.findUnique({
-        where: { id: tvId },
+        where: { id: seriesId },
       })
     }
 
@@ -53,7 +54,7 @@ export default async function handler(
       where: {
         userId: String(userId),
         movieId: movieId || undefined,
-        seriesId: tvId || undefined,
+        seriesId: seriesId || undefined,
       },
     })
 

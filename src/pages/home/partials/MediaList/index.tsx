@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface MediaListProps {
   title: string
@@ -36,7 +37,7 @@ export default function MediaList({
     const moviePath = `${basePath}/movie/${endpoint}`
     const seriesPath = `${basePath}/tv/${endpoint}`
 
-    media.toLowerCase() === 'movie'
+    media.toLowerCase() === MOVIE_MEDIA
       ? await router.push(`${moviePath}/1`)
       : await router.push(`${seriesPath}/1`)
   }
@@ -47,7 +48,7 @@ export default function MediaList({
         <MediaTitle>
           <h2>{title}</h2>
           <MediaTag>
-            <p>{media}</p>
+            <p>{media === TV_MEDIA ? 'TV Series' : 'Movie'}</p>
           </MediaTag>
         </MediaTitle>
         <button onClick={handleGoToTrendingMedia}>See More</button>

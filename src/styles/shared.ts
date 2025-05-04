@@ -109,7 +109,7 @@ export const ModalDescription = styled(RadixDescription, {
 })
 
 export const ModalContent = styled(RadixContent, {
-  padding: '1.5rem 1rem 3rem',
+  padding: '1.5rem',
   backgroundColor: '$blue700',
   color: '$gray300',
   display: 'flex',
@@ -120,12 +120,12 @@ export const ModalContent = styled(RadixContent, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'clamp(300px, 80vw, 300px)',
+  width: 'clamp(300px, 80vw, 320px)',
   borderRadius: '4px',
   zIndex: 9998,
   overflow: 'scroll',
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
-  height: '100%',
+  height: 'auto',
 
   '@media (min-width: 480px)': {
     width: 'clamp(300px, 85vw, 460px)',
