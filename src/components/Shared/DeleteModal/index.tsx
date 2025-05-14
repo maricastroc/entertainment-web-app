@@ -4,12 +4,12 @@ import {
   ModalContent,
   ModalDescription,
   ModalHeader,
-  ModalOverlay,
   ModalTitle,
 } from '@/styles/shared'
 import { X } from 'phosphor-react'
 import { Button } from '@/components/Core/Button'
 import { useAppContext } from '@/contexts/AppContext'
+import { ModalOverlay } from './styles'
 
 interface DeleteModalProps {
   onConfirm: () => void

@@ -9,9 +9,17 @@ export interface ReviewProps {
     rating: number
     avatar_path?: string
     avatar_user_path?: string
+    votes?: {
+      up: number
+      down: number
+    }
   }
   content: string
   url: string
   created_at: string | Date
   updated_at: string | Date
+  votes?: {
+    up: number
+    down: number
+  }
 }

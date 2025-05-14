@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  RatingContent,
-  UserActions,
-  ReviewsContainer,
-  ReviewCardContainer,
-} from './styles'
+import { RatingContent, ReviewsContainer, ReviewCardContainer } from './styles'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ReviewProps } from '@/types/review'
 import { RatingCardForm } from './partials/RatingCardForm'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { DeleteModal } from '../DeleteModal'
-import { Pencil, Trash } from 'phosphor-react'
 import { handleApiError } from '@/utils/handleApiError'
 import toast from 'react-hot-toast'
 import { api } from '@/lib/axios'
@@ -29,7 +22,7 @@ interface Props {
 
 export function ReviewSection({ id, media, mutate, results }: Props) {
   const { handleSetIsLoading } = useAppContext()
-
+  console.log(results)
   const session = useSession()
 
   const [isRatingCardFormOpen, setIsRatingCardFormOpen] = useState(false)
@@ -63,6 +56,31 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
       handleSetIsLoading(false)
       setIsDeleteModalOpen(false)
       mutate()
+    }
+  }
+
+  async function handleVote(
+    type: 'UP' | 'DOWN',
+    review: ReviewProps,
+    isFromAppUser: boolean,
+  ) {
+    try {
+      handleSetIsLoading(true)
+
+      const payload = isFromAppUser
+        ? { ratingId: review.id, type }
+        : { externalReviewId: review.id, type }
+
+      const response = await api.post('/ratings/vote', payload)
+
+      if (response.data) {
+        toast.success(response.data.message)
+        mutate() // revalida os dados
+      }
+    } catch (error) {
+      handleApiError(error)
+    } finally {
+      handleSetIsLoading(false)
     }
   }
 
@@ -132,37 +150,22 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
 
             return (
               <ReviewCardContainer key={review.id}>
-                <ReviewCard review={review} avatarUrl={avatarUrl} />
-                {session?.data?.user &&
-                  review?.user_id === session.data?.user.id && (
-                    <>
-                      <UserActions>
-                        <Dialog.Root open={isDeleteModalOpen}>
-                          <Dialog.Trigger asChild>
-                            <Trash
-                              className="delete_icon"
-                              onClick={() => setIsDeleteModalOpen(true)}
-                            />
-                          </Dialog.Trigger>
-                          <DeleteModal
-                            onConfirm={() => {
-                              handleDeleteReview()
-                            }}
-                            onClose={() => {
-                              setIsDeleteModalOpen(false)
-                            }}
-                          />
-                        </Dialog.Root>
-                        <Pencil
-                          className="edit_icon"
-                          onClick={() => {
-                            setReviewToEdit(review)
-                            setIsRatingCardFormOpen(true)
-                          }}
-                        />
-                      </UserActions>
-                    </>
-                  )}
+                <ReviewCard
+                  review={review}
+                  avatarUrl={avatarUrl}
+                  handleVote={handleVote}
+                  isDeleteModalOpen={isDeleteModalOpen}
+                  handleSetReviewToEdit={(value) => setReviewToEdit(value)}
+                  handleSetIsDeleteModalOpen={(value) =>
+                    setIsDeleteModalOpen(value)
+                  }
+                  handleSetIsRatingCardFormOpen={(value) =>
+                    setIsRatingCardFormOpen(value)
+                  }
+                  handleDeleteReview={handleDeleteReview}
+                  votesUp={review.votes?.up}
+                  votesDown={review.votes?.down}
+                />
               </ReviewCardContainer>
             )
           })

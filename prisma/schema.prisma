@@ -22,6 +22,7 @@ model User {
   ratings       Rating[]
   savedMovies   Movie[]         @relation("UserSavedMovies")
   savedSeries   Series[]        @relation("UserSavedSeries")
+  votes       Vote[] 
 
   @@map("users")
 }
@@ -33,6 +34,8 @@ model Movie {
 
   users       User[]   @relation("UserSavedMovies")
   ratings     Rating[]
+  externalReviews     ExternalReview[]
+  votes       Vote[] 
 
   @@map("movies")
 }
@@ -44,6 +47,8 @@ model Series {
 
   users       User[]   @relation("UserSavedSeries")
   ratings     Rating[]
+  externalReviews     ExternalReview[]
+  votes       Vote[] 
 
   @@map("series")
 }
@@ -62,6 +67,8 @@ model Rating {
   series   Series?   @relation(fields: [seriesId], references: [id])
   seriesId  String?
 
+  votes   Vote[]
+
   user    User   @relation(fields: [userId], references: [id])
   userId  String
 
@@ -69,6 +76,60 @@ model Rating {
   @@index([movieId])
   @@index([userId])
   @@map("ratings")
+}
+
+model ExternalReview {
+  id            String   @id
+  author        String
+  content       String   @db.Text
+  createdAt     DateTime
+  rating        Float?   // <- do author_details.rating
+  username      String?  // <- do author_details.username
+  name          String?  // <- do author_details.name
+  avatarPath    String?  // <- do author_details.avatar_path
+
+  movie         Movie?   @relation(fields: [movieId], references: [id])
+  movieId       String?
+
+  series        Series?  @relation(fields: [seriesId], references: [id])
+  seriesId      String?
+
+  votes         Vote[]
+
+  @@map("external_reviews")
+}
+
+model Vote {
+  id               String         @id @default(uuid())
+  type             VoteType
+  createdAt        DateTime       @default(now())
+
+  userId           String
+  user             User           @relation(fields: [userId], references: [id])
+
+  movieId          String?
+  movie            Movie?         @relation(fields: [movieId], references: [id])
+
+  seriesId         String?
+  series           Series?        @relation(fields: [seriesId], references: [id])
+
+  ratingId         String?
+  rating           Rating?        @relation(fields: [ratingId], references: [id])
+
+  externalReviewId String?
+  externalReview   ExternalReview? @relation(fields: [externalReviewId], references: [id])
+
+  @@unique([userId, movieId])
+  @@unique([userId, seriesId])
+  @@unique([userId, ratingId]) // Adiciona a combinação única
+  @@unique([userId, externalReviewId]) // Adiciona a combinação única
+
+  @@map("votes")
+}
+
+enum VoteType {
+  UP
+  DOWN
 }
 
 model Account {
