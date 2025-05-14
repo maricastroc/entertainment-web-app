@@ -103,32 +103,42 @@ export const ButtonPage = styled('button', {
   },
 })
 
-export const AuthButton = styled('div', {
+export const ButtonsContainer = styled('div', {
   display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
   position: 'absolute',
-  top: '200%',
-  right: '100%',
-  transform: 'translate(50%, -50%)',
+  top: '140%',
+  right: '10%',
+  borderRadius: 8,
+  width: '8.6rem',
+  backgroundColor: '$blue700',
+  padding: '1rem 0',
+  gap: '1rem',
+
+  '@media (min-width: 1024px)': {
+    top: '-40%',
+    left: '150%',
+  },
+})
+
+export const AuthButton = styled('div', {
+  marginLeft: '1rem',
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 8,
-  width: '5.7rem',
-  height: '2.8rem',
   backgroundColor: '$blue700',
-  gap: '0.3rem',
+  gap: '0.5rem',
 
   p: {
-    fontSize: '$bodyMd',
-    color: '$gray300',
+    fontSize: '1.05rem',
+    color: '$gray100',
   },
 
   svg: {
-    fontSize: '$bodyMd',
-  },
-
-  '@media (min-width: 1024px)': {
-    top: '50%',
-    left: '50%',
+    fontSize: '$bodyLg',
   },
 
   '&:hover': {

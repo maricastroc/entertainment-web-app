@@ -12,21 +12,18 @@ import {
   movieTopRated,
 } from '../../lib/tmdb'
 
-import { Container, MainContent, Wrapper } from './styles'
-
-import { Header } from '@/components/Shared/Header'
-import { SearchBar } from '@/components/Shared/SearchBar'
+import { MainContent } from './styles'
 import { pathToSearchAll } from '@/utils'
 import MediaList from './partials/MediaList'
 import TrendingMediaCollection from './partials/TrendingMediaCollection'
 import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useEffect, useState } from 'react'
 import { useAppContext } from '@/contexts/AppContext'
 import { SignUpModal } from '@/components/Shared/SignUpModal'
 import * as Dialog from '@radix-ui/react-dialog'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import AuthLayout from '@/layouts/auth'
 
 export interface MediaCardProps {
   id?: string
@@ -201,56 +198,52 @@ export default function Home({
     <>
       <NextSeo title="Home | MovieMentor" />
       {isClient && (
-        <Wrapper>
-          <Header />
-          <Container>
-            <SearchBar
-              searchPath={pathToSearchAll}
-              placeholder="Search for movie / TV series"
-            />
-            <Dialog.Root open={isSignUpModalOpen}>
-              <SignUpModal />
-            </Dialog.Root>
-            <MainContent>
-              {mediaTrendingMoviesLists.map(({ title, items }) => (
-                <TrendingMediaCollection
-                  key={title}
-                  title={title}
-                  items={items}
-                  media_type={MOVIE_MEDIA}
-                />
-              ))}
-              {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
-                <MediaList
-                  key={title}
-                  title={title}
-                  items={items}
-                  media={media}
-                  endpoint={endpoint}
-                />
-              ))}
-              {mediaTrendingSeriesLists.map(({ title, items }) => (
-                <TrendingMediaCollection
-                  withTopMargin
-                  key={title}
-                  title={title}
-                  items={items}
-                  media_type={TV_MEDIA}
-                />
-              ))}
-              {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
-                <MediaList
-                  key={title}
-                  title={title}
-                  items={items}
-                  media={media}
-                  endpoint={endpoint}
-                />
-              ))}
-            </MainContent>
-          </Container>
-          {(isRouteLoading || isLoading) && <LoadingComponent hasOverlay />}
-        </Wrapper>
+        <AuthLayout
+          searchPath={pathToSearchAll}
+          searchPlaceholder="Search for movie / TV series"
+          isLoading={isRouteLoading || isLoading}
+        >
+          <Dialog.Root open={isSignUpModalOpen}>
+            <SignUpModal />
+          </Dialog.Root>
+          <MainContent>
+            {mediaTrendingMoviesLists.map(({ title, items }) => (
+              <TrendingMediaCollection
+                key={title}
+                title={title}
+                items={items}
+                media_type={MOVIE_MEDIA}
+              />
+            ))}
+            {mediaMoviesLists.map(({ title, items, media, endpoint }) => (
+              <MediaList
+                key={title}
+                title={title}
+                items={items}
+                media={media}
+                endpoint={endpoint}
+              />
+            ))}
+            {mediaTrendingSeriesLists.map(({ title, items }) => (
+              <TrendingMediaCollection
+                withTopMargin
+                key={title}
+                title={title}
+                items={items}
+                media_type={TV_MEDIA}
+              />
+            ))}
+            {mediaSeriesLists.map(({ title, items, media, endpoint }) => (
+              <MediaList
+                key={title}
+                title={title}
+                items={items}
+                media={media}
+                endpoint={endpoint}
+              />
+            ))}
+          </MainContent>
+        </AuthLayout>
       )}
     </>
   )

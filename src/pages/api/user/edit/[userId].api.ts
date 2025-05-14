@@ -1,25 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IncomingForm } from 'formidable'
+import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-
 import fs from 'fs'
 import path from 'path'
-import { prisma } from '@/lib/prisma'
-import { buildNextAuthOptions } from '../../auth/[...nextauth].api'
 
 export const config = {
   api: {
     bodyParser: false,
   },
-}
-
-interface Updates {
-  name?: string | undefined
-  email?: string | undefined
-  password?: string | undefined
-  avatarUrl?: string | undefined
 }
 
 const getSingleString = (
@@ -28,11 +19,47 @@ const getSingleString = (
   if (Array.isArray(value)) {
     return value[0]
   }
-  if (typeof value === 'string') {
-    return value
-  }
-  return undefined
+  return value
 }
+
+const updateUserSchema = z
+  .object({
+    userId: z.string().nonempty('User ID is required'),
+    name: z.string().min(3, 'Name must be at least 3 characters').optional(),
+    email: z.string().email('Invalid email').optional(),
+    oldPassword: z.string().optional(),
+    newPassword: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .optional(),
+  })
+  .superRefine(async (data, ctx) => {
+    if (data.newPassword && !data.oldPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Current password is required to change password',
+        path: ['oldPassword'],
+      })
+    }
+
+    if (data.email) {
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          email: data.email,
+          NOT: {
+            id: data.userId,
+          },
+        },
+      })
+      if (existingUser) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'This email is already in use by another account',
+          path: ['email'],
+        })
+      }
+    }
+  })
 
 export default async function handler(
   req: NextApiRequest,
@@ -40,18 +67,6 @@ export default async function handler(
 ) {
   if (req.method !== 'PUT') {
     return res.status(405).json({ message: 'Method Not Allowed' })
-  }
-
-  const session = await getServerSession(
-    req,
-    res,
-    buildNextAuthOptions(req, res),
-  )
-
-  if (!session) {
-    return res
-      .status(403)
-      .json({ message: 'You must be logged in to update your profile.' })
   }
 
   const form = new IncomingForm()
@@ -62,72 +77,87 @@ export default async function handler(
     }
 
     try {
-      const userId = String(req.query.userId)
+      const userId = getSingleString(fields.userId)
+      const name = getSingleString(fields.name)
+      const email = getSingleString(fields.email)
+      const oldPassword = getSingleString(fields.oldPassword)
+      const newPassword = getSingleString(fields.newPassword)
+      const avatarFile = files.avatarUrl?.[0]
 
-      const updatedFields: {
-        name?: string
-        email?: string
-        password?: string
-      } = {
-        name: fields.name ? getSingleString(fields.name) : undefined,
-        email: fields.email ? getSingleString(fields.email) : undefined,
-        password: fields.password
-          ? getSingleString(fields.password)
-          : undefined,
+      const inputData = {
+        userId,
+        name,
+        email,
+        oldPassword,
+        newPassword,
       }
 
-      const updateUserSchema = z.object({
-        name: z.string().optional(),
-        email: z.string().email('Invalid email').optional(),
-        password: z
-          .string()
-          .min(8, 'Password must be at least 8 characters')
-          .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-          .regex(/[0-9]/, 'Password must contain at least one number')
-          .optional(),
+      const validatedData = await updateUserSchema.parseAsync(inputData)
+
+      const user = await prisma.user.findUnique({
+        where: { id: validatedData.userId },
       })
 
-      const validatedFields = await updateUserSchema.parseAsync(updatedFields)
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' })
+      }
 
-      let avatarUrl
+      if (validatedData.newPassword) {
+        if (!validatedData.oldPassword) {
+          return res
+            .status(400)
+            .json({ message: 'Current password is required' })
+        }
 
-      if (files.avatarUrl) {
-        const avatarFile = Array.isArray(files.avatarUrl)
-          ? files.avatarUrl[0]
-          : files.avatarUrl
-        const avatarPath = path.join(
-          process.cwd(),
-          'public',
-          'users',
-          'images',
-          avatarFile.originalFilename ?? '',
+        const isPasswordValid = await bcrypt.compare(
+          validatedData.oldPassword,
+          user.password as string,
         )
-        fs.renameSync(avatarFile.filepath, avatarPath)
-        avatarUrl = `/users/images/${avatarFile.originalFilename}`
+
+        if (!isPasswordValid) {
+          return res
+            .status(400)
+            .json({ message: 'Current password is incorrect' })
+        }
       }
 
-      const updates: Updates = { ...validatedFields }
+      let avatarUrl = user.avatarUrl
 
-      if (validatedFields.password) {
-        updates.password = await bcrypt.hash(validatedFields.password, 10)
-      }
+      if (avatarFile) {
+        const uploadDir = path.join(process.cwd(), 'public', 'users', 'images')
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true })
+        }
 
-      if (avatarUrl) {
-        updates.avatarUrl = avatarUrl
+        const fileName = `${user.id}-${avatarFile.originalFilename}`
+        const filePath = path.join(uploadDir, fileName)
+        fs.renameSync(avatarFile.filepath, filePath)
+        avatarUrl = `/users/images/${fileName}`
       }
 
       const updatedUser = await prisma.user.update({
-        where: { id: userId.toString() },
-        data: updates,
+        where: { id: validatedData.userId },
+        data: {
+          name: validatedData.name || user.name,
+          email: validatedData.email || user.email,
+          password: validatedData.newPassword
+            ? await bcrypt.hash(validatedData.newPassword, 10)
+            : user.password,
+          avatarUrl,
+        },
       })
 
-      return res.status(200).json(updatedUser)
+      const { password: _, ...userWithoutPassword } = updatedUser
+
+      return res.status(200).json(userWithoutPassword)
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors[0].message })
-      } else if (error instanceof Error) {
-        return res.status(400).json({ message: error.message })
+        return res.status(400).json({
+          message: 'Validation error',
+          errors: error.errors,
+        })
       }
+      console.error('Error updating user:', error)
       return res.status(500).json({ message: 'Internal server error' })
     }
   })

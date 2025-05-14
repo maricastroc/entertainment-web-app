@@ -1,35 +1,5 @@
 import { styled } from '../../styles'
 
-export const Wrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-
-  '@media (min-width: 1024px)': {
-    flexDirection: 'row',
-    overflowY: 'hidden',
-    maxHeight: '100vh',
-  },
-})
-
-export const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '1rem',
-  width: '100%',
-  paddingBottom: 0,
-
-  '@media (min-width: 640px)': {
-    padding: '1.5rem',
-    paddingBottom: 0,
-  },
-
-  '@media (min-width: 1024px)': {
-    overflowY: 'hidden',
-    maxWidth: '87vw',
-  },
-})
-
 export const MainContent = styled('div', {
   display: 'flex',
   flexDirection: 'column',

@@ -1,15 +1,16 @@
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   AuthButton,
   AvatarContainer,
   ButtonPage,
   ButtonPagesContainer,
+  ButtonsContainer,
   Container,
 } from './styles'
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
-import { SignIn, SignOut } from 'phosphor-react'
+import { SignIn, SignOut, User } from 'phosphor-react'
 import IconBookmark from '../../../../public/assets/icon-nav-bookmark.svg'
 import IconHome from '../../../../public/assets/icon-nav-home.svg'
 import IconMovie from '../../../../public/assets/icon-nav-movies.svg'
@@ -17,9 +18,10 @@ import IconTv from '../../../../public/assets/icon-nav-tv-series.svg'
 import Image from 'next/image'
 import { useState, useEffect, useRef, RefObject, useCallback } from 'react'
 import toast from 'react-hot-toast'
+import { useAppContext } from '@/contexts/AppContext'
 
 export function Header() {
-  const session = useSession()
+  const { user } = useAppContext()
 
   const router = useRouter()
 
@@ -89,7 +91,7 @@ export function Header() {
         <ButtonPage active={router.pathname === '/tv'}>
           <Image alt="" src={IconTv} onClick={() => goToTvGenre()} />
         </ButtonPage>
-        {session.data?.user && (
+        {user && (
           <ButtonPage active={router.pathname === '/bookmark'}>
             <Image alt="" src={IconBookmark} onClick={() => goToBookmark()} />
           </ButtonPage>
@@ -100,31 +102,34 @@ export function Header() {
         ref={avatarRef as RefObject<HTMLAnchorElement>}
         onClick={() => setIsLogoutModalOpen(!isLogoutModalOpen)}
       >
-        <img
-          src={
-            session.data?.user?.avatarUrl ?? 'https://github.com/octocat.png'
-          }
-          alt=""
-        />
+        <img src={user?.avatarUrl ?? 'https://github.com/octocat.png'} alt="" />
 
         {isLogoutModalOpen && (
-          <AuthButton
-            ref={logoutModalRef}
-            onClick={() => {
-              if (session?.data?.user) {
-                handleLogout()
-              } else {
-                router.push('/')
-              }
-            }}
-          >
-            <p>{session?.data?.user ? 'sign out' : 'sign in'}</p>
-            {session?.data?.user ? (
-              <SignOut style={{ color: '#FC4747' }} />
-            ) : (
-              <SignIn style={{ color: '#F8F9FC' }} />
+          <ButtonsContainer>
+            <AuthButton
+              ref={logoutModalRef}
+              onClick={() => {
+                if (user) {
+                  handleLogout()
+                } else {
+                  router.push('/')
+                }
+              }}
+            >
+              {user ? (
+                <SignOut style={{ color: '#7E93BC' }} />
+              ) : (
+                <SignIn style={{ color: '#7E93BC' }} />
+              )}
+              <p>{user ? 'sign out' : 'sign in'}</p>
+            </AuthButton>
+            {user && (
+              <AuthButton onClick={() => router.push('/profile')}>
+                <User style={{ color: '#7E93BC' }} />
+                <p>edit profile</p>
+              </AuthButton>
             )}
-          </AuthButton>
+          </ButtonsContainer>
         )}
       </AvatarContainer>
     </Container>
