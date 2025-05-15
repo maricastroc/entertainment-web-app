@@ -17,6 +17,7 @@ import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useAppContext } from '@/contexts/AppContext'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
+import PersonModal from '@/components/Shared/PersonModal'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
@@ -28,6 +29,8 @@ export default function Bookmark() {
   const [isSeriesMediaModalOpen, setIsSeriesMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+  const [selectedMediaType, setSelectedMediaType] = useState('')
 
   const { data, mutate, isValidating } = useRequest<UserProps | null>({
     url: '/profile',
@@ -68,13 +71,32 @@ export default function Bookmark() {
                     </Dialog.Trigger>
                   )
                 })}
-                {isMovieMediaModalOpen && selectedMediaId && (
-                  <MediaModal
-                    media_type={MOVIE_MEDIA}
-                    id={selectedMediaId}
-                    onClose={() => setIsMovieMediaModalOpen(false)}
-                  />
-                )}
+                {isMovieMediaModalOpen &&
+                  selectedMediaId &&
+                  (selectedMediaType === 'person' ? (
+                    <PersonModal
+                      mediaType={selectedMediaType}
+                      id={selectedMediaId}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                      onClose={() => {
+                        setIsMovieMediaModalOpen(false)
+                        setSelectedMediaType('')
+                      }}
+                    />
+                  ) : (
+                    <MediaModal
+                      media_type={selectedMediaType}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                      id={selectedMediaId}
+                      onClose={() => setIsMovieMediaModalOpen(false)}
+                    />
+                  ))}
               </Dialog.Root>
             </MediaContent>
             {!data?.savedMovies?.length && (
@@ -106,13 +128,32 @@ export default function Bookmark() {
                     </Dialog.Trigger>
                   )
                 })}
-                {isSeriesMediaModalOpen && selectedMediaId && (
-                  <MediaModal
-                    media_type={TV_MEDIA}
-                    id={selectedMediaId}
-                    onClose={() => setIsSeriesMediaModalOpen(false)}
-                  />
-                )}
+                {isSeriesMediaModalOpen &&
+                  selectedMediaId &&
+                  (selectedMediaType === 'person' ? (
+                    <PersonModal
+                      mediaType={selectedMediaType}
+                      id={selectedMediaId}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                      onClose={() => {
+                        setIsSeriesMediaModalOpen(false)
+                        setSelectedMediaType('')
+                      }}
+                    />
+                  ) : (
+                    <MediaModal
+                      media_type={selectedMediaType}
+                      id={selectedMediaId}
+                      onClose={() => setIsSeriesMediaModalOpen(false)}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                    />
+                  ))}
               </MediaContent>
             </Dialog.Root>
             {!data?.savedSeries?.length && (
