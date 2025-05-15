@@ -1,10 +1,10 @@
 import { styled } from '@/styles'
 
-export const MovieDetails = styled('div', {
+export const PersonDetails = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
+  justifyContent: 'space-between',
+  alignItems: 'space-between',
   width: '100%',
 
   '@media (min-width: 680px)': {
@@ -13,12 +13,47 @@ export const MovieDetails = styled('div', {
   },
 })
 
-export const MovieDetailsWrapper = styled('div', {
+export const PersonDetailsWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: '100%',
+})
+
+export const PopularityWrapper = styled('div', {
+  margin: '1.2rem 0',
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: '100%',
+  gap: '0.8rem',
+
+  svg: {
+    fontWeight: 400,
+    color: '$green400',
+    fontSize: '1.4rem',
+  },
+})
+
+export const PopularityValue = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'flex-start',
-  width: '100%',
+
+  span: {
+    fontWeight: 400,
+    fontSize: '1.4rem',
+  },
+
+  p: {
+    fontSize: '0.9rem',
+    fontWeight: 500,
+    color: '$gray300',
+    maxWidth: '5rem',
+    opacity: 0.8,
+  },
 })
 
 export const Heading = styled('div', {
@@ -28,6 +63,7 @@ export const Heading = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '0.2rem',
+  marginBottom: '1.2rem',
 
   '> h2': {
     fontSize: '1.5rem',
@@ -72,43 +108,15 @@ export const Heading = styled('div', {
   },
 })
 
-export const BiographyContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  width: '100%',
-  overflowY: 'scroll',
-  maxHeight: '14rem',
-  gap: '0.5rem',
-
-  '> p': {
-    fontSize: '0.85rem',
-    color: '$gray100',
-    lineHeight: '1.25rem',
-    fontWeight: 300,
-    opacity: 0.7,
-    textAlign: 'left',
-  },
-})
-
 export const Separator = styled('span', {
   width: '100%',
   height: 1.5,
   backgroundColor: '$blue600',
-  margin: '1.2rem 0',
   opacity: 0.3,
 
   '@media (min-width: 680px)': {
     display: 'none',
   },
-})
-
-export const RatingWrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: '0.3rem',
 })
 
 export const VisibleSeparator = styled('span', {

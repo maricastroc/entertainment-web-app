@@ -11,13 +11,16 @@ import {
   OverlayBackground,
   MovieImageWrapper,
   NotFoundImage,
+  BiographyContainer,
+  Separator,
+  VisibleSeparator,
 } from './styles'
 import { X } from 'phosphor-react'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { PersonDataProps } from '@/types/person-data'
 import { DetailsSection } from './DetailsSection'
-import { PersonMediaSection } from './PersonMediaSection'
 import { SimilarCardProps } from '../SimilarCard'
+import { KnownForSection } from './KnownForSection'
 
 interface Props {
   id: string
@@ -37,6 +40,11 @@ export default function PersonModal({
   const [personData, setPersonData] = useState<PersonDataProps | undefined>()
 
   const [isLoading, setIsLoading] = useState(false)
+
+  function formatText(text: string) {
+    const paragraphs = text.trim().split('\n\n')
+    return paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)
+  }
 
   useEffect(() => {
     if (!id) return
@@ -87,9 +95,18 @@ export default function PersonModal({
 
                 <DetailsSection personData={personData} />
               </MediaInfo>
+
+              <Separator />
+              <VisibleSeparator />
+              <BiographyContainer>
+                {formatText(personData?.biography || 'No biography available.')}
+              </BiographyContainer>
+              <Separator />
+              <VisibleSeparator />
+
               {knownFor && knownFor?.length > 0 && (
-                <PersonMediaSection
-                  personMedias={knownFor}
+                <KnownForSection
+                  knownFor={knownFor}
                   handleClickMedia={(type: string, id: string) =>
                     handleClickMedia(type, id)
                   }

@@ -9,11 +9,11 @@ import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useRef } from 'react'
 
 interface Props {
-  personMedias: SimilarCardProps[] | [] | undefined
+  knownFor: SimilarCardProps[] | [] | undefined
   handleClickMedia: (mediaType: string, id: string) => void
 }
 
-export function PersonMediaSection({ personMedias, handleClickMedia }: Props) {
+export function KnownForSection({ knownFor, handleClickMedia }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   function handleScrollRight() {
@@ -30,13 +30,13 @@ export function PersonMediaSection({ personMedias, handleClickMedia }: Props) {
 
   return (
     <SimilarContainer>
-      <h2>You may also like</h2>
+      <h2>Known for...</h2>
       <SimilarContent ref={scrollContainerRef}>
         <CaretLeftIcon onClick={handleScrollLeft}>
           <CaretLeft />
         </CaretLeftIcon>
-        {personMedias &&
-          personMedias.map((item) => {
+        {knownFor &&
+          knownFor.map((item) => {
             return (
               <SimilarCard
                 handleClick={() => handleClickMedia(item.media_type, item.id)}

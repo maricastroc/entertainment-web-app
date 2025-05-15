@@ -5,7 +5,6 @@ export const SimilarContainer = styled('div', {
   flexDirection: 'column',
   position: 'relative',
   width: '100%',
-  marginTop: '2.5rem',
   scrollPaddingBottom: '2rem',
 
   '> h2': {

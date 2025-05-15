@@ -1,4 +1,13 @@
-import { Heading, MovieDetails, Separator, BiographyContainer } from './styles'
+import { TrendUp } from 'phosphor-react'
+import { GeneralInfoSection } from '../GeneralInfoSection'
+import {
+  Heading,
+  PersonDetailsWrapper,
+  PersonDetails,
+  PopularityWrapper,
+  PopularityValue,
+  Separator,
+} from './styles'
 import { PersonDataProps } from '@/types/person-data'
 
 interface Props {
@@ -6,20 +15,26 @@ interface Props {
 }
 
 export function DetailsSection({ personData }: Props) {
-  function formatText(text: string) {
-    const paragraphs = text.trim().split('\n\n')
-    return paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)
-  }
-
   return (
-    <MovieDetails>
+    <PersonDetails>
       <Heading>
         <h2>{personData?.name || 'N/A'}</h2>
       </Heading>
-      <Separator />
-      <BiographyContainer>
-        {formatText(personData?.biography || 'No biography available.')}
-      </BiographyContainer>
-    </MovieDetails>
+
+      <PersonDetailsWrapper>
+        <Separator />
+
+        <PopularityWrapper>
+          <TrendUp size={48} />
+          <PopularityValue>
+            <span>{personData?.popularity}</span>
+            <p>Popularity</p>
+          </PopularityValue>
+        </PopularityWrapper>
+
+        <Separator />
+        <GeneralInfoSection personData={personData} />
+      </PersonDetailsWrapper>
+    </PersonDetails>
   )
 }

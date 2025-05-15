@@ -216,47 +216,33 @@ export const VisibleSeparator = styled('span', {
   },
 })
 
-export const SynopsisContainer = styled('div', {
+export const BiographyContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
+  gap: '0.8rem',
   width: '100%',
+  maxHeight: '8.8rem',
+  overflowY: 'scroll',
 
   '> p': {
-    fontSize: '0.85rem',
+    fontSize: '0.88rem',
     paddingRight: '0.5rem',
     fontWeight: 300,
     color: '$gray100',
     lineHeight: '1.4rem',
-    maxHeight: '8.2rem',
-    overflowY: 'scroll',
   },
 
   '@media (min-width: 480px)': {
-    '> h2': {
-      fontSize: '1.2rem',
-    },
-
     '> p': {
-      fontSize: '0.95rem',
-      lineHeight: '1.6rem',
+      fontSize: '0.9rem',
+      lineHeight: '1.4rem',
     },
   },
 
   '@media (min-width: 1024px)': {
     maxWidth: '45rem',
-
-    '> h2': {
-      fontSize: '1.4rem',
-    },
-
-    '> p': {
-      fontSize: '1rem',
-      fontWeight: 300,
-      color: '$gray100',
-      lineHeight: '1.6rem',
-    },
   },
 })
 

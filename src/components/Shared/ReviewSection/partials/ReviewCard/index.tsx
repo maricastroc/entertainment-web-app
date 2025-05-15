@@ -57,8 +57,6 @@ export function ReviewCard({
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
-  const [userVote, setUserVote] = useState<'UP' | 'DOWN' | null>(null)
-
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const buttonRef = useRef<HTMLButtonElement>(null)
