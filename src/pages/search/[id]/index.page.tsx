@@ -14,11 +14,13 @@ import {
   Wrapper,
 } from '@/styles/shared'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import PersonModal from '@/components/Shared/PersonModal'
+import { SimilarCardProps } from '@/components/Shared/SimilarCard'
+import { useAppContext } from '@/contexts/AppContext'
 
 export interface SearchResultItemProps {
   id: string
@@ -29,6 +31,7 @@ export interface SearchResultItemProps {
   media_type: string
   backdrop_path?: string
   poster_path?: string
+  known_for?: SimilarCardProps[] | null | undefined
   profile_path?: string
 }
 
@@ -47,11 +50,25 @@ interface SearchProps {
 export default function Search({ data, id, page }: SearchProps) {
   const isRouteLoading = useLoadingOnRouteChange()
 
+  const { isLoading } = useAppContext()
+
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
   const [selectedMediaType, setSelectedMediaType] = useState('')
+
+  const [knownFor, setKnownFor] = useState<
+    SimilarCardProps[] | null | undefined
+  >(null)
+
+  useEffect(() => {
+    if (selectedMediaType === 'person') {
+      const person = data?.results.find((item) => item.id === selectedMediaId)
+
+      setKnownFor(person?.known_for)
+    }
+  }, [selectedMediaId, selectedMediaType, data?.results])
 
   return (
     <>
@@ -97,8 +114,13 @@ export default function Search({ data, id, page }: SearchProps) {
                     selectedMediaId &&
                     (selectedMediaType === 'person' ? (
                       <PersonModal
-                        media_type={selectedMediaType}
+                        mediaType={selectedMediaType}
                         id={selectedMediaId}
+                        knownFor={knownFor}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
                         onClose={() => setIsMediaModalOpen(false)}
                       />
                     ) : (
@@ -119,7 +141,7 @@ export default function Search({ data, id, page }: SearchProps) {
             />
           </MainContent>
         </Container>
-        {isRouteLoading && <LoadingComponent hasOverlay />}
+        {(isRouteLoading || isLoading) && <LoadingComponent hasOverlay />}
       </Wrapper>
     </>
   )

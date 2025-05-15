@@ -46,6 +46,10 @@ export function MediaCard({
 
   async function handleMediaAction(action: 'save' | 'delete') {
     try {
+      if (media_type === 'person') {
+        return
+      }
+
       handleSetIsLoading(true)
 
       const mediaRoute = media_type === MOVIE_MEDIA ? 'movies' : 'series'
@@ -104,20 +108,22 @@ export function MediaCard({
           </NotFound>
         )}
 
-        <SaveButton
-          isInUserList={isInUserList}
-          onClick={() => {
-            if (status === 'authenticated') {
-              if (isInUserList) {
-                handleMediaAction('delete')
+        {media_type !== 'person' && (
+          <SaveButton
+            isInUserList={isInUserList}
+            onClick={() => {
+              if (status === 'authenticated') {
+                if (isInUserList) {
+                  handleMediaAction('delete')
+                } else {
+                  handleMediaAction('save')
+                }
               } else {
-                handleMediaAction('save')
+                handleSetIsSignUpModalOpen(true)
               }
-            } else {
-              handleSetIsSignUpModalOpen(true)
-            }
-          }}
-        />
+            }}
+          />
+        )}
       </MediaImageWrapper>
       <CardInfo>
         <CardInfoData>

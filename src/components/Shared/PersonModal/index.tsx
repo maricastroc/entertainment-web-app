@@ -16,14 +16,24 @@ import { X } from 'phosphor-react'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { PersonDataProps } from '@/types/person-data'
 import { DetailsSection } from './DetailsSection'
+import { PersonMediaSection } from './PersonMediaSection'
+import { SimilarCardProps } from '../SimilarCard'
 
 interface Props {
   id: string
-  media_type: string
+  mediaType: string
+  knownFor?: SimilarCardProps[] | null
+  handleClickMedia: (mediaType: string, id: string) => void
   onClose: () => void
 }
 
-export default function PersonModal({ id, media_type, onClose }: Props) {
+export default function PersonModal({
+  id,
+  mediaType,
+  knownFor,
+  handleClickMedia,
+  onClose,
+}: Props) {
   const [personData, setPersonData] = useState<PersonDataProps | undefined>()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -48,7 +58,7 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
     }
 
     fetchData()
-  }, [id, media_type])
+  }, [id, mediaType])
 
   return (
     <LateralMenuWrapper>
@@ -77,6 +87,14 @@ export default function PersonModal({ id, media_type, onClose }: Props) {
 
                 <DetailsSection personData={personData} />
               </MediaInfo>
+              {knownFor && knownFor?.length > 0 && (
+                <PersonMediaSection
+                  personMedias={knownFor}
+                  handleClickMedia={(type: string, id: string) =>
+                    handleClickMedia(type, id)
+                  }
+                />
+              )}
             </MediaContent>
 
             {isLoading && <LoadingComponent hasOverlay />}
