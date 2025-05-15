@@ -115,26 +115,31 @@ export default function PersonModal({
               <BiographyContainer>
                 {formatText(personData?.biography || 'No biography available.')}
               </BiographyContainer>
-              <Separator />
-              <VisibleSeparator />
 
               {movieCredits && movieCredits?.length > 0 && (
-                <MoviesSection
-                  movies={movieCredits}
-                  handleClickMedia={(type: string, id: string) =>
-                    handleClickMedia(type, id)
-                  }
-                />
+                <>
+                  <Separator />
+                  <VisibleSeparator />
+                  <MoviesSection
+                    movies={movieCredits}
+                    handleClickMedia={(type: string, id: string) =>
+                      handleClickMedia(type, id)
+                    }
+                  />
+                </>
               )}
-              <Separator />
-              <VisibleSeparator />
+
               {tvCredits && tvCredits?.length > 0 && (
-                <TvSection
-                tvSeries={tvCredits}
-                  handleClickMedia={(type: string, id: string) =>
-                    handleClickMedia(type, id)
-                  }
-                />
+                <>
+                  <Separator />
+                  <VisibleSeparator />
+                  <TvSection
+                    tvSeries={tvCredits}
+                    handleClickMedia={(type: string, id: string) =>
+                      handleClickMedia(type, id)
+                    }
+                  />
+                </>
               )}
             </PersonContent>
 

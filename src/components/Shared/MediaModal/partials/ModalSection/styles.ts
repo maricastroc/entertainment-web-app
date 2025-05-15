@@ -204,9 +204,9 @@ export const CastCard = styled('div', {
     transition: 'all 200ms',
     cursor: 'pointer',
 
-      '&:hover': {
-    opacity: 1,
-  }
+    '&:hover': {
+      opacity: 1,
+    },
   },
 })
 

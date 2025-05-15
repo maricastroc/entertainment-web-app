@@ -14,7 +14,7 @@ import {
   Wrapper,
 } from '@/styles/shared'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'

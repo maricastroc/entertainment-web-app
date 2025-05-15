@@ -46,7 +46,12 @@ interface Props {
   handleClickMedia: (mediaType: string, id: string) => void
 }
 
-export default function MediaModal({ id, media_type, onClose, handleClickMedia }: Props) {
+export default function MediaModal({
+  id,
+  media_type,
+  onClose,
+  handleClickMedia,
+}: Props) {
   const [castData, setCastData] = useState<CastProps[] | []>([])
 
   const [crewData, setCrewData] = useState<CrewProps[] | []>([])
@@ -166,7 +171,7 @@ export default function MediaModal({ id, media_type, onClose, handleClickMedia }
       trailerLink={trailerLink}
       castData={castData}
       crewData={crewData}
-                    handleClickMedia={handleClickMedia}
+      handleClickMedia={handleClickMedia}
       onClose={() => {
         setIsTrailerModalOpen(false)
         setIsCreditsModalOpen(false)

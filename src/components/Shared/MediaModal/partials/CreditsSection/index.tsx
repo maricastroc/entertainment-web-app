@@ -64,10 +64,10 @@ export function CreditsSection({
                       }
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {
-                  if (handleClickMedia) {
-                    handleClickMedia('person', item.id)
-                  }
-                }}
+                        if (handleClickMedia) {
+                          handleClickMedia('person', item.id)
+                        }
+                      }}
                     />
                   </div>
                   <CastInfo>
@@ -89,10 +89,10 @@ export function CreditsSection({
                       }
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {
-                  if (handleClickMedia) {
-                    handleClickMedia('person', item.id)
-                  }
-                }}
+                        if (handleClickMedia) {
+                          handleClickMedia('person', item.id)
+                        }
+                      }}
                     />
                   </div>
                   <CastInfo>

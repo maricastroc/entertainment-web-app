@@ -64,7 +64,7 @@ export const CastCard = styled('div', {
 
   img: {
     display: 'block',
-      cursor: 'pointer',
+    cursor: 'pointer',
     overflow: 'hidden',
     outline: '1.5px solid $blue600',
     outlineOffset: 2,
@@ -75,9 +75,9 @@ export const CastCard = styled('div', {
     opacity: 0.95,
     transition: 'all 200ms',
 
-      '&:hover': {
-    outline: '1.5px solid $green400',
-  }
+    '&:hover': {
+      outline: '1.5px solid $green400',
+    },
   },
 })
 

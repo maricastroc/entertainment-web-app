@@ -14,7 +14,7 @@ import { PaginationBar } from '@/components/Shared/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
@@ -54,7 +54,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
-    const [selectedMediaType, setSelectedMediaType] = useState(MOVIE_MEDIA)
+  const [selectedMediaType, setSelectedMediaType] = useState(MOVIE_MEDIA)
 
   return (
     <>
@@ -97,7 +97,7 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
                   })}
                   {isMediaModalOpen &&
                     selectedMediaId &&
-                    ((selectedMediaType === 'person') ? (
+                    (selectedMediaType === 'person' ? (
                       <PersonModal
                         mediaType={selectedMediaType}
                         id={selectedMediaId}

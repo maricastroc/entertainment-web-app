@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getPersonDetail, getPersonMovieCredits, getPersonSocialMedia, getPersonTvCredits } from '../../../lib/tmdb'
+import {
+  getPersonDetail,
+  getPersonMovieCredits,
+  getPersonSocialMedia,
+  getPersonTvCredits,
+} from '../../../lib/tmdb'
 
 export default async function handler(
   req: NextApiRequest,

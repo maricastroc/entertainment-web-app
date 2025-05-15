@@ -30,32 +30,33 @@ export function MoviesSection({ movies, handleClickMedia }: Props) {
   }
 
   return (
-    movies && movies?.length > 0 && (
+    movies &&
+    movies?.length > 0 && (
       <SimilarContainer>
-      <h2>Movie Credits</h2>
-      <SimilarContent ref={scrollContainerRef}>
-        <CaretLeftIcon onClick={handleScrollLeft}>
-          <CaretLeft />
-        </CaretLeftIcon>
-        {movies &&
-          movies.map((item) => {
-            return (
-              <SimilarCard
-                handleClick={() => handleClickMedia(MOVIE_MEDIA, item.id)}
-                id={item.id}
-                key={item.id}
-                release_date={item?.release_date || item?.first_air_date}
-                title={item?.title || item?.name}
-                backdrop_path={item?.backdrop_path}
-                media_type={MOVIE_MEDIA}
-              />
-            )
-          })}
-        <CaretRightIcon onClick={handleScrollRight}>
-          <CaretRight />
-        </CaretRightIcon>
-      </SimilarContent>
-    </SimilarContainer>
+        <h2>Movie Credits</h2>
+        <SimilarContent ref={scrollContainerRef}>
+          <CaretLeftIcon onClick={handleScrollLeft}>
+            <CaretLeft />
+          </CaretLeftIcon>
+          {movies &&
+            movies.map((item) => {
+              return (
+                <SimilarCard
+                  handleClick={() => handleClickMedia(MOVIE_MEDIA, item.id)}
+                  id={item.id}
+                  key={item.id}
+                  release_date={item?.release_date || item?.first_air_date}
+                  title={item?.title || item?.name}
+                  backdrop_path={item?.backdrop_path}
+                  media_type={MOVIE_MEDIA}
+                />
+              )
+            })}
+          <CaretRightIcon onClick={handleScrollRight}>
+            <CaretRight />
+          </CaretRightIcon>
+        </SimilarContent>
+      </SimilarContainer>
     )
   )
 }
