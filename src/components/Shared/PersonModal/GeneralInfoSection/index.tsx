@@ -6,7 +6,6 @@ interface Props {
 }
 
 export function GeneralInfoSection({ personData }: Props) {
-  console.log(personData?.birthday)
   return (
     <GeneralInfoContainer>
       {personData?.birthday && (

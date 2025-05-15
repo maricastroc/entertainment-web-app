@@ -22,7 +22,7 @@ export const PersonDetailsWrapper = styled('div', {
 })
 
 export const PopularityWrapper = styled('div', {
-  margin: '1.2rem 0',
+  margin: '1rem 0',
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
@@ -43,8 +43,9 @@ export const PopularityValue = styled('div', {
   alignItems: 'flex-start',
 
   span: {
-    fontWeight: 400,
-    fontSize: '1.4rem',
+    fontSize: '1.8rem',
+    fontWeight: 500,
+    color: '$gray300',
   },
 
   p: {
@@ -95,6 +96,7 @@ export const Heading = styled('div', {
   },
 
   '@media (min-width: 680px)': {
+    marginBottom: '0',
     marginTop: 0,
     alignItems: 'flex-start',
 
@@ -113,21 +115,18 @@ export const Separator = styled('span', {
   height: 1.5,
   backgroundColor: '$blue600',
   opacity: 0.3,
-
-  '@media (min-width: 680px)': {
-    display: 'none',
-  },
 })
 
-export const VisibleSeparator = styled('span', {
-  width: '100%',
-  height: 1.5,
-  backgroundColor: '$blue600',
-  margin: '1.5rem 0',
-  opacity: 0.3,
-  display: 'none',
+export const SocialIconsContainer = styled('div', {
+  display: 'flex',
+  gap: '1rem',
+  padding: '1rem 0',
+})
 
-  '@media (min-width: 680px)': {
-    display: 'block',
+export const SocialIconLink = styled('a', {
+  color: '$white',
+  transition: 'color 0.2s',
+  '&:hover': {
+    color: '$primary',
   },
 })

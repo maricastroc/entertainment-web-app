@@ -5,8 +5,7 @@ export const GeneralInfoContainer = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'flex-start',
   width: '100%',
-  maxWidth: '17rem',
-  marginTop: '1.2rem',
+  margin: '1rem 0',
 
   '@media (min-width: 768px)': {
     justifyContent: 'flex-start',
@@ -19,6 +18,7 @@ export const GeneralInfoItem = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-start',
   gap: '0.3rem',
+  width: '4.9rem',
 
   '> h2': {
     fontSize: '0.85rem',
@@ -40,6 +40,13 @@ export const GeneralInfoItem = styled('div', {
 
     '> p': {
       fontSize: '0.95rem',
+      display: '-webkit-box',
+      '-webkit-line-clamp': 2, // Limita a 2 linhas
+      '-webkit-box-orient': 'vertical',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis', // Adiciona reticências
+      wordBreak: 'break-word', // Quebra palavras longas
+      maxWidth: '100%',
     },
   },
 })

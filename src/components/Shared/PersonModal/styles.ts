@@ -63,35 +63,6 @@ export const CloseButton = styled('button', {
   },
 })
 
-export const SaveBtn = styled('button', {
-  position: 'absolute',
-  top: '88%',
-  right: '85%',
-  transform: 'translate(50%, -50%)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  width: '2.3rem',
-  height: '2.3rem',
-  marginLeft: '1rem',
-  borderRadius: '50%',
-  border: 'none',
-  color: '$blue700',
-  cursor: 'pointer',
-  backgroundColor: 'rgba(209, 214, 228, 1)',
-  fontSize: '1.2rem',
-  transition: '200ms ease',
-
-  svg: {
-    marginTop: '0.6rem',
-  },
-
-  '&:focus': {
-    border: 'none',
-    outline: 'none',
-  },
-})
-
 export const Wrapper = styled('div', {
   position: 'relative',
   display: 'flex',
@@ -116,7 +87,7 @@ export const Wrapper = styled('div', {
   },
 })
 
-export const MediaContainer = styled('div', {
+export const PersonContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
@@ -124,7 +95,7 @@ export const MediaContainer = styled('div', {
   width: '100%',
 })
 
-export const MediaContent = styled('div', {
+export const PersonContent = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -140,7 +111,7 @@ export const MediaContent = styled('div', {
   },
 })
 
-export const MediaInfo = styled('div', {
+export const PersonInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
@@ -154,12 +125,12 @@ export const MediaInfo = styled('div', {
   },
 })
 
-export const MovieImageWrapper = styled('div', {
+export const PersonImageWrapper = styled('div', {
   position: 'relative',
   display: 'inline-block',
 })
 
-export const MovieImage = styled('img', {
+export const PersonImage = styled('img', {
   width: 'clamp(10rem, 40vw, 12rem)',
   height: 'auto',
   borderRadius: 8,
@@ -243,53 +214,5 @@ export const BiographyContainer = styled('div', {
 
   '@media (min-width: 1024px)': {
     maxWidth: '45rem',
-  },
-})
-
-export const ReviewsContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  gap: '0.6rem',
-  width: '100%',
-
-  '> h2': {
-    fontSize: '1rem',
-    fontWeight: 500,
-    color: '$gray100',
-  },
-
-  '> p': {
-    fontSize: '0.85rem',
-    fontWeight: 300,
-    color: '$gray100',
-    lineHeight: '1.3rem',
-  },
-
-  '@media (min-width: 580px)': {
-    '> h2': {
-      fontSize: '1.2rem',
-    },
-
-    '> p': {
-      fontSize: '0.95rem',
-      lineHeight: '1.6rem',
-    },
-  },
-
-  '@media (min-width: 1024px)': {
-    maxWidth: '45rem',
-
-    '> h2': {
-      fontSize: '1.4rem',
-    },
-
-    '> p': {
-      fontSize: '1rem',
-      fontWeight: 300,
-      color: '$gray100',
-      lineHeight: '1.6rem',
-    },
   },
 })

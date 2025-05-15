@@ -22,7 +22,7 @@ interface Props {
 
 export function ReviewSection({ id, media, mutate, results }: Props) {
   const { handleSetIsLoading } = useAppContext()
-  console.log(results)
+
   const session = useSession()
 
   const [isRatingCardFormOpen, setIsRatingCardFormOpen] = useState(false)

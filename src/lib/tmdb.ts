@@ -102,6 +102,10 @@ export function getPersonDetail(id: string) {
   return `${TMDB_ENDPOINT}/person/${id}?api_key=${TMDB_API_KEY}`
 }
 
+export function getPersonSocialMedia(id: string) {
+  return `${TMDB_ENDPOINT}/person/${id}/external_ids?api_key=${TMDB_API_KEY}`
+}
+
 // Endpoints
 
 // Trending

@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 
 import {
   CloseButton,
-  MediaContainer,
-  MediaContent,
-  MovieImage,
-  MediaInfo,
+  PersonContainer,
+  PersonContent,
+  PersonImage,
+  PersonInfo,
   Wrapper,
   LateralMenuWrapper,
   OverlayBackground,
-  MovieImageWrapper,
+  PersonImageWrapper,
   NotFoundImage,
   BiographyContainer,
   Separator,
@@ -21,6 +21,7 @@ import { PersonDataProps } from '@/types/person-data'
 import { DetailsSection } from './DetailsSection'
 import { SimilarCardProps } from '../SimilarCard'
 import { KnownForSection } from './KnownForSection'
+import { PersonSocialDataProps } from '@/types/person-social-media'
 
 interface Props {
   id: string
@@ -38,6 +39,10 @@ export default function PersonModal({
   onClose,
 }: Props) {
   const [personData, setPersonData] = useState<PersonDataProps | undefined>()
+
+  const [socialData, setSocialData] = useState<PersonSocialDataProps | null>(
+    null,
+  )
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -58,6 +63,7 @@ export default function PersonModal({
         const data = await response.json()
 
         setPersonData(data?.detail)
+        setSocialData(data?.social)
       } catch (error) {
         console.error('Error loading data:', error)
       } finally {
@@ -76,25 +82,28 @@ export default function PersonModal({
           <CloseButton onClick={onClose}>
             <X />
           </CloseButton>
-          <MediaContainer>
-            <MediaContent>
-              <MediaInfo>
+          <PersonContainer>
+            <PersonContent>
+              <PersonInfo>
                 {personData?.profile_path ? (
-                  <MovieImageWrapper>
-                    <MovieImage
+                  <PersonImageWrapper>
+                    <PersonImage
                       src={`https://image.tmdb.org/t/p/original${personData?.profile_path}`}
                     />
-                  </MovieImageWrapper>
+                  </PersonImageWrapper>
                 ) : (
-                  <MovieImageWrapper>
+                  <PersonImageWrapper>
                     <NotFoundImage>
                       <p>Not found</p>
                     </NotFoundImage>
-                  </MovieImageWrapper>
+                  </PersonImageWrapper>
                 )}
 
-                <DetailsSection personData={personData} />
-              </MediaInfo>
+                <DetailsSection
+                  personData={personData}
+                  socialData={socialData}
+                />
+              </PersonInfo>
 
               <Separator />
               <VisibleSeparator />
@@ -112,10 +121,10 @@ export default function PersonModal({
                   }
                 />
               )}
-            </MediaContent>
+            </PersonContent>
 
             {isLoading && <LoadingComponent hasOverlay />}
-          </MediaContainer>
+          </PersonContainer>
         </Wrapper>
       ) : (
         <LoadingComponent />

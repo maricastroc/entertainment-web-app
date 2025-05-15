@@ -9,12 +9,15 @@ import {
   Separator,
 } from './styles'
 import { PersonDataProps } from '@/types/person-data'
+import { PersonSocialDataProps } from '@/types/person-social-media'
+import { SocialDataSection } from '../SocialDataSection'
 
 interface Props {
   personData: PersonDataProps
+  socialData: PersonSocialDataProps | null
 }
 
-export function DetailsSection({ personData }: Props) {
+export function DetailsSection({ personData, socialData }: Props) {
   return (
     <PersonDetails>
       <Heading>
@@ -34,6 +37,13 @@ export function DetailsSection({ personData }: Props) {
 
         <Separator />
         <GeneralInfoSection personData={personData} />
+
+        {socialData && (
+          <>
+            <Separator />
+            <SocialDataSection socialData={socialData} />
+          </>
+        )}
       </PersonDetailsWrapper>
     </PersonDetails>
   )
