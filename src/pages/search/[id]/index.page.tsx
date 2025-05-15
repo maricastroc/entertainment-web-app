@@ -58,18 +58,6 @@ export default function Search({ data, id, page }: SearchProps) {
 
   const [selectedMediaType, setSelectedMediaType] = useState('')
 
-  const [knownFor, setKnownFor] = useState<
-    SimilarCardProps[] | null | undefined
-  >(null)
-
-  useEffect(() => {
-    if (selectedMediaType === 'person') {
-      const person = data?.results.find((item) => item.id === selectedMediaId)
-
-      setKnownFor(person?.known_for)
-    }
-  }, [selectedMediaId, selectedMediaType, data?.results])
-
   return (
     <>
       <NextSeo title="Search | MovieMentor" />
@@ -116,7 +104,6 @@ export default function Search({ data, id, page }: SearchProps) {
                       <PersonModal
                         mediaType={selectedMediaType}
                         id={selectedMediaId}
-                        knownFor={knownFor}
                         handleClickMedia={(type: string, id: string) => {
                           setSelectedMediaType(type)
                           setSelectedMediaId(id)
@@ -126,6 +113,10 @@ export default function Search({ data, id, page }: SearchProps) {
                     ) : (
                       <MediaModal
                         media_type={selectedMediaType}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
                         id={selectedMediaId}
                         onClose={() => setIsMediaModalOpen(false)}
                       />

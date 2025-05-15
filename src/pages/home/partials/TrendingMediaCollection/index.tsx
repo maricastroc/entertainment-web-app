@@ -16,6 +16,7 @@ import { useRef, useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import PersonModal from '@/components/Shared/PersonModal'
 
 interface TrendingMediaCollectionProps {
   title: string
@@ -37,6 +38,8 @@ export default function TrendingMediaCollection({
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+    const [selectedMediaType, setSelectedMediaType] = useState(media_type)
 
   async function handleGoToTrendingMedia() {
     const basePath = router.basePath
@@ -99,13 +102,32 @@ export default function TrendingMediaCollection({
                 </Dialog.Trigger>
               )
             })}
-            {isMediaModalOpen && selectedMediaId && (
-              <MediaModal
-                media_type={media_type}
-                id={selectedMediaId}
-                onClose={() => setIsMediaModalOpen(false)}
-              />
-            )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    (selectedMediaType === 'person' ? (
+                      <PersonModal
+                        mediaType={selectedMediaType}
+                        id={selectedMediaId}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(media_type)
+                        }}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                      />
+                    ))}
           </Dialog.Root>
           <CaretRightIcon onClick={handleScrollRight}>
             <CaretRight />

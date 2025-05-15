@@ -20,13 +20,13 @@ import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { PersonDataProps } from '@/types/person-data'
 import { DetailsSection } from './DetailsSection'
 import { SimilarCardProps } from '../SimilarCard'
-import { KnownForSection } from './KnownForSection'
+import { MoviesSection } from './MoviesSection'
 import { PersonSocialDataProps } from '@/types/person-social-media'
+import { TvSection } from './TvSection'
 
 interface Props {
   id: string
   mediaType: string
-  knownFor?: SimilarCardProps[] | null
   handleClickMedia: (mediaType: string, id: string) => void
   onClose: () => void
 }
@@ -34,7 +34,6 @@ interface Props {
 export default function PersonModal({
   id,
   mediaType,
-  knownFor,
   handleClickMedia,
   onClose,
 }: Props) {
@@ -43,6 +42,10 @@ export default function PersonModal({
   const [socialData, setSocialData] = useState<PersonSocialDataProps | null>(
     null,
   )
+
+  const [movieCredits, setMovieCredits] = useState<SimilarCardProps[] | null>()
+
+  const [tvCredits, setTvCredits] = useState<SimilarCardProps[] | null>()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -64,6 +67,8 @@ export default function PersonModal({
 
         setPersonData(data?.detail)
         setSocialData(data?.social)
+        setMovieCredits(data?.movieCredits?.cast)
+        setTvCredits(data?.tvCredits?.cast)
       } catch (error) {
         console.error('Error loading data:', error)
       } finally {
@@ -113,9 +118,19 @@ export default function PersonModal({
               <Separator />
               <VisibleSeparator />
 
-              {knownFor && knownFor?.length > 0 && (
-                <KnownForSection
-                  knownFor={knownFor}
+              {movieCredits && movieCredits?.length > 0 && (
+                <MoviesSection
+                  movies={movieCredits}
+                  handleClickMedia={(type: string, id: string) =>
+                    handleClickMedia(type, id)
+                  }
+                />
+              )}
+              <Separator />
+              <VisibleSeparator />
+              {tvCredits && tvCredits?.length > 0 && (
+                <TvSection
+                tvSeries={tvCredits}
                   handleClickMedia={(type: string, id: string) =>
                     handleClickMedia(type, id)
                   }

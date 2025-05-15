@@ -106,6 +106,14 @@ export function getPersonSocialMedia(id: string) {
   return `${TMDB_ENDPOINT}/person/${id}/external_ids?api_key=${TMDB_API_KEY}`
 }
 
+export function getPersonMovieCredits(id: string) {
+  return `${TMDB_ENDPOINT}/person/${id}/movie_credits?api_key=${TMDB_API_KEY}`
+}
+
+export function getPersonTvCredits(id: string) {
+  return `${TMDB_ENDPOINT}/person/${id}/tv_credits?api_key=${TMDB_API_KEY}`
+}
+
 // Endpoints
 
 // Trending

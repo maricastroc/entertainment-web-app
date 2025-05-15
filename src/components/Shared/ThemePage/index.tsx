@@ -13,6 +13,7 @@ import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
 import { TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
+import PersonModal from '../PersonModal'
 
 interface Props {
   data: SearchResultItemProps[]
@@ -38,6 +39,8 @@ export default function ThemePage({
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+  const [selectedMediaType, setSelectedMediaType] = useState(media)
 
   return (
     <>
@@ -81,13 +84,32 @@ export default function ThemePage({
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen && (
-                    <MediaModal
-                      media_type={media}
-                      id={selectedMediaId}
-                      onClose={() => setIsMediaModalOpen(false)}
-                    />
-                  )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    (selectedMediaType === 'person' ? (
+                      <PersonModal
+                        mediaType={selectedMediaType}
+                        id={selectedMediaId}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(media)
+                        }}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                      />
+                    ))}
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>

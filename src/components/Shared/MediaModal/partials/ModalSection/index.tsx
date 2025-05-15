@@ -29,14 +29,16 @@ interface Props {
   castData?: CastProps[] | []
   crewData?: CrewProps[] | []
   onClose: () => void
+    handleClickMedia?: (mediaType: string, id: string) => void
 }
 
 interface CastOrCrewProps {
   data: CastProps[] | CrewProps[]
   type: 'Cast' | 'Crew'
+      handleClickMedia?: (mediaType: string, id: string) => void
 }
 
-const CastOrCrewSection = ({ data, type }: CastOrCrewProps) => {
+const CastOrCrewSection = ({ data, type, handleClickMedia }: CastOrCrewProps) => {
   return (
     <CastWrapper>
       <h2>{type}</h2>
@@ -51,6 +53,11 @@ const CastOrCrewSection = ({ data, type }: CastOrCrewProps) => {
                     : 'https://github.com/octocat.png'
                 }
                 alt={item?.name || 'Profile Image'}
+                onClick={() => {
+                  if (handleClickMedia) {
+                    handleClickMedia('person', item.id)
+                  }
+                }}
               />
             </div>
             <CastInfo>
@@ -73,6 +80,7 @@ export function ModalSection({
   castData,
   crewData,
   type,
+  handleClickMedia,
   onClose,
 }: Props) {
   return (
@@ -119,11 +127,11 @@ export function ModalSection({
 
         <CreditsContainer>
           {type === 'credits' && castData && castData?.length > 0 && (
-            <CastOrCrewSection data={castData} type="Cast" />
+            <CastOrCrewSection handleClickMedia={handleClickMedia} data={castData} type="Cast" />
           )}
 
           {type === 'credits' && crewData && crewData?.length > 0 && (
-            <CastOrCrewSection data={crewData} type="Crew" />
+            <CastOrCrewSection handleClickMedia={handleClickMedia} data={crewData} type="Crew" />
           )}
         </CreditsContainer>
       </Content>

@@ -1,4 +1,5 @@
 export interface CrewProps {
+  id: string
   adult: boolean
   department: string
   job: string

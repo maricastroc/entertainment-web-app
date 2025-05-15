@@ -17,6 +17,7 @@ interface Props {
   castData: CastProps[] | []
   crewData: CrewProps[] | []
   handleOpenModal: () => void
+  handleClickMedia?: (mediaType: string, id: string) => void
 }
 
 export function CreditsSection({
@@ -24,6 +25,7 @@ export function CreditsSection({
   creditsType,
   crewData,
   handleOpenModal,
+  handleClickMedia,
 }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
@@ -61,6 +63,11 @@ export function CreditsSection({
                           : 'https://github.com/octocat.png'
                       }
                       alt={item?.name || 'Imagem de perfil'}
+                      onClick={() => {
+                  if (handleClickMedia) {
+                    handleClickMedia('person', item.id)
+                  }
+                }}
                     />
                   </div>
                   <CastInfo>
@@ -81,6 +88,11 @@ export function CreditsSection({
                           : 'https://github.com/octocat.png'
                       }
                       alt={item?.name || 'Imagem de perfil'}
+                      onClick={() => {
+                  if (handleClickMedia) {
+                    handleClickMedia('person', item.id)
+                  }
+                }}
                     />
                   </div>
                   <CastInfo>

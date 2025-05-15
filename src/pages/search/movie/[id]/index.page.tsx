@@ -14,11 +14,13 @@ import { PaginationBar } from '@/components/Shared/PaginationBar'
 import { NextPageContext } from 'next'
 import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { MOVIE_MEDIA } from '@/utils/constants'
+import { SimilarCardProps } from '@/components/Shared/SimilarCard'
+import PersonModal from '@/components/Shared/PersonModal'
 
 interface SearchResultItemProps {
   id: string
@@ -30,6 +32,7 @@ interface SearchResultItemProps {
   backdrop_path?: string
   poster_path?: string
   profile_path?: string
+  known_for?: SimilarCardProps[]
 }
 
 interface SearchResult {
@@ -50,6 +53,8 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+    const [selectedMediaType, setSelectedMediaType] = useState(MOVIE_MEDIA)
 
   return (
     <>
@@ -90,13 +95,32 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen && selectedMediaId && (
-                    <MediaModal
-                      media_type={MOVIE_MEDIA}
-                      id={selectedMediaId}
-                      onClose={() => setIsMediaModalOpen(false)}
-                    />
-                  )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    ((selectedMediaType === 'person') ? (
+                      <PersonModal
+                        mediaType={selectedMediaType}
+                        id={selectedMediaId}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(MOVIE_MEDIA)
+                        }}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                      />
+                    ))}
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>

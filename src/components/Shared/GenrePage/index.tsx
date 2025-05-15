@@ -6,13 +6,15 @@ import { pathToSearchMovie, pathToSearchTV } from '@/utils'
 import { PaginationTrendingBar } from '@/components/Shared/PaginationTrendingBar'
 import Loading from '@/components/Core/Loading'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
 import { TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
+import { SimilarCardProps } from '../SimilarCard'
+import PersonModal from '../PersonModal'
 
 interface GenrePageProps {
   data: {
@@ -39,6 +41,8 @@ export default function GenrePage({
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+  const [selectedMediaType, setSelectedMediaType] = useState(media)
 
   return (
     <>
@@ -88,13 +92,32 @@ export default function GenrePage({
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen && selectedMediaId && (
-                    <MediaModal
-                      media_type={media}
-                      id={selectedMediaId}
-                      onClose={() => setIsMediaModalOpen(false)}
-                    />
-                  )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    (selectedMediaType === 'person' ? (
+                      <PersonModal
+                        mediaType={selectedMediaType}
+                        id={selectedMediaId}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(media)
+                        }}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                      />
+                    ))}
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>

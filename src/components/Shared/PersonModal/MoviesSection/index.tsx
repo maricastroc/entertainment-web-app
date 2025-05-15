@@ -7,13 +7,14 @@ import {
 } from './styles'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useRef } from 'react'
+import { MOVIE_MEDIA } from '@/utils/constants'
 
 interface Props {
-  knownFor: SimilarCardProps[] | [] | undefined
+  movies?: SimilarCardProps[] | [] | undefined
   handleClickMedia: (mediaType: string, id: string) => void
 }
 
-export function KnownForSection({ knownFor, handleClickMedia }: Props) {
+export function MoviesSection({ movies, handleClickMedia }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   function handleScrollRight() {
@@ -29,23 +30,24 @@ export function KnownForSection({ knownFor, handleClickMedia }: Props) {
   }
 
   return (
-    <SimilarContainer>
-      <h2>Known for...</h2>
+    movies && movies?.length > 0 && (
+      <SimilarContainer>
+      <h2>Movie Credits</h2>
       <SimilarContent ref={scrollContainerRef}>
         <CaretLeftIcon onClick={handleScrollLeft}>
           <CaretLeft />
         </CaretLeftIcon>
-        {knownFor &&
-          knownFor.map((item) => {
+        {movies &&
+          movies.map((item) => {
             return (
               <SimilarCard
-                handleClick={() => handleClickMedia(item.media_type, item.id)}
+                handleClick={() => handleClickMedia(MOVIE_MEDIA, item.id)}
                 id={item.id}
                 key={item.id}
                 release_date={item?.release_date || item?.first_air_date}
                 title={item?.title || item?.name}
                 backdrop_path={item?.backdrop_path}
-                media_type={item?.media_type}
+                media_type={MOVIE_MEDIA}
               />
             )
           })}
@@ -54,5 +56,6 @@ export function KnownForSection({ knownFor, handleClickMedia }: Props) {
         </CaretRightIcon>
       </SimilarContent>
     </SimilarContainer>
+    )
   )
 }
