@@ -88,7 +88,7 @@ export default function Bookmark() {
                     />
                   ) : (
                     <MediaModal
-                      media_type={selectedMediaType}
+                      media_type={MOVIE_MEDIA}
                       handleClickMedia={(type: string, id: string) => {
                         setSelectedMediaType(type)
                         setSelectedMediaId(id)
@@ -145,7 +145,7 @@ export default function Bookmark() {
                     />
                   ) : (
                     <MediaModal
-                      media_type={selectedMediaType}
+                      media_type={TV_MEDIA}
                       id={selectedMediaId}
                       onClose={() => setIsSeriesMediaModalOpen(false)}
                       handleClickMedia={(type: string, id: string) => {
