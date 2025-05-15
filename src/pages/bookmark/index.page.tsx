@@ -80,6 +80,11 @@ export default function Bookmark() {
                       handleClickMedia={(type: string, id: string) => {
                         setSelectedMediaType(type)
                         setSelectedMediaId(id)
+
+                        if (type === TV_MEDIA) {
+                          setIsSeriesMediaModalOpen(true)
+                          setIsMovieMediaModalOpen(false)
+                        }
                       }}
                       onClose={() => {
                         setIsMovieMediaModalOpen(false)
@@ -137,6 +142,11 @@ export default function Bookmark() {
                       handleClickMedia={(type: string, id: string) => {
                         setSelectedMediaType(type)
                         setSelectedMediaId(id)
+
+                        if (type === MOVIE_MEDIA) {
+                          setIsSeriesMediaModalOpen(false)
+                          setIsMovieMediaModalOpen(true)
+                        }
                       }}
                       onClose={() => {
                         setIsSeriesMediaModalOpen(false)

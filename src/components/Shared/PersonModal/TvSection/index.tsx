@@ -7,7 +7,7 @@ import {
 } from './styles'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useRef } from 'react'
-import { MOVIE_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   tvSeries?: SimilarCardProps[] | [] | undefined
@@ -42,13 +42,13 @@ export function TvSection({ tvSeries, handleClickMedia }: Props) {
             tvSeries.map((item) => {
               return (
                 <SimilarCard
-                  handleClick={() => handleClickMedia(MOVIE_MEDIA, item.id)}
+                  handleClick={() => handleClickMedia(TV_MEDIA, item.id)}
                   id={item.id}
                   key={item.id}
                   release_date={item?.release_date || item?.first_air_date}
                   title={item?.title || item?.name}
                   backdrop_path={item?.backdrop_path}
-                  media_type={MOVIE_MEDIA}
+                  media_type={TV_MEDIA}
                 />
               )
             })}
