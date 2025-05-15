@@ -17,6 +17,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { TV_MEDIA } from '@/utils/constants'
+import PersonModal from '@/components/Shared/PersonModal'
 
 interface SearchResultItemProps {
   id: string
@@ -46,6 +47,8 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
 
   const [selectedMediaId, setSelectedMediaId] = useState('')
+
+  const [selectedMediaType, setSelectedMediaType] = useState(TV_MEDIA)
 
   return (
     <>
@@ -86,13 +89,32 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen && selectedMediaId && (
-                    <MediaModal
-                      media_type={TV_MEDIA}
-                      id={selectedMediaId}
-                      onClose={() => setIsMediaModalOpen(false)}
-                    />
-                  )}
+                  {isMediaModalOpen &&
+                    selectedMediaId &&
+                    (selectedMediaType === 'person' ? (
+                      <PersonModal
+                        mediaType={selectedMediaType}
+                        id={selectedMediaId}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(TV_MEDIA)
+                        }}
+                      />
+                    ) : (
+                      <MediaModal
+                        media_type={selectedMediaType}
+                        handleClickMedia={(type: string, id: string) => {
+                          setSelectedMediaType(type)
+                          setSelectedMediaId(id)
+                        }}
+                        id={selectedMediaId}
+                        onClose={() => setIsMediaModalOpen(false)}
+                      />
+                    ))}
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>

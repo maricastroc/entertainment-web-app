@@ -7,7 +7,7 @@ import {
 } from './styles'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useRef } from 'react'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   tvSeries?: SimilarCardProps[] | [] | undefined
