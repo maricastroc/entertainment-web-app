@@ -1,7 +1,7 @@
 import { discoverTV, getUrl } from '@/lib/tmdb'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import { NextPageContext } from 'next'
 import GenrePage from '@/components/Shared/GenrePage'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 interface GenreIdProps {
   data: {

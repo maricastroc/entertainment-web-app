@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import ThemePage from '@/components/Shared/ThemePage'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 export default function TopTv() {
   const router = useRouter()

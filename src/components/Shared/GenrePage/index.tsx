@@ -1,7 +1,6 @@
 import { NextSeo } from 'next-seo'
 import { MainContent, MediaContainer, MediaContent } from './styles'
 import { MediaCard } from '@/components/Shared/MediaCard'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import { pathToSearchMovie, pathToSearchTV } from '@/utils'
 import { PaginationTrendingBar } from '@/components/Shared/PaginationTrendingBar'
 import Loading from '@/components/Core/Loading'
@@ -14,6 +13,7 @@ import { useAppContext } from '@/contexts/AppContext'
 import { TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
 import PersonModal from '../PersonModal'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 interface GenrePageProps {
   data: {

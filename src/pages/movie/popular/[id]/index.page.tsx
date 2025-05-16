@@ -1,18 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import ThemePage from '@/components/Shared/ThemePage'
-
-interface SearchResultItemProps {
-  id: string
-  name?: string
-  title?: string
-  first_air_date?: string
-  release_date?: string
-  media_type: string
-  backdrop_path?: string
-  poster_path?: string
-  profile_path?: string
-}
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 export default function PopularMovies() {
   const router = useRouter()
