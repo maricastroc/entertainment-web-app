@@ -1,8 +1,14 @@
-import { Container, SearchContent, SearchInput } from './styles'
-import SearchIcon from '../../../../public/assets/icon-search.svg'
+import {
+  ClearButton,
+  Container,
+  SearchContent,
+  SearchIconWrapper,
+  SearchInput,
+} from './styles'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+import { useAppContext } from '@/contexts/AppContext'
+import { MagnifyingGlass, X } from 'phosphor-react'
 
 interface SearchBarProps {
   searchPath: string
@@ -11,17 +17,18 @@ interface SearchBarProps {
 
 export function SearchBar({ searchPath, placeholder }: SearchBarProps) {
   const router = useRouter()
-  const [query, setQuery] = useState('')
+
+  const { searchTerm, handleSetSearchTerm } = useAppContext()
 
   const [debouncedQuery, setDebouncedQuery] = useState('')
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(query)
+      setDebouncedQuery(searchTerm)
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [query])
+  }, [searchTerm])
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -33,15 +40,30 @@ export function SearchBar({ searchPath, placeholder }: SearchBarProps) {
     }
   }, [debouncedQuery, searchPath, router])
 
+  const handleClearSearch = () => {
+    handleSetSearchTerm('')
+    router.push('/home')
+  }
+
   return (
     <Container>
       <SearchContent>
-        <Image alt="" src={SearchIcon} />
+        <SearchIconWrapper>
+          <MagnifyingGlass size={26} />
+        </SearchIconWrapper>
+
         <SearchInput
           placeholder={placeholder}
-          onChange={(e) => setQuery(e.target.value)}
-          value={query}
+          onChange={(e) => handleSetSearchTerm(e.target.value)}
+          value={searchTerm}
+          spellCheck={false}
         />
+
+        {searchTerm?.length > 0 && (
+          <ClearButton onClick={handleClearSearch} aria-label="Limpar busca">
+            <X size={24} weight="bold" />
+          </ClearButton>
+        )}
       </SearchContent>
     </Container>
   )

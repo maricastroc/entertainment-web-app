@@ -15,6 +15,8 @@ interface AppContextData {
   isSignUpModalOpen: boolean
   loggedUser: UserProps | null
   user: UserProps | null
+  searchTerm: string
+  handleSetSearchTerm: (value: string) => void
   handleSetUser: (value: UserProps) => void
   handleSetIsLoading: (value: boolean) => void
   handleSetIsSignUpModalOpen: (value: boolean) => void
@@ -38,6 +40,8 @@ interface AppContextProviderProps {
 export function AppContextProvider({ children }: AppContextProviderProps) {
   const [user, setUser] = useState<UserProps | null>(null)
 
+  const [searchTerm, setSearchTerm] = useState('')
+
   const [isLoading, setIsLoading] = useState(false)
 
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
@@ -48,6 +52,10 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     url: '/user',
     method: 'GET',
   })
+
+  const handleSetSearchTerm = (value: string) => {
+    setSearchTerm(value)
+  }
 
   function handleSetIsLoading(value: boolean) {
     setIsLoading(value)
@@ -79,6 +87,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         isSignUpModalOpen,
         loggedUser,
         user,
+        searchTerm,
+        handleSetSearchTerm,
         handleSetUser,
         handleSetIsLoading,
         handleSetLoggedUser,

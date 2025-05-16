@@ -14,6 +14,7 @@ import { TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
 import PersonModal from '../PersonModal'
 import { SearchResultItemProps } from '@/types/search-result-item'
+import { useRouter } from 'next/router'
 
 interface GenrePageProps {
   data: {
@@ -35,6 +36,8 @@ export default function GenrePage({
 }: GenrePageProps) {
   const isRouteLoading = useLoadingOnRouteChange()
 
+  const router = useRouter()
+
   const { isSignUpModalOpen, isLoading } = useAppContext()
 
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
@@ -42,7 +45,7 @@ export default function GenrePage({
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
   const [selectedMediaType, setSelectedMediaType] = useState(media)
-
+  console.log(router.asPath)
   return (
     <>
       <NextSeo

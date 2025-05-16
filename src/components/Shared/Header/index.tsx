@@ -21,7 +21,7 @@ import toast from 'react-hot-toast'
 import { useAppContext } from '@/contexts/AppContext'
 
 export function Header() {
-  const { user } = useAppContext()
+  const { user, handleSetSearchTerm } = useAppContext()
 
   const router = useRouter()
 
@@ -57,24 +57,32 @@ export function Header() {
   async function goToHome() {
     const basePath = router.basePath
     const homePath = `${basePath}/home`
+
+    handleSetSearchTerm('')
     router.push(homePath)
   }
 
   async function goToTvGenre() {
     const basePath = router.basePath
     const tvGenrePath = `${basePath}/tv`
+
+    handleSetSearchTerm('')
     router.push(tvGenrePath)
   }
 
   async function goToMovieGenre() {
     const basePath = router.basePath
     const tvGenrePath = `${basePath}/movie`
+
+    handleSetSearchTerm('')
     router.push(tvGenrePath)
   }
 
   async function goToBookmark() {
     const basePath = router.basePath
     const bookmarkPath = `${basePath}/bookmark`
+
+    handleSetSearchTerm('')
     router.push(bookmarkPath)
   }
 

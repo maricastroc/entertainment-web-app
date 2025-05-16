@@ -14,20 +14,8 @@ export const Container = styled('div', {
 })
 
 export const SearchContent = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
+  position: 'relative',
   width: '100%',
-
-  img: {
-    scale: 0.7,
-    opacity: 0.9,
-  },
-
-  '@media (min-width: 480px)': {
-    img: {
-      scale: 0.85,
-    },
-  },
 })
 
 export const SearchInput = styled('input', {
@@ -35,7 +23,7 @@ export const SearchInput = styled('input', {
   width: '100%',
   color: '$white',
   fontSize: '0.95rem',
-  padding: '0.7rem',
+  padding: '0.7rem 2.5rem 0.7rem 3rem',
   border: 'none',
   borderBottom: '2px solid transparent',
 
@@ -54,17 +42,34 @@ export const SearchInput = styled('input', {
   },
 })
 
-export const SearchButton = styled('button', {
-  cursor: 'pointer',
-  backgroundColor: 'transparent',
-  borderBottom: '1px solid $blue600',
-  width: '4.5rem',
-  padding: '0.5rem',
-  color: '$white',
-  fontSize: '$bodySm',
+export const SearchIconWrapper = styled('div', {
+  position: 'absolute',
+  left: '0.5rem',
+  paddingRight: '1rem',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  pointerEvents: 'none',
 
-  '@media (min-width: 768px)': {
-    padding: '0.7rem',
-    width: '4.8rem',
+  svg: {
+    color: '$gray300',
+  },
+})
+
+export const ClearButton = styled('button', {
+  position: 'absolute',
+  right: '0.5rem',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  background: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+  color: '$white',
+  padding: '0.25rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  svg: {
+    color: '$gray300',
   },
 })

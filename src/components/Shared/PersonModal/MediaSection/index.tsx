@@ -1,20 +1,32 @@
 import { SimilarCard, SimilarCardProps } from '@/components/Shared/SimilarCard'
+
+import { CaretLeft, CaretRight } from 'phosphor-react'
+import { useRef } from 'react'
 import {
   CaretLeftIcon,
   CaretRightIcon,
-  SimilarContainer,
-  SimilarContent,
+  Container,
+  Content,
+  LoadMoreCard,
 } from './styles'
-import { CaretLeft, CaretRight } from 'phosphor-react'
-import { useRef } from 'react'
-import { TV_MEDIA } from '@/utils/constants'
 
-interface Props {
-  tvSeries?: SimilarCardProps[] | [] | undefined
+interface MediaSectionProps {
+  items?: SimilarCardProps[] | [] | undefined
+  mediaType: string
+  title: string
+  hasMore?: boolean
+  onLoadMore?: () => void
   handleClickMedia: (mediaType: string, id: string) => void
 }
 
-export function TvSection({ tvSeries, handleClickMedia }: Props) {
+export function MediaSection({
+  items,
+  mediaType,
+  title,
+  hasMore = false,
+  onLoadMore,
+  handleClickMedia,
+}: MediaSectionProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   function handleScrollRight() {
@@ -23,6 +35,8 @@ export function TvSection({ tvSeries, handleClickMedia }: Props) {
     }
   }
 
+  console.log(items)
+
   function handleScrollLeft() {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' })
@@ -30,33 +44,36 @@ export function TvSection({ tvSeries, handleClickMedia }: Props) {
   }
 
   return (
-    tvSeries &&
-    tvSeries?.length > 0 && (
-      <SimilarContainer>
-        <h2>TV Series Credits</h2>
-        <SimilarContent ref={scrollContainerRef}>
+    items &&
+    items?.length > 0 && (
+      <Container>
+        <h2>{title}</h2>
+        <Content ref={scrollContainerRef}>
           <CaretLeftIcon onClick={handleScrollLeft}>
             <CaretLeft />
           </CaretLeftIcon>
-          {tvSeries &&
-            tvSeries.map((item) => {
+          {items &&
+            items.map((item) => {
               return (
                 <SimilarCard
-                  handleClick={() => handleClickMedia(TV_MEDIA, item.id)}
+                  handleClick={() => handleClickMedia(mediaType, item.id)}
                   id={item.id}
                   key={item.id}
                   release_date={item?.release_date || item?.first_air_date}
                   title={item?.title || item?.name}
                   backdrop_path={item?.backdrop_path}
-                  media_type={TV_MEDIA}
+                  media_type={mediaType}
                 />
               )
             })}
+          {hasMore && onLoadMore && (
+            <LoadMoreCard onClick={onLoadMore}>Load More</LoadMoreCard>
+          )}
           <CaretRightIcon onClick={handleScrollRight}>
             <CaretRight />
           </CaretRightIcon>
-        </SimilarContent>
-      </SimilarContainer>
+        </Content>
+      </Container>
     )
   )
 }

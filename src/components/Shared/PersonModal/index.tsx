@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
   CloseButton,
@@ -20,9 +20,9 @@ import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { PersonDataProps } from '@/types/person-data'
 import { DetailsSection } from './DetailsSection'
 import { SimilarCardProps } from '../SimilarCard'
-import { MoviesSection } from './MoviesSection'
 import { PersonSocialDataProps } from '@/types/person-social-media'
-import { TvSection } from './TvSection'
+import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { MediaSection } from './MediaSection'
 
 interface Props {
   id: string
@@ -46,6 +46,22 @@ export default function PersonModal({
   const [movieCredits, setMovieCredits] = useState<SimilarCardProps[] | null>()
 
   const [tvCredits, setTvCredits] = useState<SimilarCardProps[] | null>()
+
+  const [moviesPage, setMoviesPage] = useState(1)
+  const [tvPage, setTvPage] = useState(1)
+  const itemsPerPage = 10
+
+  const visibleMovies = useMemo(() => {
+    return movieCredits?.slice(0, moviesPage * itemsPerPage) || []
+  }, [movieCredits, moviesPage])
+
+  const visibleTv = useMemo(() => {
+    return tvCredits?.slice(0, tvPage * itemsPerPage) || []
+  }, [tvCredits, tvPage])
+
+  const hasMoreMovies = visibleMovies.length < (movieCredits?.length || 0)
+
+  const hasMoreTv = visibleTv.length < (tvCredits?.length || 0)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -116,15 +132,17 @@ export default function PersonModal({
                 {formatText(personData?.biography || 'No biography available.')}
               </BiographyContainer>
 
-              {movieCredits && movieCredits?.length > 0 && (
+              {movieCredits && movieCredits.length > 0 && (
                 <>
                   <Separator />
                   <VisibleSeparator />
-                  <MoviesSection
-                    movies={movieCredits}
-                    handleClickMedia={(type: string, id: string) =>
-                      handleClickMedia(type, id)
-                    }
+                  <MediaSection
+                    items={visibleMovies}
+                    mediaType={MOVIE_MEDIA}
+                    title="Movie Credits"
+                    handleClickMedia={handleClickMedia}
+                    hasMore={hasMoreMovies}
+                    onLoadMore={() => setMoviesPage((p) => p + 1)}
                   />
                 </>
               )}
@@ -133,11 +151,13 @@ export default function PersonModal({
                 <>
                   <Separator />
                   <VisibleSeparator />
-                  <TvSection
-                    tvSeries={tvCredits}
-                    handleClickMedia={(type: string, id: string) =>
-                      handleClickMedia(type, id)
-                    }
+                  <MediaSection
+                    items={visibleTv}
+                    mediaType={TV_MEDIA}
+                    title="TV Series Credits"
+                    handleClickMedia={handleClickMedia}
+                    hasMore={hasMoreTv}
+                    onLoadMore={() => setTvPage((p) => p + 1)}
                   />
                 </>
               )}

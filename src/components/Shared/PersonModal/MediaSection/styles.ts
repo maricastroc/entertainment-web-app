@@ -1,6 +1,6 @@
 import { styled } from '@/styles'
 
-export const SimilarContainer = styled('div', {
+export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
@@ -32,10 +32,10 @@ export const SimilarContainer = styled('div', {
   },
 })
 
-export const SimilarContent = styled('div', {
+export const Content = styled('div', {
   display: 'flex',
   justifyContent: 'flex-start',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   overflowX: 'scroll',
   backgroundColor: 'transparent',
   borderRadius: '12px',
@@ -64,4 +64,25 @@ export const CaretLeftIcon = styled('div', {
   opacity: 0.85,
   color: '$gray100',
   fontSize: 36,
+})
+
+export const LoadMoreCard = styled('div', {
+  cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'center',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 'dashed 1px $blue400',
+  color: '$blue400',
+  height: '9rem',
+  borderRadius: '8px',
+  gap: '0.5rem',
+  width: '100%',
+  minWidth: '12rem',
+  transition: '200ms all',
+
+  '&:hover': {
+    border: 'dashed 1px $gray300',
+    color: '$gray300',
+  },
 })
