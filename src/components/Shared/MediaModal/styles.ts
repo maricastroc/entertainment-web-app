@@ -16,7 +16,7 @@ export const LateralMenuWrapper = styled('section', {
   right: '0',
   display: 'flex',
   justifyContent: 'flex-end',
-  zIndex: 998,
+  zIndex: 999,
   overflow: 'scroll',
   width: '100%',
   maxWidth: '100%',
@@ -119,10 +119,6 @@ export const Wrapper = styled('div', {
 
   '@media (min-width: 680px)': {
     padding: '2.5rem',
-  },
-
-  '@media (min-width: 1024px)': {
-    flexDirection: 'row',
   },
 })
 

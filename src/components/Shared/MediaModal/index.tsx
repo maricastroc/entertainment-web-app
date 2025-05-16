@@ -38,6 +38,8 @@ import { useAppContext } from '@/contexts/AppContext'
 import { useSession } from 'next-auth/react'
 import { MediaResultProps } from '@/types/media-result'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { ModalSkeleton } from './partials/ModalSkeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface Props {
   id: string
@@ -71,6 +73,8 @@ export default function MediaModal({
   const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false)
 
   const [isInUserList, setIsInUserList] = useState(false)
+
+  const { isLoading } = useAppContext()
 
   const { handleSetIsSignUpModalOpen, handleSetIsLoading } = useAppContext()
 
@@ -185,81 +189,87 @@ export default function MediaModal({
           <X />
         </CloseButton>
         <MediaContainer>
-          <MediaContent>
-            <MediaInfo>
-              {mediaData?.poster_path ? (
-                <MediaImageWrapper>
-                  <MediaImage
-                    src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
-                  />
-                  <SaveButton
-                    isInUserList={isInUserList}
-                    onClick={() => {
-                      if (status === 'authenticated') {
-                        if (isInUserList) {
-                          handleMediaAction('delete')
-                        } else {
-                          handleMediaAction('save')
-                        }
-                      } else {
-                        handleSetIsSignUpModalOpen(true)
-                      }
-                    }}
-                  />
-                </MediaImageWrapper>
-              ) : (
-                <MediaImageWrapper>
-                  <NotFoundImage>
-                    <p>Not found</p>
-                  </NotFoundImage>
-                </MediaImageWrapper>
+          {isLoading || isValidatingMedia ? (
+            <ModalSkeleton />
+          ) : (
+            <>
+              <MediaContent>
+                <MediaInfo>
+                  {mediaData?.poster_path ? (
+                    <MediaImageWrapper>
+                      <MediaImage
+                        src={`https://image.tmdb.org/t/p/original${mediaData?.poster_path}`}
+                      />
+                      <SaveButton
+                        isInUserList={isInUserList}
+                        onClick={() => {
+                          if (status === 'authenticated') {
+                            if (isInUserList) {
+                              handleMediaAction('delete')
+                            } else {
+                              handleMediaAction('save')
+                            }
+                          } else {
+                            handleSetIsSignUpModalOpen(true)
+                          }
+                        }}
+                      />
+                    </MediaImageWrapper>
+                  ) : (
+                    <MediaImageWrapper>
+                      <NotFoundImage>
+                        <p>Not found</p>
+                      </NotFoundImage>
+                    </MediaImageWrapper>
+                  )}
+                  {mediaData && (
+                    <DetailsSection media={media_type} mediaData={mediaData} />
+                  )}
+                </MediaInfo>
+                {mediaData?.overview && (
+                  <>
+                    <Separator />
+                    <VisibleSeparator />
+                    <SynopsisContainer>
+                      <p>{mediaData?.overview}</p>
+                      <Separator />
+                      <VisibleSeparator />
+                      <LinksSection
+                        hasTrailer={trailerLink?.length > 0}
+                        mediaData={mediaData}
+                        handleClick={() => setIsTrailerModalOpen(true)}
+                      />
+                    </SynopsisContainer>
+                  </>
+                )}
+              </MediaContent>
+
+              {castData?.length > 0 && (
+                <CreditsSection
+                  creditsType="cast"
+                  castData={castData}
+                  handleOpenModal={() => setIsCreditsModalOpen(true)}
+                  crewData={crewData}
+                  handleClickMedia={handleClickMedia}
+                />
               )}
-              {mediaData && (
-                <DetailsSection media={media_type} mediaData={mediaData} />
+
+              {similarMedias && similarMedias?.length > 0 && (
+                <SimilarSection
+                  media={media_type}
+                  similarMedias={similarMedias}
+                  handleClick={(item) => setUpdatedId(item)}
+                />
               )}
-            </MediaInfo>
-            {mediaData?.overview && (
-              <>
-                <Separator />
-                <VisibleSeparator />
-                <SynopsisContainer>
-                  <p>{mediaData?.overview}</p>
-                  <Separator />
-                  <VisibleSeparator />
-                  <LinksSection
-                    hasTrailer={trailerLink?.length > 0}
-                    mediaData={mediaData}
-                    handleClick={() => setIsTrailerModalOpen(true)}
-                  />
-                </SynopsisContainer>
-              </>
-            )}
-          </MediaContent>
 
-          {castData?.length > 0 && (
-            <CreditsSection
-              creditsType="cast"
-              castData={castData}
-              handleOpenModal={() => setIsCreditsModalOpen(true)}
-              crewData={crewData}
-              handleClickMedia={handleClickMedia}
-            />
+              <ReviewSection
+                id={id}
+                media={media_type}
+                results={reviewData?.results}
+                mutate={mediaMutate}
+              />
+            </>
           )}
-
-          {similarMedias && similarMedias?.length > 0 && (
-            <SimilarSection
-              media={media_type}
-              similarMedias={similarMedias}
-              handleClick={(item) => setUpdatedId(item)}
-            />
-          )}
-
-          <ReviewSection
-            id={id}
-            media={media_type}
-            results={reviewData?.results}
-            mutate={mediaMutate}
-          />
         </MediaContainer>
       </Wrapper>
     </LateralMenuWrapper>

@@ -22,7 +22,7 @@ export const Wrapper = styled('div', {
   top: '0',
   right: '0',
   display: 'flex',
-  zIndex: 999,
+  zIndex: 998,
   overflow: 'scroll',
   width: '100%',
   alignItems: 'center',
