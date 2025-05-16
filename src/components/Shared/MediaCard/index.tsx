@@ -127,8 +127,13 @@ export function MediaCard({
       </MediaImageWrapper>
       <CardInfo>
         <CardInfoData>
-          {first_air_date ? <p>{getFullYear(first_air_date)}</p> : <p>N/A</p>}
-          <span>•</span>
+          {media_type !== 'person' &&
+            (first_air_date ? (
+              <p>{getFullYear(first_air_date)}</p>
+            ) : (
+              <p>N/A</p>
+            ))}
+          {media_type !== 'person' && <span>•</span>}
           {(() => {
             switch (media_type) {
               case MOVIE_MEDIA:

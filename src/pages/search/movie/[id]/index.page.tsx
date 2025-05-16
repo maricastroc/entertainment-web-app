@@ -1,13 +1,5 @@
 import { searchMovie } from '@/lib/tmdb'
-import {
-  Container,
-  MainContent,
-  MediaContainer,
-  MediaContent,
-  Wrapper,
-} from '@/styles/shared'
-import { SearchBar } from '@/components/Shared/SearchBar'
-import { Header } from '@/components/Shared/Header'
+import { MainContent, MediaContainer, MediaContent } from '@/styles/shared'
 import { pathToSearchMovie } from '@/utils'
 import { MediaCard } from '@/components/Shared/MediaCard'
 import { PaginationBar } from '@/components/Shared/PaginationBar'
@@ -17,10 +9,10 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { LoadingComponent } from '@/components/Core/LoadingComponent'
 import { MOVIE_MEDIA } from '@/utils/constants'
 import { SimilarCardProps } from '@/components/Shared/SimilarCard'
 import PersonModal from '@/components/Shared/PersonModal'
+import AuthLayout from '@/layouts/auth'
 
 interface SearchResultItemProps {
   id: string
@@ -59,81 +51,77 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
   return (
     <>
       <NextSeo title="Search Movie | MovieMentor" />
-      <Wrapper>
-        <Header />
-        <Container>
-          <SearchBar
+      <AuthLayout
+        searchPath={pathToSearchMovie}
+        isLoading={isRouteLoading}
+        searchPlaceholder="Search for Movies"
+      >
+        <MainContent>
+          <MediaContainer>
+            <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
+            <MediaContent>
+              <Dialog.Root>
+                {data.results.map((item: SearchResultItemProps) => {
+                  return (
+                    <Dialog.Trigger asChild key={item.id}>
+                      <MediaCard
+                        key={item.id}
+                        id={item.id}
+                        name={item.name || item.title}
+                        first_air_date={
+                          item.first_air_date || item.release_date
+                        }
+                        backdrop_path={
+                          item.backdrop_path ||
+                          item.poster_path ||
+                          item.profile_path
+                        }
+                        media_type={MOVIE_MEDIA}
+                        handleClick={() => {
+                          setIsMediaModalOpen(true)
+                          setSelectedMediaId(item.id || '')
+                        }}
+                      />
+                    </Dialog.Trigger>
+                  )
+                })}
+                {isMediaModalOpen &&
+                  selectedMediaId &&
+                  (selectedMediaType === 'person' ? (
+                    <PersonModal
+                      mediaType={selectedMediaType}
+                      id={selectedMediaId}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                      onClose={() => {
+                        setIsMediaModalOpen(false)
+                        setSelectedMediaType(MOVIE_MEDIA)
+                      }}
+                    />
+                  ) : (
+                    <MediaModal
+                      media_type={selectedMediaType}
+                      handleClickMedia={(type: string, id: string) => {
+                        setSelectedMediaType(type)
+                        setSelectedMediaId(id)
+                      }}
+                      id={selectedMediaId}
+                      onClose={() => setIsMediaModalOpen(false)}
+                    />
+                  ))}
+              </Dialog.Root>
+            </MediaContent>
+          </MediaContainer>
+          <PaginationBar
+            id={id}
+            actualPage={parseFloat(page)}
             searchPath={pathToSearchMovie}
-            placeholder="Search for Movies"
+            totalPages={data.total_pages}
           />
-          <MainContent>
-            <MediaContainer>
-              <h2>{`Found ${data.total_results} results for "${id}"`}</h2>
-              <MediaContent>
-                <Dialog.Root>
-                  {data.results.map((item: SearchResultItemProps) => {
-                    return (
-                      <Dialog.Trigger asChild key={item.id}>
-                        <MediaCard
-                          key={item.id}
-                          id={item.id}
-                          name={item.name || item.title}
-                          first_air_date={
-                            item.first_air_date || item.release_date
-                          }
-                          backdrop_path={
-                            item.backdrop_path ||
-                            item.poster_path ||
-                            item.profile_path
-                          }
-                          media_type={MOVIE_MEDIA}
-                          handleClick={() => {
-                            setIsMediaModalOpen(true)
-                            setSelectedMediaId(item.id || '')
-                          }}
-                        />
-                      </Dialog.Trigger>
-                    )
-                  })}
-                  {isMediaModalOpen &&
-                    selectedMediaId &&
-                    (selectedMediaType === 'person' ? (
-                      <PersonModal
-                        mediaType={selectedMediaType}
-                        id={selectedMediaId}
-                        handleClickMedia={(type: string, id: string) => {
-                          setSelectedMediaType(type)
-                          setSelectedMediaId(id)
-                        }}
-                        onClose={() => {
-                          setIsMediaModalOpen(false)
-                          setSelectedMediaType(MOVIE_MEDIA)
-                        }}
-                      />
-                    ) : (
-                      <MediaModal
-                        media_type={selectedMediaType}
-                        handleClickMedia={(type: string, id: string) => {
-                          setSelectedMediaType(type)
-                          setSelectedMediaId(id)
-                        }}
-                        id={selectedMediaId}
-                        onClose={() => setIsMediaModalOpen(false)}
-                      />
-                    ))}
-                </Dialog.Root>
-              </MediaContent>
-            </MediaContainer>
-            <PaginationBar
-              id={id}
-              actualPage={parseFloat(page)}
-              searchPath={pathToSearchMovie}
-              totalPages={data.total_pages}
-            />
-          </MainContent>
-        </Container>
-        {isRouteLoading && <LoadingComponent hasOverlay />}
-      </Wrapper>
+        </MainContent>
+      </AuthLayout>
     </>
   )
 }

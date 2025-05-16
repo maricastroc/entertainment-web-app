@@ -66,7 +66,7 @@ export default function Search({ data, id, page }: SearchProps) {
         <Container>
           <SearchBar
             searchPath={pathToSearchAll}
-            placeholder="Search for Movies / TV series"
+            placeholder="Search for Movies / TV series / People"
           />
           <MainContent>
             <MediaContainer>

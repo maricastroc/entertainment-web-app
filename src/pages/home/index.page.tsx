@@ -200,7 +200,7 @@ export default function Home({
       {isClient && (
         <AuthLayout
           searchPath={pathToSearchAll}
-          searchPlaceholder="Search for movie / TV series"
+          searchPlaceholder="Search for Movies / TV series / People"
           isLoading={isRouteLoading || isLoading}
         >
           <Dialog.Root open={isSignUpModalOpen}>

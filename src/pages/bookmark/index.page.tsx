@@ -43,7 +43,7 @@ export default function Bookmark() {
 
       <AuthLayout
         searchPath={pathToSearchAll}
-        searchPlaceholder="Search for movie / TV series"
+        searchPlaceholder="Search for Movies / TV series"
         isLoading={isRouteLoading || isValidating || isLoading}
       >
         <MainContent>
