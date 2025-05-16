@@ -3,6 +3,8 @@ export const AVATAR_URL_DEFAULT =
 
 export const REVIEW_MAX_LENGTH = 1000
 
+export const PERSON_MEDIA = 'person'
+
 export const TV_MEDIA = 'tv'
 
 export const MOVIE_MEDIA = 'movie'

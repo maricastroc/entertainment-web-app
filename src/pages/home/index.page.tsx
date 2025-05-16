@@ -10,6 +10,7 @@ import {
   movieNowPlaying,
   movieUpcoming,
   movieTopRated,
+  personPopular,
 } from '../../lib/tmdb'
 
 import { MainContent } from './styles'
@@ -22,7 +23,7 @@ import { useEffect, useState } from 'react'
 import { useAppContext } from '@/contexts/AppContext'
 import { SignUpModal } from '@/components/Shared/SignUpModal'
 import * as Dialog from '@radix-ui/react-dialog'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
 
 export interface MediaCardProps {
@@ -34,6 +35,7 @@ export interface MediaCardProps {
   media_type?: string
   backdrop_path?: string
   poster_path?: string
+  profile_path?: string
   handleClick: () => void
 }
 
@@ -68,6 +70,9 @@ interface HomeProps {
   topRatedSeries: {
     results: MediaCardProps[]
   }
+  popularPeople: {
+    results: MediaCardProps[]
+  }
 }
 
 export default function Home({
@@ -81,6 +86,7 @@ export default function Home({
   airingTodaySeries,
   onTheAirSeries,
   topRatedSeries,
+  popularPeople,
 }: HomeProps) {
   const isRouteLoading = useLoadingOnRouteChange()
 
@@ -127,6 +133,10 @@ export default function Home({
   const topRatedSeriesList = topRatedSeries.results
     .filter((item) => item.backdrop_path !== null)
     .slice(0, 6)
+
+  const popularPeopleList = popularPeople.results
+    .filter((item) => item?.profile_path !== null)
+    .slice(0, 8)
 
   const mediaTrendingMoviesLists = [
     { title: 'Trending', items: trendingMoviesList, media: 'Movie' },
@@ -190,6 +200,15 @@ export default function Home({
     },
   ]
 
+  const mediaPeopleList = [
+    {
+      title: 'Popular',
+      items: popularPeopleList,
+      media: PERSON_MEDIA,
+      endpoint: 'popular',
+    },
+  ]
+
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -242,6 +261,15 @@ export default function Home({
                 endpoint={endpoint}
               />
             ))}
+            {mediaPeopleList.map(({ title, items, media, endpoint }) => (
+              <MediaList
+                key={title}
+                title={title}
+                items={items}
+                media={media}
+                endpoint={endpoint}
+              />
+            ))}
           </MainContent>
         </AuthLayout>
       )}
@@ -271,6 +299,8 @@ export async function getServerSideProps() {
   const onTheAirSeries = await fetchData(tvOnTheAir)
   const topRatedSeries = await fetchData(tvTopRated)
 
+  const popularPeople = await fetchData(personPopular)
+
   return {
     props: {
       trendingMovies,
@@ -283,6 +313,7 @@ export async function getServerSideProps() {
       airingTodaySeries,
       onTheAirSeries,
       topRatedSeries,
+      popularPeople,
     },
   }
 }

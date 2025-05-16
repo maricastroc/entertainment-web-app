@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import PersonModal from '@/components/Shared/PersonModal'
 
 interface MediaListProps {
@@ -37,12 +37,27 @@ export default function MediaList({
 
   async function handleGoToTrendingMedia() {
     const basePath = router.basePath
-    const moviePath = `${basePath}/movie/${endpoint}`
-    const seriesPath = `${basePath}/tv/${endpoint}`
 
-    media.toLowerCase() === MOVIE_MEDIA
-      ? await router.push(`${moviePath}/1`)
-      : await router.push(`${seriesPath}/1`)
+    switch (media.toLowerCase()) {
+      case MOVIE_MEDIA:
+        await router.push(`${basePath}/movie/${endpoint}/1`)
+        break
+      case TV_MEDIA:
+        await router.push(`${basePath}/tv/${endpoint}/1`)
+        break
+      case PERSON_MEDIA:
+        await router.push(`${basePath}/person/${endpoint}/1`)
+        break
+      default:
+        await router.push(`${basePath}/movie/${endpoint}/1`)
+    }
+  }
+  type MediaType = typeof TV_MEDIA | typeof MOVIE_MEDIA | 'person'
+
+  const mediaLabels: Record<MediaType, string> = {
+    [TV_MEDIA]: 'TV Series',
+    [MOVIE_MEDIA]: 'Movie',
+    [PERSON_MEDIA]: 'Person',
   }
 
   return (
@@ -51,12 +66,12 @@ export default function MediaList({
         <MediaTitle>
           <h2>{title}</h2>
           <MediaTag>
-            <p>{media === TV_MEDIA ? 'TV Series' : 'Movie'}</p>
+            <p>{mediaLabels[media as MediaType]}</p>
           </MediaTag>
         </MediaTitle>
         <button onClick={handleGoToTrendingMedia}>See More</button>
       </MediaHeader>
-      <MediaContent>
+      <MediaContent hasCustomGrid={media !== PERSON_MEDIA}>
         <Dialog.Root open={isMediaModalOpen}>
           {items.map((item) => (
             <Dialog.Trigger asChild key={item.id}>
@@ -64,7 +79,9 @@ export default function MediaList({
                 id={item.id}
                 name={item.name || item.title}
                 first_air_date={item.first_air_date || item.release_date}
-                backdrop_path={item.backdrop_path || item.poster_path}
+                backdrop_path={
+                  item?.backdrop_path || item?.poster_path || item?.profile_path
+                }
                 media_type={media.toLowerCase()}
                 handleClick={() => {
                   setIsMediaModalOpen(true)

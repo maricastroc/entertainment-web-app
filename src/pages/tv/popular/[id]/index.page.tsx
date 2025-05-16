@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import ThemePage from '@/components/Shared/ThemePage'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 export default function PopularTv() {
   const router = useRouter()
@@ -14,13 +14,14 @@ export default function PopularTv() {
   useEffect(() => {
     if (id) {
       fetch(`/api/tv/popular/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
+        .then(async (response) => {
+          const data = await response.json()
+          console.log('Resposta completa da API:', data) // 👈 Visualiza aqui
           setData(data.results)
           setTotalPages(data.total_pages)
         })
         .catch((error) => {
-          console.error('Error getting details:', error)
+          console.error('Erro ao obter detalhes da pessoa:', error)
         })
     }
   }, [id])

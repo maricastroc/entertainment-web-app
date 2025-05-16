@@ -81,6 +81,6 @@ export const Pagination = styled('div', {
   padding: '0.4rem',
   color: '$gray100',
   fontSize: '0.9rem',
-  width: '8rem',
+  width: '10rem',
   textAlign: 'center',
 })

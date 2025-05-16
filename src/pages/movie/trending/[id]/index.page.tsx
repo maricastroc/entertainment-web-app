@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import ThemePage from '@/components/Shared/ThemePage'
-import { SearchResultItemProps } from '@/types/search_result'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 export default function TrendingMovie() {
   const router = useRouter()

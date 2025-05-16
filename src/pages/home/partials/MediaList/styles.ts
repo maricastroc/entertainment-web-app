@@ -94,6 +94,18 @@ export const MediaContent = styled('div', {
   placeItems: 'center',
   flex: 1,
 
+  variants: {
+    hasCustomGrid: {
+      true: {
+        '@media (min-width: 980px)': {
+          '> :nth-last-child(-n + 2)': {
+            gridColumn: 'span 2',
+          },
+        },
+      },
+    },
+  },
+
   '@media (min-width: 380px)': {
     gridTemplateColumns: '1fr 1fr',
   },
@@ -106,9 +118,5 @@ export const MediaContent = styled('div', {
   '@media (min-width: 980px)': {
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
     gap: '2.5rem 1.8rem',
-
-    '> :nth-last-child(-n + 2)': {
-      gridColumn: 'span 2',
-    },
   },
 })

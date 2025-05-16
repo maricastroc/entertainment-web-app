@@ -10,28 +10,10 @@ import { useState } from 'react'
 import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import PersonModal from '@/components/Shared/PersonModal'
-import { SimilarCardProps } from '@/components/Shared/SimilarCard'
 import { useAppContext } from '@/contexts/AppContext'
 import AuthLayout from '@/layouts/auth'
-
-export interface SearchResultItemProps {
-  id: string
-  name?: string
-  title?: string
-  first_air_date?: string
-  release_date?: string
-  media_type: string
-  backdrop_path?: string
-  poster_path?: string
-  known_for?: SimilarCardProps[] | null | undefined
-  profile_path?: string
-}
-
-interface SearchResult {
-  total_results: number
-  total_pages: number
-  results: SearchResultItemProps[]
-}
+import { SearchResult } from '@/types/search-result'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 interface SearchProps {
   data: SearchResult

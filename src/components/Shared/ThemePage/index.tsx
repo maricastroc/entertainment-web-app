@@ -1,9 +1,8 @@
 import { MainContent, MediaContainer, MediaContent } from './styles'
-import { pathToSearchMovie, pathToSearchTV } from '@/utils'
+import { pathToSearchMovie, pathToSearchPerson, pathToSearchTV } from '@/utils'
 import { MediaCard } from '@/components/Shared/MediaCard'
 import Loading from '@/components/Core/Loading'
 import { PaginationTrendingBar } from '@/components/Shared/PaginationTrendingBar'
-import { SearchResultItemProps } from '@/pages/search/[id]/index.page'
 import { NextSeo } from 'next-seo'
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -11,9 +10,10 @@ import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
-import { TV_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
 import PersonModal from '../PersonModal'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 interface Props {
   data: SearchResultItemProps[]
@@ -42,15 +42,38 @@ export default function ThemePage({
 
   const [selectedMediaType, setSelectedMediaType] = useState(media)
 
+  type MediaType = typeof TV_MEDIA | typeof MOVIE_MEDIA | typeof PERSON_MEDIA
+
+  const searchConfig: Record<
+    MediaType,
+    {
+      path: string
+      placeholder: string
+    }
+  > = {
+    [TV_MEDIA]: {
+      path: pathToSearchTV,
+      placeholder: 'Search for TV series',
+    },
+    [MOVIE_MEDIA]: {
+      path: pathToSearchMovie,
+      placeholder: 'Search for Movies',
+    },
+    [PERSON_MEDIA]: {
+      path: pathToSearchPerson,
+      placeholder: 'Search for People',
+    },
+  }
+
+  console.log(selectedMediaType)
+
   return (
     <>
       <NextSeo title={pageName} />
       {data ? (
         <AuthLayout
-          searchPath={media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie}
-          searchPlaceholder={
-            media === TV_MEDIA ? 'Search for TV series' : 'Search for Movies'
-          }
+          searchPath={searchConfig[media as MediaType].path}
+          searchPlaceholder={searchConfig[media as MediaType].placeholder}
           isLoading={isRouteLoading || isLoading}
         >
           <MainContent>
@@ -86,7 +109,7 @@ export default function ThemePage({
                   })}
                   {isMediaModalOpen &&
                     selectedMediaId &&
-                    (selectedMediaType === 'person' ? (
+                    (selectedMediaType === PERSON_MEDIA ? (
                       <PersonModal
                         mediaType={selectedMediaType}
                         id={selectedMediaId}
@@ -103,7 +126,10 @@ export default function ThemePage({
                       <MediaModal
                         media_type={selectedMediaType}
                         id={selectedMediaId}
-                        onClose={() => setIsMediaModalOpen(false)}
+                        onClose={() => {
+                          setIsMediaModalOpen(false)
+                          setSelectedMediaType(media)
+                        }}
                         handleClickMedia={(type: string, id: string) => {
                           setSelectedMediaType(type)
                           setSelectedMediaId(id)

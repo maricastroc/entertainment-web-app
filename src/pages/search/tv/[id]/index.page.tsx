@@ -12,24 +12,8 @@ import { TV_MEDIA } from '@/utils/constants'
 import PersonModal from '@/components/Shared/PersonModal'
 import AuthLayout from '@/layouts/auth'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-
-interface SearchResultItemProps {
-  id: string
-  name?: string
-  title?: string
-  first_air_date?: string
-  release_date?: string
-  media_type: string
-  backdrop_path?: string
-  poster_path?: string
-  profile_path?: string
-}
-
-interface SearchResult {
-  total_results: number
-  total_pages: number
-  results: SearchResultItemProps[]
-}
+import { SearchResult } from '@/types/search-result'
+import { SearchResultItemProps } from '@/types/search-result-item'
 
 interface SearchProps {
   data: SearchResult

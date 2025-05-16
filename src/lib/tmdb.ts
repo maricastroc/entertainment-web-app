@@ -98,6 +98,12 @@ export function searchTv(query: string, page: string) {
   )}&page=${page}`
 }
 
+export function searchPerson(query: string, page: string) {
+  return `${TMDB_ENDPOINT}/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
+    query,
+  )}&page=${page}`
+}
+
 export function getPersonDetail(id: string) {
   return `${TMDB_ENDPOINT}/person/${id}?api_key=${TMDB_API_KEY}`
 }
@@ -136,6 +142,9 @@ export const tvPopular = 'tv/popular'
 export const tvAiringToday = 'tv/airing_today'
 export const tvOnTheAir = 'tv/on_the_air'
 export const tvTopRated = 'tv/top_rated'
+
+// Person
+export const personPopular = 'person/popular'
 
 // Genre
 export const genreMovie = 'genre/movie/list'
