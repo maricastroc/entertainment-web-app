@@ -23,6 +23,8 @@ import { DeleteModal } from '@/components/Shared/DeleteModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useRef, useState } from 'react'
+import { SignUpModal } from '@/components/Shared/SignUpModal'
+import { useSession } from 'next-auth/react'
 
 interface Props {
   review: ReviewProps
@@ -56,6 +58,10 @@ export function ReviewCard({
   const { user } = useAppContext()
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  const { isSignUpModalOpen, handleSetIsSignUpModalOpen } = useAppContext()
+
+  const session = useSession()
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -116,17 +122,29 @@ export function ReviewCard({
         <RatingActions>
           <RatingWrapper>
             <ThumbsUp
-              onClick={() =>
-                handleVote('UP', review, review?.is_from_app_user as boolean)
-              }
+              onClick={() => {
+                if (session?.data?.user) {
+                  handleVote('UP', review, review?.is_from_app_user as boolean)
+                } else {
+                  handleSetIsSignUpModalOpen(true)
+                }
+              }}
             />
             <p>Helpful • {votesUp}</p>
           </RatingWrapper>
           <RatingWrapper>
             <ThumbsDown
-              onClick={() =>
-                handleVote('DOWN', review, review?.is_from_app_user as boolean)
-              }
+              onClick={() => {
+                if (session?.data?.user) {
+                  handleVote(
+                    'DOWN',
+                    review,
+                    review?.is_from_app_user as boolean,
+                  )
+                } else {
+                  handleSetIsSignUpModalOpen(true)
+                }
+              }}
             />
             <p>{votesDown}</p>
           </RatingWrapper>
@@ -173,6 +191,12 @@ export function ReviewCard({
           </>
         )}
       </Footer>
+
+      {isSignUpModalOpen && (
+        <Dialog.Root open={isSignUpModalOpen}>
+          <SignUpModal hasOverlay={false} />
+        </Dialog.Root>
+      )}
     </Container>
   )
 }

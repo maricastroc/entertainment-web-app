@@ -97,6 +97,14 @@ export const ModalOverlay = styled(RadixOverlay, {
   inset: 0,
   zIndex: 9997,
   backgroundColor: 'rgba(10, 10, 10, 0.7)',
+
+  variants: {
+    hasOverlay: {
+      false: {
+        backgroundColor: 'transparent',
+      },
+    },
+  },
 })
 
 export const ModalDescription = styled(RadixDescription, {

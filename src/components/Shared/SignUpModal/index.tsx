@@ -14,7 +14,11 @@ import {
   ModalTitle,
 } from '@/styles/shared'
 
-export function SignUpModal() {
+interface Props {
+  hasOverlay?: boolean
+}
+
+export function SignUpModal({ hasOverlay = true }: Props) {
   const router = useRouter()
 
   const isRouteLoading = useLoadingOnRouteChange()
@@ -25,6 +29,7 @@ export function SignUpModal() {
     <Dialog.Portal>
       <ModalOverlay
         className="DialogOverlay"
+        hasOverlay={hasOverlay}
         onClick={() => handleSetIsSignUpModalOpen(false)}
       />
 
