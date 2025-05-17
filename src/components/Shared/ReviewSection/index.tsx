@@ -75,7 +75,7 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
 
       if (response.data) {
         toast.success(response.data.message)
-        mutate() // revalida os dados
+        mutate()
       }
     } catch (error) {
       handleApiError(error)

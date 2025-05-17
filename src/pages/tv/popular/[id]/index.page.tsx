@@ -5,6 +5,7 @@ import { SearchResultItemProps } from '@/types/search-result-item'
 
 export default function PopularTv() {
   const router = useRouter()
+
   const { id } = router.query
 
   const [data, setData] = useState<SearchResultItemProps[] | undefined>()
@@ -16,7 +17,7 @@ export default function PopularTv() {
       fetch(`/api/tv/popular/${id}`)
         .then(async (response) => {
           const data = await response.json()
-          console.log('Resposta completa da API:', data) // 👈 Visualiza aqui
+          console.log('Resposta completa da API:', data)
           setData(data.results)
           setTotalPages(data.total_pages)
         })

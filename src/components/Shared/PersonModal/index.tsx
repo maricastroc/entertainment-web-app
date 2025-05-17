@@ -48,8 +48,10 @@ export default function PersonModal({
   const [tvCredits, setTvCredits] = useState<SimilarCardProps[] | null>()
 
   const [moviesPage, setMoviesPage] = useState(1)
+
   const [tvPage, setTvPage] = useState(1)
-  const itemsPerPage = 10
+
+  const itemsPerPage = 6
 
   const visibleMovies = useMemo(() => {
     return movieCredits?.slice(0, moviesPage * itemsPerPage) || []
