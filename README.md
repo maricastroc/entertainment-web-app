@@ -6,33 +6,47 @@
 
 This project is an entertainment application that uses TheMovieDB API to display TV series and movies from different categories - such as popular, trending, on air, and top rating. The application provides details about the synopsis and technical information for each displayed TV series/movie card. Additionally, it includes an advanced search bar to facilitate searching for specific titles. The application also provides the option to explore these media items through various available genres. Additionally, it offers social authentication using Next oAuth, allowing users to sign in using their Gmail or GitHub accounts.
 
+## 🌟 Key Features
+  ### Enhanced Discovery
+- Browse movies/series by category (Trending, Popular, Top Rated)
+- Advanced search for titles, people (actors/directors), and genres
+- Detailed media pages with synopsis, cast, reviews, and recommendations
 
+### User Experience
+- OAuth Authentication via GitHub/Gmail (NextAuth.js)
+- Bookmark system - Save movies/series to watch later
+- Write and rate reviews
+- Upvote/downvote others' comments
 
-## 📌 What did I learn?
+### Technical Highlights
+- Test-driven development
+- Jest unit/integration tests for critical flows (auth, reviews, bookmarks)
+- Mocked API responses & Prisma operations
 
-The application's main challenge was handling the extensive number of routes available for user navigation. To streamline this organization, I created a lib/tbmd.ts file to define all the endpoints used across different pages of the application. This project provided an excellent opportunity to practice passing parameters through routes and server-side data rendering.
+### Optimized performance
+- Server-side rendering (getServerSideProps)
+- Client-side caching for frequent queries
 
-I leveraged Next.js's server-side rendering feature, using `getServerSideProps`, to render database information on the server-side. NextAuth.js library was employed to implement social user authentication.
+## 🛠️ Tech Stack
+
+| Category        | Technologies                          |
+|----------------|----------------------------------------|
+| **Framework**   | Next.js 13 (App Router)               |
+| **Styling**     | Stitches, CSS Modules                 |
+| **Database**    | PostgreSQL + Prisma ORM               |
+| **Authentication** | NextAuth.js                      |
+| **Testing**     | Jest, React Testing Library           |
+| **Tooling**     | ESLint, Prettier                      |
 
 ## 🔍 Links
 [Preview Site](https://book-wise-puce.vercel.app/)
 
-## 💻 My Process
-### Built with:
-
-- [React](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Next.Js](https://nextjs.org/)
-- [Next Auth](https://next-auth.js.org/)
-- [Next SEO](https://www.npmjs.com/package/next-seo)
-- [Stitches](https://stitches.dev/)
-- [font-awesome](https://fontawesome.com/)
-- [phosphor-react](https://phosphoricons.com/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-<br/>
-
 ## ℹ️ How to run the application?
+
+### Prerequisites
+- Node.js 18+
+- TMDB API key
+- GitHub/OAuth credentials for auth
 
 > Clone the repository:
 
@@ -61,4 +75,9 @@ npx prisma migrate dev
 npm run dev
 ```
 
-> ⏩ Access [http://localhost:3000](http://localhost:3000) to view the web application.
+> Run all tests:
+
+```bash
+npm test
+npm run test:coverage
+```
