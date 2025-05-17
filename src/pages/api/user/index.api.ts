@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== 'GET') {
-    return res.status(405).end()
+    return res.status(405).json({ message: 'Method Not Allowed' })
   }
 
   const session = await getServerSession(

@@ -49,7 +49,7 @@ export default async function handler(
 
     if (req.method === 'POST') {
       if (userWithSeries?.savedSeries.length) {
-        return res.status(400).json({ message: 'Series already saved' })
+        return res.status(400).json({ message: 'TV Show already saved' })
       }
 
       await prisma.user.update({
@@ -61,10 +61,10 @@ export default async function handler(
         },
       })
 
-      return res.status(201).json({ message: 'Series added to bookmarks!' })
+      return res.status(201).json({ message: 'TV Show added to bookmarks!' })
     } else if (req.method === 'DELETE') {
       if (!userWithSeries?.savedSeries.length) {
-        return res.status(400).json({ message: 'Series not saved' })
+        return res.status(400).json({ message: 'TV Show not saved' })
       }
 
       await prisma.user.update({
@@ -76,7 +76,9 @@ export default async function handler(
         },
       })
 
-      return res.status(200).json({ message: 'Series removed from bookmarks!' })
+      return res
+        .status(200)
+        .json({ message: 'TV Show removed from bookmarks!' })
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
