@@ -1,6 +1,5 @@
 # Entertainment Web App
-![entertainment-web-app](https://github.com/maricastroc/entertainment-web-app/assets/121824373/a682e689-4856-4e92-9f2c-5c42612b535e)
-
+![image](https://github.com/user-attachments/assets/81c65455-4691-4a0f-a292-b5265cc356c4)
 
 ## 📚 Project Description
 
