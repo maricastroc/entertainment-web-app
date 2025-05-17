@@ -39,7 +39,7 @@ This project is an entertainment application that uses TheMovieDB API to display
 | **Tooling**     | ESLint, Prettier                      |
 
 ## 🔍 Links
-[Preview Site](https://book-wise-puce.vercel.app/)
+[Preview Site](https://maricastroc-entertainment-web-app.vercel.app/)
 
 ## ℹ️ How to run the application?
 
