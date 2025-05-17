@@ -10,6 +10,10 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/dist/'
   ],
+
+  transformIgnorePatterns: [
+    '/node_modules/(?!(bcrypt)/)',
+  ],
   
   clearMocks: true,
   collectCoverage: true,

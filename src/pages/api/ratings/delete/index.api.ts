@@ -62,6 +62,12 @@ export default async function handler(
       return res.status(404).json({ message: 'Rating not found' })
     }
 
+    if (existingRating.userId !== String(userId)) {
+      return res
+        .status(403)
+        .json({ message: 'You are not allowed to delete this rating' })
+    }
+
     await prisma.rating.delete({
       where: { id: existingRating.id },
     })
