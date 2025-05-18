@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
@@ -12,6 +12,8 @@ import Logo from '../../../public/logo.svg'
 export default function Register() {
   const isRouteLoading = useLoadingOnRouteChange()
 
+  const [isClient, setIsClient] = useState(false)
+
   const router = useRouter()
 
   const { status } = useSession()
@@ -22,20 +24,25 @@ export default function Register() {
     }
   }, [status, router])
 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <>
       <NextSeo title="Login | Book Wise" />
-      {isRouteLoading ? (
-        <LoadingComponent withBackground />
-      ) : (
-        <Container>
-          <LogoWrapper>
-            <Image alt="" src={Logo} />
-            <h2>Movie Mentor</h2>
-          </LogoWrapper>
-          <SignUpForm />
-        </Container>
-      )}
+      {isClient &&
+        (isRouteLoading ? (
+          <LoadingComponent withBackground />
+        ) : (
+          <Container>
+            <LogoWrapper>
+              <Image alt="" src={Logo} />
+              <h2>Movie Mentor</h2>
+            </LogoWrapper>
+            <SignUpForm />
+          </Container>
+        ))}
     </>
   )
 }

@@ -1,15 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IncomingForm } from 'formidable'
 import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-import fs from 'fs'
-import path from 'path'
+
+let fs: any, path: any
+
+try {
+  if (typeof process !== 'undefined' && process.versions?.node) {
+    fs = require('fs')
+    path = require('path')
+  }
+} catch (e) {
+  console.warn('File system operations not available in this environment:', e)
+}
 
 export const config = {
   api: {
     bodyParser: false,
+    runtime: 'nodejs',
   },
 }
 
@@ -124,28 +135,13 @@ export default async function handler(
       let avatarUrl = user.avatarUrl
 
       if (avatarFile) {
-        const uploadDir = path.join(process.cwd(), 'public', 'users', 'images')
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true })
-        }
+        const fileContent = await fs.promises.readFile(avatarFile.filepath)
+        const base64Image = fileContent.toString('base64')
+        const dataURI = `data:${avatarFile.mimetype};base64,${base64Image}`
 
-        const fileName = `${user.id}-${Date.now()}-${
-          avatarFile.originalFilename ?? 'avatar'
-        }`
-        const filePath = path.join(uploadDir, fileName)
+        avatarUrl = dataURI
 
-        fs.copyFileSync(avatarFile.filepath, filePath)
-        fs.unlinkSync(avatarFile.filepath)
-
-        if (user.avatarUrl) {
-          const oldFileName = user.avatarUrl.split('/').pop()
-          const oldFilePath = path.join(uploadDir, oldFileName as string)
-          if (fs.existsSync(oldFilePath)) {
-            fs.unlinkSync(oldFilePath)
-          }
-        }
-
-        avatarUrl = `/users/images/${fileName}`
+        await fs.promises.unlink(avatarFile.filepath)
       }
 
       const updatedUser = await prisma.user.update({
