@@ -6,15 +6,13 @@ import { PaginationTrendingBar } from '@/components/Shared/PaginationTrendingBar
 import Loading from '@/components/Core/Loading'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { SignUpModal } from '../SignUpModal'
 import { useAppContext } from '@/contexts/AppContext'
-import { TV_MEDIA } from '@/utils/constants'
+import { PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
-import PersonModal from '../PersonModal'
 import { SearchResultItemProps } from '@/types/search-result-item'
-import { useRouter } from 'next/router'
+import { ModalSection } from '../ModalSection'
 
 interface GenrePageProps {
   data: {
@@ -36,8 +34,6 @@ export default function GenrePage({
 }: GenrePageProps) {
   const isRouteLoading = useLoadingOnRouteChange()
 
-  const router = useRouter()
-
   const { isSignUpModalOpen, isLoading } = useAppContext()
 
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false)
@@ -45,7 +41,7 @@ export default function GenrePage({
   const [selectedMediaId, setSelectedMediaId] = useState('')
 
   const [selectedMediaType, setSelectedMediaType] = useState(media)
-  console.log(router.asPath)
+
   return (
     <>
       <NextSeo
@@ -94,32 +90,21 @@ export default function GenrePage({
                       </Dialog.Trigger>
                     )
                   })}
-                  {isMediaModalOpen &&
-                    selectedMediaId &&
-                    (selectedMediaType === 'person' ? (
-                      <PersonModal
-                        mediaType={selectedMediaType}
-                        id={selectedMediaId}
-                        handleClickMedia={(type: string, id: string) => {
-                          setSelectedMediaType(type)
-                          setSelectedMediaId(id)
-                        }}
-                        onClose={() => {
-                          setIsMediaModalOpen(false)
-                          setSelectedMediaType(media)
-                        }}
-                      />
-                    ) : (
-                      <MediaModal
-                        media_type={selectedMediaType}
-                        id={selectedMediaId}
-                        onClose={() => setIsMediaModalOpen(false)}
-                        handleClickMedia={(type: string, id: string) => {
-                          setSelectedMediaType(type)
-                          setSelectedMediaId(id)
-                        }}
-                      />
-                    ))}
+
+                  <ModalSection
+                    openPersonModal={selectedMediaType === PERSON_MEDIA}
+                    isOpen={isMediaModalOpen}
+                    mediaType={selectedMediaType}
+                    selectedId={selectedMediaId}
+                    onClose={() => {
+                      setIsMediaModalOpen(false)
+                      setSelectedMediaType(media)
+                    }}
+                    onChangeMedia={(type: string, id: string) => {
+                      setSelectedMediaType(type)
+                      setSelectedMediaId(id)
+                    }}
+                  />
                 </Dialog.Root>
               </MediaContent>
             </MediaContainer>

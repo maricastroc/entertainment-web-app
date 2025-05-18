@@ -19,7 +19,8 @@ export const Container = styled('div', {
   alignItems: 'flex-start',
   gap: '0.5rem',
   width: '100%',
-  minWidth: '12rem',
+  maxWidth: '13rem',
+  minWidth: '13rem',
 
   '&:hover': {
     animation: `${rotateAnimation} 0.3s forwards`,

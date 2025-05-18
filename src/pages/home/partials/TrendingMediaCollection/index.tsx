@@ -13,10 +13,9 @@ import { TrendingMediaCard } from '@/components/Shared/TrendingMediaCard'
 import { ScrollableContainer } from '../../styles'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useRef, useState } from 'react'
-import MediaModal from '@/components/Shared/MediaModal'
 import { CaretLeft, CaretRight } from 'phosphor-react'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
-import PersonModal from '@/components/Shared/PersonModal'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { ModalSection } from '@/components/Shared/ModalSection'
 
 interface TrendingMediaCollectionProps {
   title: string
@@ -102,32 +101,20 @@ export default function TrendingMediaCollection({
                 </Dialog.Trigger>
               )
             })}
-            {isMediaModalOpen &&
-              selectedMediaId &&
-              (selectedMediaType === 'person' ? (
-                <PersonModal
-                  mediaType={selectedMediaType}
-                  id={selectedMediaId}
-                  handleClickMedia={(type: string, id: string) => {
-                    setSelectedMediaType(type)
-                    setSelectedMediaId(id)
-                  }}
-                  onClose={() => {
-                    setIsMediaModalOpen(false)
-                    setSelectedMediaType(media_type)
-                  }}
-                />
-              ) : (
-                <MediaModal
-                  media_type={selectedMediaType}
-                  id={selectedMediaId}
-                  onClose={() => setIsMediaModalOpen(false)}
-                  handleClickMedia={(type: string, id: string) => {
-                    setSelectedMediaType(type)
-                    setSelectedMediaId(id)
-                  }}
-                />
-              ))}
+            <ModalSection
+              openPersonModal={selectedMediaType === PERSON_MEDIA}
+              isOpen={isMediaModalOpen}
+              mediaType={selectedMediaType}
+              selectedId={selectedMediaId}
+              onClose={() => {
+                setIsMediaModalOpen(false)
+                setSelectedMediaType(media_type)
+              }}
+              onChangeMedia={(type: string, id: string) => {
+                setSelectedMediaType(type)
+                setSelectedMediaId(id)
+              }}
+            />
           </Dialog.Root>
           <CaretRightIcon onClick={handleScrollRight}>
             <CaretRight />

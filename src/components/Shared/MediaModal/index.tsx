@@ -137,13 +137,13 @@ export default function MediaModal({
       ?.filter((item: SimilarCardProps) => item.backdrop_path !== null)
       .slice(0, 1)
 
-    setTrailerLink(trailer[0]?.key || '')
+    setTrailerLink(trailer?.[0]?.key || '')
 
     const filteredSimilar = mediaResult?.similars?.results?.filter(
       (item: SimilarCardProps) => item.backdrop_path !== null,
     )
 
-    setSimilarMedias(filteredSimilar.slice(0, 5))
+    setSimilarMedias(filteredSimilar?.slice(0, 5))
   }, [updatedId, media_type, mediaResult])
 
   useEffect(() => {

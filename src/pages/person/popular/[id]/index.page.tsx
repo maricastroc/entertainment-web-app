@@ -18,12 +18,11 @@ export default function PopularMovies() {
       fetch(`/api/person/popular/${id}`)
         .then(async (response) => {
           const data = await response.json()
-          console.log('Resposta completa da API:', data)
           setData(data.results)
           setTotalPages(data.total_pages)
         })
         .catch((error) => {
-          console.error('Erro ao obter detalhes da pessoa:', error)
+          console.error('Error getting person details:', error)
         })
     }
   }, [id])

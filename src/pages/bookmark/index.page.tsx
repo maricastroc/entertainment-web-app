@@ -13,7 +13,6 @@ import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { useAppContext } from '@/contexts/AppContext'
 import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -22,8 +21,6 @@ import { ModalSection } from '@/components/Shared/ModalSection'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
-
-  const { isLoading } = useAppContext()
 
   const [isMovieMediaModalOpen, setIsMovieMediaModalOpen] = useState(false)
 
@@ -37,16 +34,14 @@ export default function Bookmark() {
     url: '/profile',
     method: 'GET',
   })
-
-  const isLoadingData = isRouteLoading || isValidating || isLoading
-
+  console.log(isMovieMediaModalOpen, isSeriesMediaModalOpen, selectedMediaType)
   return (
     <>
       <NextSeo title="Bookmark | MovieMentor" />
       <AuthLayout
         searchPath={pathToSearchAll}
         searchPlaceholder="Search for Movies / TV series"
-        isLoading={isLoadingData}
+        isLoading={isRouteLoading || isValidating}
       >
         <MainContent>
           <MediaContainer>
@@ -119,7 +114,13 @@ export default function Bookmark() {
           isOpen={isMovieMediaModalOpen}
           mediaType={MOVIE_MEDIA}
           selectedId={selectedMediaId}
-          onClose={() => setIsMovieMediaModalOpen(false)}
+          onClose={() => {
+            setIsMovieMediaModalOpen(false)
+
+            if (selectedMediaType === PERSON_MEDIA) {
+              setSelectedMediaType(MOVIE_MEDIA)
+            }
+          }}
           onChangeMedia={(type, id) => {
             setSelectedMediaType(type)
             setSelectedMediaId(id)
@@ -136,7 +137,13 @@ export default function Bookmark() {
           isOpen={isSeriesMediaModalOpen}
           mediaType={TV_MEDIA}
           selectedId={selectedMediaId}
-          onClose={() => setIsSeriesMediaModalOpen(false)}
+          onClose={() => {
+            setIsSeriesMediaModalOpen(false)
+
+            if (selectedMediaType === PERSON_MEDIA) {
+              setSelectedMediaType(TV_MEDIA)
+            }
+          }}
           onChangeMedia={(type, id) => {
             setSelectedMediaType(type)
             setSelectedMediaId(id)

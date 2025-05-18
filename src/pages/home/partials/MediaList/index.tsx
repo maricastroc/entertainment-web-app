@@ -10,9 +10,8 @@ import {
 import { useRouter } from 'next/router'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/Shared/MediaModal'
 import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
-import PersonModal from '@/components/Shared/PersonModal'
+import { ModalSection } from '@/components/Shared/ModalSection'
 
 interface MediaListProps {
   title: string
@@ -90,32 +89,21 @@ export default function MediaList({
               />
             </Dialog.Trigger>
           ))}
-          {isMediaModalOpen &&
-            selectedMediaId &&
-            (selectedMediaType === 'person' ? (
-              <PersonModal
-                mediaType={selectedMediaType}
-                id={selectedMediaId}
-                handleClickMedia={(type: string, id: string) => {
-                  setSelectedMediaType(type)
-                  setSelectedMediaId(id)
-                }}
-                onClose={() => {
-                  setIsMediaModalOpen(false)
-                  setSelectedMediaType(media)
-                }}
-              />
-            ) : (
-              <MediaModal
-                media_type={selectedMediaType}
-                id={selectedMediaId}
-                onClose={() => setIsMediaModalOpen(false)}
-                handleClickMedia={(type: string, id: string) => {
-                  setSelectedMediaType(type)
-                  setSelectedMediaId(id)
-                }}
-              />
-            ))}
+
+          <ModalSection
+            openPersonModal={selectedMediaType === PERSON_MEDIA}
+            isOpen={isMediaModalOpen}
+            mediaType={selectedMediaType}
+            selectedId={selectedMediaId}
+            onClose={() => {
+              setIsMediaModalOpen(false)
+              setSelectedMediaType(media)
+            }}
+            onChangeMedia={(type: string, id: string) => {
+              setSelectedMediaType(type)
+              setSelectedMediaId(id)
+            }}
+          />
         </Dialog.Root>
       </MediaContent>
     </MediaContainer>
