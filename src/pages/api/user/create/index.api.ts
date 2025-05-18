@@ -71,15 +71,27 @@ export default async function handler(
       let avatarUrl: string | null = null
 
       if (avatarFile) {
-        const avatarPath = path.join(
-          process.cwd(),
-          'public',
-          'users',
-          'images',
-          avatarFile.originalFilename ?? '',
-        )
-        fs.renameSync(avatarFile.filepath, avatarPath)
-        avatarUrl = `/users/images/${avatarFile.originalFilename}`
+        // Create upload directory if it doesn't exist
+        const uploadDir = path.join(process.cwd(), 'public', 'users', 'images')
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true })
+        }
+
+        // Generate unique filename to prevent collisions
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+        const filename = `${uniqueSuffix}-${
+          avatarFile.originalFilename ?? 'avatar'
+        }`
+
+        const avatarPath = path.join(uploadDir, filename)
+
+        // Copy file instead of renaming (solves EXDEV error)
+        fs.copyFileSync(avatarFile.filepath, avatarPath)
+
+        // Delete temporary file
+        fs.unlinkSync(avatarFile.filepath)
+
+        avatarUrl = `/users/images/${filename}`
       }
 
       const user = await prisma.user.create({
