@@ -6,8 +6,14 @@ export const Container = styled('div', {
   width: '100%',
   height: '100vh',
   alignItems: 'center',
-  justifyContent: 'center',
+  marginTop: '2rem',
+  justifyContent: 'flex-start',
   overflow: 'auto',
+
+  '@media (min-width: 1024px)': {
+    marginTop: 0,
+    justifyContent: 'center',
+  },
 })
 
 export const FormWrapper = styled('div', {

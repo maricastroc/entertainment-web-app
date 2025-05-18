@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
@@ -24,6 +25,7 @@ import {
 import { Form } from '@/components/Core/Form'
 import { AvatarUploadPreview } from '@/components/Core/AvatarUploadPreview'
 import { TrashSimple } from 'phosphor-react'
+import { ImageCropper } from '@/components/Shared/ImageCropper'
 
 const signUpFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -60,6 +62,10 @@ export default function SignUpForm() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
+
+  const [showCropper, setShowCropper] = useState(false)
+
+  const [originalImage, setOriginalImage] = useState<string | null>(null)
 
   async function onSubmit(data: SignUpFormData) {
     const formData = new FormData()
@@ -98,9 +104,25 @@ export default function SignUpForm() {
       const reader = new FileReader()
       reader.onload = () => {
         setAvatarPreview(reader.result as string)
+
+        setOriginalImage(reader.result as string)
+        setShowCropper(true)
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  const handleCroppedImage = (croppedImage: string) => {
+    fetch(croppedImage)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], 'avatar.jpg', {
+          type: 'image/jpeg',
+        })
+        setValue('avatarUrl', file)
+        setAvatarPreview(croppedImage)
+        setShowCropper(false)
+      })
   }
 
   const handleAvatarChangeClick = () => {
@@ -110,7 +132,7 @@ export default function SignUpForm() {
   const handleDeleteAvatar = () => {
     setAvatarPreview(null)
     setValue('avatarUrl', undefined)
-    
+
     if (inputFileRef.current) {
       inputFileRef.current.value = ''
     }
@@ -121,6 +143,15 @@ export default function SignUpForm() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Wrapper>
           <h2>Sign Up</h2>
+
+          <Dialog.Root open={!!originalImage && showCropper}>
+            <ImageCropper
+              src={originalImage as string}
+              onCrop={handleCroppedImage}
+              aspectRatio={1}
+              onClose={() => setShowCropper(false)}
+            />
+          </Dialog.Root>
 
           <AvatarSection>
             <InputContainer>

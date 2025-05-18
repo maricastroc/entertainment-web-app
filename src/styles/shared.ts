@@ -7,6 +7,34 @@ import {
   Overlay as RadixOverlay,
   Description as RadixDescription,
 } from '@radix-ui/react-dialog'
+import { keyframes } from '@stitches/react'
+
+const overlayShow = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+})
+
+const slideDown = keyframes({
+  '0%': {
+    opacity: 0,
+    transform: 'translate(-50%, -60%)',
+  },
+  '100%': {
+    opacity: 1,
+    transform: 'translate(-50%, -50%)',
+  },
+})
+
+const slideUp = keyframes({
+  '0%': {
+    opacity: 1,
+    transform: 'translate(-50%, -50%)',
+  },
+  '100%': {
+    opacity: 0,
+    transform: 'translate(-50%, -60%)',
+  },
+})
 
 export const Wrapper = styled('div', {
   display: 'flex',
@@ -88,6 +116,15 @@ export const MediaContent = styled('div', {
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
     gap: '2.5rem 1.8rem',
   },
+
+  '@media (prefers-reduced-motion: no-preference)': {
+    '&[data-state="open"]': {
+      animation: `${slideDown} 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${slideUp} 200ms cubic-bezier(0.55, 0, 0.55, 0.2) forwards`,
+    },
+  },
 })
 
 export const ModalOverlay = styled(RadixOverlay, {
@@ -96,13 +133,24 @@ export const ModalOverlay = styled(RadixOverlay, {
   height: '100vh',
   inset: 0,
   zIndex: 9997,
-  backgroundColor: 'rgba(10, 10, 10, 0.7)',
+  backgroundColor: 'rgba(10, 10, 10, 0.2)',
+  backdropFilter: 'blur(4px)',
+  WebkitBackdropFilter: 'blur(4px)',
 
   variants: {
     hasOverlay: {
       false: {
         backgroundColor: 'transparent',
       },
+    },
+  },
+
+  '@media (prefers-reduced-motion: no-preference)': {
+    '&[data-state="open"]': {
+      animation: `${overlayShow} 200ms ease-out forwards`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${overlayShow} 200ms ease-in forwards`,
     },
   },
 })
@@ -143,6 +191,15 @@ export const ModalContent = styled(RadixContent, {
   '@media (min-width: 768px)': {
     padding: '2rem',
     width: 'clamp(20rem, 80vw, 30rem)',
+  },
+
+  '@media (prefers-reduced-motion: no-preference)': {
+    '&[data-state="open"]': {
+      animation: `${overlayShow} 200ms ease-out forwards`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${overlayShow} 200ms ease-in forwards`,
+    },
   },
 })
 

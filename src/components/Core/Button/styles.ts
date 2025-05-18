@@ -1,3 +1,4 @@
+// styles.ts
 import { styled } from '@/styles'
 
 export const StyledButton = styled('button', {
@@ -6,22 +7,83 @@ export const StyledButton = styled('button', {
   justifyContent: 'center',
   gap: '0.7rem',
   cursor: 'pointer',
-  color: 'white',
-  backgroundColor: '$red300',
   padding: '0.875rem 0.6rem',
   fontSize: '$bodyMd',
   border: '1px solid transparent',
   width: '100%',
-  transition: '200ms ease',
+  transition: 'all 200ms ease',
   borderRadius: 8,
 
   svg: {
-    color: 'white',
+    transition: '200ms ease',
   },
 
-  '&:not(:disabled):hover': {
-    color: '$blue800',
-    backgroundColor: '$white',
+  variants: {
+    variant: {
+      default: {
+        color: '$gray300',
+        backgroundColor: '$red300',
+        transition: 'all 200ms ease',
+
+        svg: {
+          color: '$gray300',
+        },
+
+        '&:not(:disabled):hover': {
+          color: '$blue800',
+          backgroundColor: '$gray100',
+
+          svg: {
+            color: '$blue800',
+          },
+        },
+      },
+
+      'outline-white': {
+        color: '$gray300',
+        backgroundColor: 'transparent',
+        border: '1px solid $gray300',
+        transition: 'all 200ms ease',
+
+        svg: {
+          color: '$gray300',
+        },
+
+        '&:not(:disabled):hover': {
+          color: '$gray100',
+          backgroundColor: '$blue600',
+          borderColor: '$blue600',
+
+          svg: {
+            color: '$red300',
+          },
+        },
+      },
+
+      'solid-white': {
+        backgroundColor: '$gray300',
+        border: '1px solid $gray300',
+        transition: 'all 200ms ease',
+
+        svg: {
+          color: 'black',
+        },
+
+        '&:not(:disabled):hover': {
+          color: '$gray100',
+          backgroundColor: '$blue600',
+          borderColor: '$blue600',
+
+          svg: {
+            color: '$gray300',
+          },
+        },
+      },
+    },
+  },
+
+  defaultVariants: {
+    variant: 'default',
   },
 
   '&:disabled': {
@@ -30,5 +92,9 @@ export const StyledButton = styled('button', {
     color: '$gray100',
     cursor: 'not-allowed !important',
     pointerEvents: 'none',
+
+    svg: {
+      color: '$gray100',
+    },
   },
 })

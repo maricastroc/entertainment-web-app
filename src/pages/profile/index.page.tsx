@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { pathToSearchAll } from '@/utils'
+import * as Dialog from '@radix-ui/react-dialog'
 import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useEffect, useRef, useState } from 'react'
@@ -30,6 +31,7 @@ import { AvatarUploadPreview } from '@/components/Core/AvatarUploadPreview'
 import AvatarDefaultImage from '../../../public/assets/avatar_mockup.png'
 import { useRouter } from 'next/router'
 import { truncateMiddle } from '@/utils/truncateMiddle'
+import { ImageCropper } from '@/components/Shared/ImageCropper'
 
 export const profileFormSchema = (changePassword: boolean) =>
   z.object({
@@ -52,19 +54,23 @@ export const profileFormSchema = (changePassword: boolean) =>
 export type ProfileFormSchema = z.infer<ReturnType<typeof profileFormSchema>>
 
 export default function Profile() {
-  const isRouteLoading = useLoadingOnRouteChange()
-
   const [changePassword, setChangePassword] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
   const [isClient, setIsClient] = useState(false)
 
-  const inputFileRef = useRef<HTMLInputElement>(null)
-
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
   const [avatarPath, setAvatarPath] = useState('')
+
+  const [showCropper, setShowCropper] = useState(false)
+
+  const [originalImage, setOriginalImage] = useState<string | null>(null)
+
+  const inputFileRef = useRef<HTMLInputElement>(null)
+
+  const isRouteLoading = useLoadingOnRouteChange()
 
   const { user, handleSetUser } = useAppContext()
 
@@ -138,9 +144,25 @@ export default function Profile() {
       const reader = new FileReader()
       reader.onload = () => {
         setAvatarPreview(reader.result as string)
+
+        setOriginalImage(reader.result as string)
+        setShowCropper(true)
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  const handleCroppedImage = (croppedImage: string) => {
+    fetch(croppedImage)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], 'avatar.jpg', {
+          type: 'image/jpeg',
+        })
+        setValue('avatarUrl', file)
+        setAvatarPreview(croppedImage)
+        setShowCropper(false)
+      })
   }
 
   const handleAvatarChangeClick = () => {
@@ -184,6 +206,14 @@ export default function Profile() {
           showSearchBar={false}
         >
           <Container>
+            <Dialog.Root open={!!originalImage && showCropper}>
+              <ImageCropper
+                src={originalImage as string}
+                onCrop={handleCroppedImage}
+                aspectRatio={1}
+                onClose={() => setShowCropper(false)}
+              />
+            </Dialog.Root>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <FormWrapper>
                 <h2>Edit Profile</h2>

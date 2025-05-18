@@ -6,6 +6,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean
   hasRoundedBorder?: boolean
   isDisabled?: boolean
+  variant?: 'default' | 'outline-white' | 'solid-white'
 }
 
 export const Button = ({
@@ -13,12 +14,14 @@ export const Button = ({
   isSubmitting = false,
   hasRoundedBorder = true,
   isDisabled = false,
+  variant = 'default',
   ...props
 }: Props) => {
   return (
     <StyledButton
       disabled={isSubmitting || isDisabled}
       className={hasRoundedBorder ? 'rounded' : ''}
+      variant={variant}
       {...props}
     >
       {isSubmitting ? 'Loading...' : content}
