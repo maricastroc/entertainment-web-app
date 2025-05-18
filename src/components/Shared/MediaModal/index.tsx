@@ -265,7 +265,7 @@ export default function MediaModal({
               <ReviewSection
                 id={id}
                 media={media_type}
-                results={reviewData?.results}
+                reviews={reviewData?.results}
                 mutate={mediaMutate}
               />
             </>

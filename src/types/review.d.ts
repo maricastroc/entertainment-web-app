@@ -22,4 +22,6 @@ export interface ReviewProps {
     up: number
     down: number
   }
+  updated_votes_up?: number
+  updated_votes_down?: number
 }

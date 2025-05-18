@@ -14,13 +14,13 @@ import { ReviewCard } from './partials/ReviewCard'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
-  results: ReviewProps[] | undefined
+  reviews: ReviewProps[] | undefined
   mutate: any
   id: string
   media: string
 }
 
-export function ReviewSection({ id, media, mutate, results }: Props) {
+export function ReviewSection({ id, media, mutate, reviews }: Props) {
   const { handleSetIsLoading } = useAppContext()
 
   const session = useSession()
@@ -32,6 +32,10 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
 
   const [hasUserReview, setHasUserReview] = useState(false)
+
+  const [updatedReviews, setUpdatedReviews] = useState<
+    ReviewProps[] | undefined
+  >(reviews)
 
   const [reviewToEdit, setReviewToEdit] = useState<ReviewProps | null>(null)
 
@@ -65,34 +69,66 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
     isFromAppUser: boolean,
   ) {
     try {
-      handleSetIsLoading(true)
-
       const payload = isFromAppUser
         ? { ratingId: review.id, type }
         : { externalReviewId: review.id, type }
 
-      const response = await api.post('/ratings/vote', payload)
+      setUpdatedReviews((prev) =>
+        prev?.map((r) =>
+          r.id === review.id
+            ? {
+                ...r,
+                updated_votes_up:
+                  type === 'UP'
+                    ? (r.updated_votes_up || 0) + 1
+                    : r.updated_votes_up,
+                updated_votes_down:
+                  type === 'DOWN'
+                    ? (r.updated_votes_down || 0) + 1
+                    : r.updated_votes_down,
+              }
+            : r,
+        ),
+      )
 
-      if (response.data) {
-        toast.success(response.data.message)
-        mutate()
-      }
+      await api.post('/ratings/vote', payload)
     } catch (error) {
+      setUpdatedReviews((prev) =>
+        prev?.map((r) =>
+          r.id === review.id
+            ? {
+                ...r,
+                updated_votes_up: review.votes?.up || 0,
+                updated_votes_down: review.votes?.down || 0,
+              }
+            : r,
+        ),
+      )
+
       handleApiError(error)
-    } finally {
-      handleSetIsLoading(false)
     }
   }
 
   useEffect(() => {
     if (session?.data?.user) {
-      const userReview = results?.find((review) => {
+      const userReview = reviews?.find((review) => {
         return review?.user_id === session.data.user.id
       })
 
       setHasUserReview(!!userReview)
     }
-  }, [session, results])
+  }, [session, reviews])
+
+  useEffect(() => {
+    if (reviews) {
+      const initializedReviews = reviews.map((review) => ({
+        ...review,
+        updated_votes_up: review.votes?.up || 0,
+        updated_votes_down: review.votes?.down || 0,
+      }))
+      setUpdatedReviews(initializedReviews)
+    }
+  }, [reviews])
 
   return (
     <ReviewsContainer>
@@ -132,8 +168,8 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
         />
       )}
 
-      {results && results?.length > 0 ? (
-        results
+      {updatedReviews && updatedReviews?.length > 0 ? (
+        updatedReviews
           .filter(
             (review) =>
               !(
@@ -163,8 +199,8 @@ export function ReviewSection({ id, media, mutate, results }: Props) {
                     setIsRatingCardFormOpen(value)
                   }
                   handleDeleteReview={handleDeleteReview}
-                  votesUp={review.votes?.up}
-                  votesDown={review.votes?.down}
+                  votesUp={review?.updated_votes_up || 0}
+                  votesDown={review.updated_votes_down || 0}
                 />
               </ReviewCardContainer>
             )
