@@ -3,16 +3,13 @@ import { StyledForm } from './styles'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
+  isLarger?: boolean
 }
 
-export const Form = React.forwardRef<HTMLFormElement, Props>(
-  ({ children, ...props }: Props, ref) => {
-    return (
-      <StyledForm ref={ref} {...props}>
-        {children}
-      </StyledForm>
-    )
-  },
-)
-
-Form.displayName = 'Form'
+export const Form = ({ children, isLarger = false, ...props }: Props) => {
+  return (
+    <StyledForm isLarger={isLarger} {...props}>
+      {children}
+    </StyledForm>
+  )
+}

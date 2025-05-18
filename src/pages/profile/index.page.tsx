@@ -5,14 +5,7 @@ import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useEffect, useRef, useState } from 'react'
 import AuthLayout from '@/layouts/auth'
 import { InputContainer } from '@/components/Core/InputContainer'
-import {
-  AvatarPreview,
-  AvatarPreviewWrapper,
-  AvatarSection,
-  AvatarUploadButton,
-  Container,
-  FormWrapper,
-} from './styles'
+import { Container, FormWrapper } from './styles'
 import { Form } from '@/components/Core/Form'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { Controller, useForm } from 'react-hook-form'
@@ -25,6 +18,18 @@ import toast from 'react-hot-toast'
 import { handleApiError } from '@/utils/handleApiError'
 import { Checkbox } from '@/components/Core/Checkbox'
 import { useAppContext } from '@/contexts/AppContext'
+import {
+  DeleteAvatarButton,
+  AvatarUploadButton,
+  AvatarUploadWrapper,
+  AvatarSection,
+} from '../register/partials/SignUpForm/styles'
+import { TrashSimple } from 'phosphor-react'
+
+import { AvatarUploadPreview } from '@/components/Core/AvatarUploadPreview'
+import AvatarDefaultImage from '../../../public/assets/avatar_mockup.png'
+import { useRouter } from 'next/router'
+import { truncateMiddle } from '@/utils/truncateMiddle'
 
 export const profileFormSchema = (changePassword: boolean) =>
   z.object({
@@ -59,7 +64,11 @@ export default function Profile() {
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
+  const [avatarPath, setAvatarPath] = useState('')
+
   const { user, handleSetUser } = useAppContext()
+
+  const router = useRouter()
 
   const {
     handleSubmit,
@@ -103,6 +112,8 @@ export default function Profile() {
 
         toast.success('User successfully updated!')
 
+        router.push('/home')
+
         handleSetUser({
           ...user,
           name: data.name,
@@ -119,8 +130,10 @@ export default function Profile() {
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
+
     if (file) {
       setValue('avatarUrl', file)
+      setAvatarPath(file?.name as string)
 
       const reader = new FileReader()
       reader.onload = () => {
@@ -134,6 +147,16 @@ export default function Profile() {
     inputFileRef.current?.click()
   }
 
+  const handleDeleteAvatar = () => {
+    setAvatarPreview(null)
+    setValue('avatarUrl', undefined)
+    setAvatarPath('')
+
+    if (inputFileRef.current) {
+      inputFileRef.current.value = ''
+    }
+  }
+
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -143,6 +166,8 @@ export default function Profile() {
       setValue('email', user.email)
       setValue('name', user.name)
       setValue('userId', user.id as string)
+
+      setAvatarPath(truncateMiddle(user?.avatarUrl))
 
       setAvatarPreview(user?.avatarUrl)
     }
@@ -165,40 +190,47 @@ export default function Profile() {
 
                 <AvatarSection>
                   <InputContainer>
-                    <AvatarUploadButton>
-                      <input
-                        type="file"
-                        ref={inputFileRef}
-                        style={{ display: 'none' }}
-                        onChange={handleAvatarChange}
-                      />
-                      <button
-                        type="button"
-                        onClick={handleAvatarChangeClick}
-                        style={{
-                          color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
-                        }}
-                      >
-                        <p>{watch('avatarUrl')?.name || user?.avatarUrl}</p>
-                      </button>
-                    </AvatarUploadButton>
+                    <AvatarUploadWrapper>
+                      <AvatarUploadButton>
+                        <input
+                          type="file"
+                          ref={inputFileRef}
+                          style={{ display: 'none' }}
+                          onChange={handleAvatarChange}
+                        />
+                        <button
+                          type="button"
+                          onClick={handleAvatarChangeClick}
+                          style={{
+                            color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
+                          }}
+                        >
+                          {avatarPath ||
+                            watch()?.avatarUrl?.name ||
+                            'Add your avatar'}
+                        </button>
+                      </AvatarUploadButton>
+
+                      {avatarPreview && (
+                        <DeleteAvatarButton
+                          type="button"
+                          onClick={handleDeleteAvatar}
+                          aria-label="Remove avatar"
+                        >
+                          <TrashSimple size={18} />
+                        </DeleteAvatarButton>
+                      )}
+                    </AvatarUploadWrapper>
+
                     {errors.avatarUrl && (
                       <FormErrors error={errors.avatarUrl.message} />
                     )}
                   </InputContainer>
-                  <AvatarPreviewWrapper>
-                    <AvatarPreview onClick={handleAvatarChangeClick}>
-                      {avatarPreview ? (
-                        <img
-                          src={avatarPreview}
-                          alt="Avatar Preview"
-                          width={40}
-                        />
-                      ) : (
-                        <p>+ Add</p>
-                      )}
-                    </AvatarPreview>
-                  </AvatarPreviewWrapper>
+                  <AvatarUploadPreview
+                    avatarPreview={avatarPreview}
+                    defaultImage={AvatarDefaultImage.src}
+                    onClick={handleAvatarChangeClick}
+                  />
                 </AvatarSection>
 
                 <InputContainer>

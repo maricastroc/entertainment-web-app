@@ -91,10 +91,23 @@ export const AvatarPreview = styled('div', {
   },
 })
 
-export const AvatarUploadButton = styled('div', {
-  backgroundColor: 'transparent',
+export const AvatarUploadWrapper = styled('div', {
+  display: 'flex',
+  flexGrow: 'grow',
+  width: '100%',
   border: 'none',
   borderBottom: 'solid 1px $blue600',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  textAlign: 'left',
+})
+
+export const AvatarUploadButton = styled('div', {
+  display: 'flex',
+  alignItems: 'flex-start',
+  textAlign: 'left',
+  backgroundColor: 'transparent',
+  width: '90%',
   color: '$gray100',
   padding: '0.75rem 0.6rem',
   fontSize: '$bodyMd',
@@ -104,6 +117,9 @@ export const AvatarUploadButton = styled('div', {
   },
 
   button: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    textAlign: 'left',
     backgroundColor: 'transparent',
     color: 'rgba(255, 255, 255, 0.5)',
     fontSize: '$bodyMd',
@@ -113,5 +129,23 @@ export const AvatarUploadButton = styled('div', {
 
   span: {
     marginLeft: '0.7rem',
+  },
+})
+
+export const DeleteAvatarButton = styled('button', {
+  backgroundColor: 'transparent',
+  border: 'none',
+  color: '$blue400',
+  cursor: 'pointer',
+  marginLeft: '0.5rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0.25rem',
+  borderRadius: '4px',
+  transition: 'all 0.2s ease',
+
+  '&:hover': {
+    color: '$red300',
   },
 })

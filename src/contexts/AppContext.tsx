@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import useRequest from '@/utils/useRequest'
 import { UserProps } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import {
   createContext,
   ReactNode,
@@ -38,7 +39,11 @@ interface AppContextProviderProps {
 }
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
-  const [user, setUser] = useState<UserProps | null>(null)
+  const session = useSession()
+
+  const [user, setUser] = useState<UserProps | null>(
+    session?.data?.user || null,
+  )
 
   const [searchTerm, setSearchTerm] = useState('')
 

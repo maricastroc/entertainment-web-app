@@ -21,7 +21,7 @@ export const HiddenCheckbox = styled('input', {
 
 export const StyledCheckbox = styled('div', {
   display: 'flex',
-  border: '1px solid #8381D9',
+  border: '1px solid $blue400',
   height: '18px',
   width: '18px',
   borderRadius: '4px',
@@ -31,7 +31,7 @@ export const StyledCheckbox = styled('div', {
   transition: 'all 150ms',
 
   '&:hover': {
-    borderColor: '#8381D9',
+    borderColor: '$blue400',
   },
 })
 

@@ -121,6 +121,7 @@ export default async function handler(
         }
       }
 
+      // Se não houver avatarFile, mantém o avatarUrl existente
       let avatarUrl = user.avatarUrl
 
       if (avatarFile) {
@@ -129,7 +130,9 @@ export default async function handler(
           fs.mkdirSync(uploadDir, { recursive: true })
         }
 
-        const fileName = `${user.id}-${avatarFile.originalFilename}`
+        const fileName = `${user.id}-${Date.now()}-${
+          avatarFile.originalFilename
+        }`
         const filePath = path.join(uploadDir, fileName)
         fs.renameSync(avatarFile.filepath, filePath)
         avatarUrl = `/users/images/${fileName}`
@@ -138,12 +141,12 @@ export default async function handler(
       const updatedUser = await prisma.user.update({
         where: { id: validatedData.userId },
         data: {
-          name: validatedData.name || user.name,
-          email: validatedData.email || user.email,
+          name: validatedData.name ?? user.name,
+          email: validatedData.email ?? user.email,
           password: validatedData.newPassword
             ? await bcrypt.hash(validatedData.newPassword, 10)
             : user.password,
-          avatarUrl,
+          avatarUrl, // Pode ser o existente, null ou um novo valor
         },
       })
 

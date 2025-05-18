@@ -6,4 +6,12 @@ export const StyledForm = styled('form', {
   width: '85vw',
   maxWidth: '27rem',
   height: 'auto',
+
+  variants: {
+    isLarger: {
+      true: {
+        maxWidth: '29rem',
+      },
+    },
+  },
 })

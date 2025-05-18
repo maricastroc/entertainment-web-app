@@ -20,7 +20,7 @@ export const Checkbox = ({
       <HiddenCheckbox type="checkbox" checked={checked} onChange={onChange} />
       <StyledCheckbox
         css={{
-          background: checked ? '#8381D9' : 'transparent',
+          background: checked ? '#26334F' : 'transparent',
           '&:after': {
             content: checked ? '""' : 'none',
             display: 'block',

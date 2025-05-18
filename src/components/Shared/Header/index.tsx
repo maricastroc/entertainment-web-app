@@ -1,4 +1,4 @@
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   AuthButton,
@@ -20,9 +20,18 @@ import { useState, useEffect, useRef, RefObject, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { useAppContext } from '@/contexts/AppContext'
 import AvatarDefaultImage from '../../.././../public/assets/avatar_mockup.png'
+import * as Dialog from '@radix-ui/react-dialog'
+import { SignUpModal } from '../SignUpModal'
 
 export function Header() {
-  const { user, handleSetSearchTerm } = useAppContext()
+  const session = useSession()
+
+  const {
+    user,
+    handleSetSearchTerm,
+    isSignUpModalOpen,
+    handleSetIsSignUpModalOpen,
+  } = useAppContext()
 
   const router = useRouter()
 
@@ -100,18 +109,39 @@ export function Header() {
         <ButtonPage active={router.pathname === '/tv'}>
           <Image alt="" src={IconTv} onClick={() => goToTvGenre()} />
         </ButtonPage>
-        {user && (
-          <ButtonPage active={router.pathname === '/bookmark'}>
-            <Image alt="" src={IconBookmark} onClick={() => goToBookmark()} />
-          </ButtonPage>
-        )}
+        <Dialog.Root open={isSignUpModalOpen}>
+          <Dialog.Trigger asChild>
+            <ButtonPage active={router.pathname === '/bookmark'}>
+              <Image
+                alt=""
+                src={IconBookmark}
+                onClick={() => {
+                  if (!user) {
+                    handleSetIsSignUpModalOpen(true)
+                    return
+                  }
+
+                  goToBookmark()
+                }}
+              />
+            </ButtonPage>
+          </Dialog.Trigger>
+          <SignUpModal hasOverlay={false} />
+        </Dialog.Root>
       </ButtonPagesContainer>
 
       <AvatarContainer
         ref={avatarRef as RefObject<HTMLAnchorElement>}
         onClick={() => setIsLogoutModalOpen(!isLogoutModalOpen)}
       >
-        <img src={user?.avatarUrl ?? AvatarDefaultImage.src} alt="" />
+        <img
+          src={
+            user?.avatarUrl ||
+            session?.data?.user?.avatarUrl ||
+            AvatarDefaultImage.src
+          }
+          alt=""
+        />
 
         {isLogoutModalOpen && (
           <ButtonsContainer>

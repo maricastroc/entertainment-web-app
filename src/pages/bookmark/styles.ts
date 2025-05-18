@@ -82,6 +82,10 @@ export const MediaContent = styled('div', {
   placeItems: 'center',
   flex: 1,
 
+  p: {
+    width: '100%',
+  },
+
   '@media (min-width: 380px)': {
     gridTemplateColumns: '1fr 1fr',
   },

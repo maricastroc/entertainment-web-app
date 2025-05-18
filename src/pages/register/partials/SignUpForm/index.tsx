@@ -12,15 +12,18 @@ import { FormErrors } from '@/components/Core/FormErrors'
 import { Button } from '@/components/Core/Button'
 import { Input } from '@/components/Core/Input'
 import { LinkButton } from '@/components/Core/LinkButton'
+import AvatarDefaultImage from '../../../../../public/assets/avatar_mockup.png'
 
 import {
   AvatarUploadButton,
-  AvatarPreview,
   AvatarSection,
-  AvatarPreviewWrapper,
+  DeleteAvatarButton,
   Wrapper,
+  AvatarUploadWrapper,
 } from './styles'
 import { Form } from '@/components/Core/Form'
+import { AvatarUploadPreview } from '@/components/Core/AvatarUploadPreview'
+import { TrashSimple } from 'phosphor-react'
 
 const signUpFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -28,9 +31,12 @@ const signUpFormSchema = z.object({
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters long.' }),
-  avatarUrl: z.custom<File>((file) => file instanceof File && file.size > 0, {
-    message: 'Avatar file is required.',
-  }),
+  avatarUrl: z
+    .custom<File | undefined>()
+    .refine((file) => !file || file instanceof File, {
+      message: 'Avatar must be a valid file',
+    })
+    .optional(),
 })
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>
@@ -60,8 +66,11 @@ export default function SignUpForm() {
 
     formData.append('email', data.email)
     formData.append('password', data.password)
-    formData.append('avatarUrl', data.avatarUrl)
     formData.append('name', data.name)
+
+    if (data?.avatarUrl) {
+      formData.append('avatarUrl', data.avatarUrl)
+    }
 
     try {
       setIsLoading(true)
@@ -98,6 +107,15 @@ export default function SignUpForm() {
     inputFileRef.current?.click()
   }
 
+  const handleDeleteAvatar = () => {
+    setAvatarPreview(null)
+    setValue('avatarUrl', undefined)
+    
+    if (inputFileRef.current) {
+      inputFileRef.current.value = ''
+    }
+  }
+
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -106,36 +124,45 @@ export default function SignUpForm() {
 
           <AvatarSection>
             <InputContainer>
-              <AvatarUploadButton>
-                <input
-                  type="file"
-                  ref={inputFileRef}
-                  style={{ display: 'none' }}
-                  onChange={handleAvatarChange}
-                />
-                <button
-                  type="button"
-                  onClick={handleAvatarChangeClick}
-                  style={{
-                    color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
-                  }}
-                >
-                  {watch('avatarUrl')?.name || 'Add your avatar'}
-                </button>
-              </AvatarUploadButton>
+              <AvatarUploadWrapper>
+                <AvatarUploadButton>
+                  <input
+                    type="file"
+                    ref={inputFileRef}
+                    style={{ display: 'none' }}
+                    onChange={handleAvatarChange}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAvatarChangeClick}
+                    style={{
+                      color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
+                    }}
+                  >
+                    {watch('avatarUrl')?.name || 'Add your avatar'}
+                  </button>
+                </AvatarUploadButton>
+
+                {avatarPreview && (
+                  <DeleteAvatarButton
+                    type="button"
+                    onClick={handleDeleteAvatar}
+                    aria-label="Remove avatar"
+                  >
+                    <TrashSimple size={18} />
+                  </DeleteAvatarButton>
+                )}
+              </AvatarUploadWrapper>
+
               {errors.avatarUrl && (
                 <FormErrors error={errors.avatarUrl.message} />
               )}
             </InputContainer>
-            <AvatarPreviewWrapper>
-              <AvatarPreview onClick={handleAvatarChangeClick}>
-                {avatarPreview ? (
-                  <img src={avatarPreview} alt="Avatar Preview" width={40} />
-                ) : (
-                  <p>+ Add</p>
-                )}
-              </AvatarPreview>
-            </AvatarPreviewWrapper>
+            <AvatarUploadPreview
+              avatarPreview={avatarPreview}
+              defaultImage={AvatarDefaultImage.src}
+              onClick={handleAvatarChangeClick}
+            />
           </AvatarSection>
 
           <InputContainer>

@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-
 import fs from 'fs'
 import path from 'path'
 
@@ -44,10 +43,6 @@ export default async function handler(
       const password = getSingleString(fields.password)
       const avatarFile = files.avatarUrl?.[0]
 
-      if (!avatarFile) {
-        return res.status(400).json({ message: 'Avatar file is required.' })
-      }
-
       const createUserSchema = z.object({
         email: z
           .string()
@@ -73,21 +68,26 @@ export default async function handler(
 
       const hashedPassword = await bcrypt.hash(password, 10)
 
-      const avatarPath = path.join(
-        process.cwd(),
-        'public',
-        'users',
-        'images',
-        avatarFile.originalFilename ?? '',
-      )
-      fs.renameSync(avatarFile.filepath, avatarPath)
+      let avatarUrl: string | null = null
+
+      if (avatarFile) {
+        const avatarPath = path.join(
+          process.cwd(),
+          'public',
+          'users',
+          'images',
+          avatarFile.originalFilename ?? '',
+        )
+        fs.renameSync(avatarFile.filepath, avatarPath)
+        avatarUrl = `/users/images/${avatarFile.originalFilename}`
+      }
 
       const user = await prisma.user.create({
         data: {
           name,
           email,
           password: hashedPassword,
-          avatarUrl: `/users/images/${avatarFile.originalFilename}`,
+          avatarUrl,
         },
       })
 
