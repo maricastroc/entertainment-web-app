@@ -96,3 +96,10 @@ export const MediaContent = styled('div', {
     gap: '2.5rem 1.8rem',
   },
 })
+
+export const SkeletonCard = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '0.7rem',
+})

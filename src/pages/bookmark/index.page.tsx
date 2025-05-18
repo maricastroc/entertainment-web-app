@@ -12,12 +12,13 @@ import useRequest from '@/utils/useRequest'
 import { NextSeo } from 'next-seo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import MediaModal from '@/components/Shared/MediaModal'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useAppContext } from '@/contexts/AppContext'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 import AuthLayout from '@/layouts/auth'
-import PersonModal from '@/components/Shared/PersonModal'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { BookmarkSkeleton } from './partials/BookmarkSkeleton'
+import { ModalSection } from '@/components/Shared/ModalSection'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
@@ -37,14 +38,15 @@ export default function Bookmark() {
     method: 'GET',
   })
 
+  const isLoadingData = isRouteLoading || isValidating || isLoading
+
   return (
     <>
       <NextSeo title="Bookmark | MovieMentor" />
-
       <AuthLayout
         searchPath={pathToSearchAll}
         searchPlaceholder="Search for Movies / TV series"
-        isLoading={isRouteLoading || isValidating || isLoading}
+        isLoading={isLoadingData}
       >
         <MainContent>
           <MediaContainer>
@@ -54,9 +56,11 @@ export default function Bookmark() {
               </MediaTitle>
             </MediaHeader>
             <MediaContent>
-              <Dialog.Root open={isMovieMediaModalOpen}>
-                {data?.savedMovies?.map((item) => {
-                  return (
+              {isValidating ? (
+                <BookmarkSkeleton />
+              ) : data?.savedMovies?.length ? (
+                <Dialog.Root open={isMovieMediaModalOpen}>
+                  {data.savedMovies.map((item) => (
                     <Dialog.Trigger asChild key={item.id}>
                       <BookmarkCard
                         id={item.id}
@@ -69,108 +73,80 @@ export default function Bookmark() {
                         }}
                       />
                     </Dialog.Trigger>
-                  )
-                })}
-                {isMovieMediaModalOpen &&
-                  selectedMediaId &&
-                  (selectedMediaType === 'person' ? (
-                    <PersonModal
-                      mediaType={selectedMediaType}
-                      id={selectedMediaId}
-                      handleClickMedia={(type: string, id: string) => {
-                        setSelectedMediaType(type)
-                        setSelectedMediaId(id)
-
-                        if (type === TV_MEDIA) {
-                          setIsSeriesMediaModalOpen(true)
-                          setIsMovieMediaModalOpen(false)
-                        }
-                      }}
-                      onClose={() => {
-                        setIsMovieMediaModalOpen(false)
-                        setSelectedMediaType('')
-                      }}
-                    />
-                  ) : (
-                    <MediaModal
-                      media_type={MOVIE_MEDIA}
-                      handleClickMedia={(type: string, id: string) => {
-                        setSelectedMediaType(type)
-                        setSelectedMediaId(id)
-                      }}
-                      id={selectedMediaId}
-                      onClose={() => setIsMovieMediaModalOpen(false)}
-                    />
                   ))}
-              </Dialog.Root>
+                </Dialog.Root>
+              ) : (
+                <p>You&apos;ve got no bookmarked movies to show.</p>
+              )}
             </MediaContent>
-            {!data?.savedMovies?.length && (
-              <p>You&apos;ve got no bookmarked movies to show.</p>
-            )}
           </MediaContainer>
 
           <MediaContainer>
             <MediaHeader>
               <MediaTitle>
-                <h2>Bookmarked TV Series</h2>
+                <h2>Bookmarked TV Shows</h2>
               </MediaTitle>
             </MediaHeader>
-            <Dialog.Root open={isSeriesMediaModalOpen}>
-              <MediaContent>
-                {data?.savedSeries?.map((item) => {
-                  return (
+            <MediaContent>
+              {isValidating ? (
+                <BookmarkSkeleton />
+              ) : data?.savedSeries?.length ? (
+                <Dialog.Root open={isSeriesMediaModalOpen}>
+                  {data.savedSeries.map((item) => (
                     <Dialog.Trigger asChild key={item.id}>
                       <BookmarkCard
                         id={item.id}
                         media={TV_MEDIA}
                         mutate={mutate}
                         handleClick={() => {
-                          setIsSeriesMediaModalOpen(true)
                           setIsMovieMediaModalOpen(false)
+                          setIsSeriesMediaModalOpen(true)
                           setSelectedMediaId(item.id || '')
                         }}
                       />
                     </Dialog.Trigger>
-                  )
-                })}
-                {isSeriesMediaModalOpen &&
-                  selectedMediaId &&
-                  (selectedMediaType === 'person' ? (
-                    <PersonModal
-                      mediaType={selectedMediaType}
-                      id={selectedMediaId}
-                      handleClickMedia={(type: string, id: string) => {
-                        setSelectedMediaType(type)
-                        setSelectedMediaId(id)
-
-                        if (type === MOVIE_MEDIA) {
-                          setIsSeriesMediaModalOpen(false)
-                          setIsMovieMediaModalOpen(true)
-                        }
-                      }}
-                      onClose={() => {
-                        setIsSeriesMediaModalOpen(false)
-                        setSelectedMediaType('')
-                      }}
-                    />
-                  ) : (
-                    <MediaModal
-                      media_type={TV_MEDIA}
-                      id={selectedMediaId}
-                      onClose={() => setIsSeriesMediaModalOpen(false)}
-                      handleClickMedia={(type: string, id: string) => {
-                        setSelectedMediaType(type)
-                        setSelectedMediaId(id)
-                      }}
-                    />
                   ))}
-              </MediaContent>
-            </Dialog.Root>
-            {!data?.savedSeries?.length && (
-              <p>You&apos;ve got no bookmarked series to show.</p>
-            )}
+                </Dialog.Root>
+              ) : (
+                <p>You&apos;ve got no bookmarked TV Shows to show.</p>
+              )}
+            </MediaContent>
           </MediaContainer>
         </MainContent>
+
+        <ModalSection
+          openPersonModal={selectedMediaType === PERSON_MEDIA}
+          isOpen={isMovieMediaModalOpen}
+          mediaType={MOVIE_MEDIA}
+          selectedId={selectedMediaId}
+          onClose={() => setIsMovieMediaModalOpen(false)}
+          onChangeMedia={(type, id) => {
+            setSelectedMediaType(type)
+            setSelectedMediaId(id)
+
+            if (type === TV_MEDIA) {
+              setIsSeriesMediaModalOpen(true)
+              setIsMovieMediaModalOpen(false)
+            }
+          }}
+        />
+
+        <ModalSection
+          openPersonModal={selectedMediaType === PERSON_MEDIA}
+          isOpen={isSeriesMediaModalOpen}
+          mediaType={TV_MEDIA}
+          selectedId={selectedMediaId}
+          onClose={() => setIsSeriesMediaModalOpen(false)}
+          onChangeMedia={(type, id) => {
+            setSelectedMediaType(type)
+            setSelectedMediaId(id)
+
+            if (type === MOVIE_MEDIA) {
+              setIsSeriesMediaModalOpen(false)
+              setIsMovieMediaModalOpen(true)
+            }
+          }}
+        />
       </AuthLayout>
     </>
   )

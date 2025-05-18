@@ -23,6 +23,8 @@ import { SimilarCardProps } from '../SimilarCard'
 import { PersonSocialDataProps } from '@/types/person-social-media'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 import { MediaSection } from './MediaSection'
+import { ModalSkeleton } from '../ModalSkeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface Props {
   id: string
@@ -106,66 +108,70 @@ export default function PersonModal({
             <X />
           </CloseButton>
           <PersonContainer>
-            <PersonContent>
-              <PersonInfo>
-                {personData?.profile_path ? (
-                  <PersonImageWrapper>
-                    <PersonImage
-                      src={`https://image.tmdb.org/t/p/original${personData?.profile_path}`}
+            {isLoading ? (
+              <ModalSkeleton />
+            ) : (
+              <PersonContent>
+                <PersonInfo>
+                  {personData?.profile_path ? (
+                    <PersonImageWrapper>
+                      <PersonImage
+                        src={`https://image.tmdb.org/t/p/original${personData?.profile_path}`}
+                      />
+                    </PersonImageWrapper>
+                  ) : (
+                    <PersonImageWrapper>
+                      <NotFoundImage>
+                        <p>Not found</p>
+                      </NotFoundImage>
+                    </PersonImageWrapper>
+                  )}
+
+                  <DetailsSection
+                    personData={personData}
+                    socialData={socialData}
+                  />
+                </PersonInfo>
+
+                <Separator />
+                <VisibleSeparator />
+                <BiographyContainer>
+                  {formatText(
+                    personData?.biography || 'No biography available.',
+                  )}
+                </BiographyContainer>
+
+                {movieCredits && movieCredits.length > 0 && (
+                  <>
+                    <Separator />
+                    <VisibleSeparator />
+                    <MediaSection
+                      items={visibleMovies}
+                      mediaType={MOVIE_MEDIA}
+                      title="Movie Credits"
+                      handleClickMedia={handleClickMedia}
+                      hasMore={hasMoreMovies}
+                      onLoadMore={() => setMoviesPage((p) => p + 1)}
                     />
-                  </PersonImageWrapper>
-                ) : (
-                  <PersonImageWrapper>
-                    <NotFoundImage>
-                      <p>Not found</p>
-                    </NotFoundImage>
-                  </PersonImageWrapper>
+                  </>
                 )}
 
-                <DetailsSection
-                  personData={personData}
-                  socialData={socialData}
-                />
-              </PersonInfo>
-
-              <Separator />
-              <VisibleSeparator />
-              <BiographyContainer>
-                {formatText(personData?.biography || 'No biography available.')}
-              </BiographyContainer>
-
-              {movieCredits && movieCredits.length > 0 && (
-                <>
-                  <Separator />
-                  <VisibleSeparator />
-                  <MediaSection
-                    items={visibleMovies}
-                    mediaType={MOVIE_MEDIA}
-                    title="Movie Credits"
-                    handleClickMedia={handleClickMedia}
-                    hasMore={hasMoreMovies}
-                    onLoadMore={() => setMoviesPage((p) => p + 1)}
-                  />
-                </>
-              )}
-
-              {tvCredits && tvCredits?.length > 0 && (
-                <>
-                  <Separator />
-                  <VisibleSeparator />
-                  <MediaSection
-                    items={visibleTv}
-                    mediaType={TV_MEDIA}
-                    title="TV Series Credits"
-                    handleClickMedia={handleClickMedia}
-                    hasMore={hasMoreTv}
-                    onLoadMore={() => setTvPage((p) => p + 1)}
-                  />
-                </>
-              )}
-            </PersonContent>
-
-            {isLoading && <LoadingComponent hasOverlay />}
+                {tvCredits && tvCredits?.length > 0 && (
+                  <>
+                    <Separator />
+                    <VisibleSeparator />
+                    <MediaSection
+                      items={visibleTv}
+                      mediaType={TV_MEDIA}
+                      title="TV Series Credits"
+                      handleClickMedia={handleClickMedia}
+                      hasMore={hasMoreTv}
+                      onLoadMore={() => setTvPage((p) => p + 1)}
+                    />
+                  </>
+                )}
+              </PersonContent>
+            )}
           </PersonContainer>
         </Wrapper>
       ) : (

@@ -38,7 +38,7 @@ import { useAppContext } from '@/contexts/AppContext'
 import { useSession } from 'next-auth/react'
 import { MediaResultProps } from '@/types/media-result'
 import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
-import { ModalSkeleton } from './partials/ModalSkeleton'
+import { ModalSkeleton } from '../ModalSkeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 interface Props {
