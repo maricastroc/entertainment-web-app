@@ -35,7 +35,7 @@ export default function PopularTv() {
         data={data}
         totalPages={totalPages}
         media="tv"
-        pageName="Popular TV Series | MovieMentor"
+        pageName="Popular Series | MovieMentor"
         searchPath="tv/popular/"
       />
     )

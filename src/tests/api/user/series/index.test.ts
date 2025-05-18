@@ -53,7 +53,7 @@ describe('user-media API handler', () => {
     expect(res._getJSONData()).toEqual({ message: 'Unauthorized' })
   })
 
-  it('should return 400 if tv show is already saved (POST)', async () => {
+  it('should return 400 if series is already saved (POST)', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValueOnce({
       user: { id: mockUserId },
     })
@@ -68,10 +68,10 @@ describe('user-media API handler', () => {
     await handler(req, res)
 
     expect(res._getStatusCode()).toBe(400)
-    expect(res._getJSONData()).toEqual({ message: 'TV Show already saved' })
+    expect(res._getJSONData()).toEqual({ message: 'Series already saved' })
   })
 
-  it('should save tv show (POST)', async () => {
+  it('should save series (POST)', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValueOnce({
       user: { id: mockUserId },
     })
@@ -93,11 +93,11 @@ describe('user-media API handler', () => {
     })
     expect(res._getStatusCode()).toBe(201)
     expect(res._getJSONData()).toEqual({
-      message: 'TV Show added to bookmarks!',
+      message: 'Series added to bookmarks!',
     })
   })
 
-  it('should return 400 if tv show not saved (DELETE)', async () => {
+  it('should return 400 if series not saved (DELETE)', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValueOnce({
       user: { id: mockUserId },
     })
@@ -112,10 +112,10 @@ describe('user-media API handler', () => {
     await handler(req, res)
 
     expect(res._getStatusCode()).toBe(400)
-    expect(res._getJSONData()).toEqual({ message: 'TV Show not saved' })
+    expect(res._getJSONData()).toEqual({ message: 'Series not saved' })
   })
 
-  it('should remove tv show (DELETE)', async () => {
+  it('should remove series (DELETE)', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValueOnce({
       user: { id: mockUserId },
     })
@@ -135,7 +135,7 @@ describe('user-media API handler', () => {
     })
     expect(res._getStatusCode()).toBe(200)
     expect(res._getJSONData()).toEqual({
-      message: 'TV Show removed from bookmarks!',
+      message: 'Series removed from bookmarks!',
     })
   })
 

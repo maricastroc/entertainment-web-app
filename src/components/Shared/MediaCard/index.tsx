@@ -23,7 +23,7 @@ import { UserProps } from '@/types/user'
 import { useAppContext } from '@/contexts/AppContext'
 import { SaveButton } from '../SaveButton'
 import { useSession } from 'next-auth/react'
-import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 export function MediaCard({
   id,
@@ -46,7 +46,7 @@ export function MediaCard({
 
   async function handleMediaAction(action: 'save' | 'delete') {
     try {
-      if (media_type === 'person') {
+      if (media_type === PERSON_MEDIA) {
         return
       }
 
@@ -108,7 +108,7 @@ export function MediaCard({
           </NotFound>
         )}
 
-        {media_type !== 'person' && (
+        {media_type !== PERSON_MEDIA && (
           <SaveButton
             isInUserList={isInUserList}
             onClick={() => {
@@ -127,13 +127,13 @@ export function MediaCard({
       </MediaImageWrapper>
       <CardInfo>
         <CardInfoData>
-          {media_type !== 'person' &&
+          {media_type !== PERSON_MEDIA &&
             (first_air_date ? (
               <p>{getFullYear(first_air_date)}</p>
             ) : (
               <p>N/A</p>
             ))}
-          {media_type !== 'person' && <span>•</span>}
+          {media_type !== PERSON_MEDIA && <span>•</span>}
           {(() => {
             switch (media_type) {
               case MOVIE_MEDIA:
@@ -147,10 +147,10 @@ export function MediaCard({
                 return (
                   <p>
                     <Image alt="" src={IconTv} />
-                    TV Series
+                    Series
                   </p>
                 )
-              case 'person':
+              case PERSON_MEDIA:
                 return (
                   <p>
                     <FontAwesomeIcon icon={faPerson} />

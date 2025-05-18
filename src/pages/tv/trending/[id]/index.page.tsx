@@ -34,7 +34,7 @@ export default function TrendingTv() {
         data={data}
         totalPages={totalPages}
         media="tv"
-        pageName="Trending TV Series | MovieMentor"
+        pageName="Trending Series | MovieMentor"
         searchPath="tv/trending/"
       />
     )

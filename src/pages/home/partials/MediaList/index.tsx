@@ -51,10 +51,10 @@ export default function MediaList({
         await router.push(`${basePath}/movie/${endpoint}/1`)
     }
   }
-  type MediaType = typeof TV_MEDIA | typeof MOVIE_MEDIA | 'person'
+  type MediaType = typeof TV_MEDIA | typeof MOVIE_MEDIA | typeof PERSON_MEDIA
 
   const mediaLabels: Record<MediaType, string> = {
-    [TV_MEDIA]: 'TV Series',
+    [TV_MEDIA]: 'Series',
     [MOVIE_MEDIA]: 'Movie',
     [PERSON_MEDIA]: 'Person',
   }

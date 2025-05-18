@@ -31,10 +31,10 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
 
   return (
     <>
-      <NextSeo title="Search TV Series | MovieMentor" />
+      <NextSeo title="Search Series | MovieMentor" />
       <AuthLayout
         searchPath={pathToSearchTV}
-        searchPlaceholder="Search for TV Series"
+        searchPlaceholder="Search for Series"
         isLoading={isRouteLoading}
       >
         <MainContent>

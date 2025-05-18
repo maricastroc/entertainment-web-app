@@ -47,7 +47,7 @@ export default function GenrePage({
       <NextSeo
         title={
           media === TV_MEDIA
-            ? 'Genre TV Series | MovieMentor'
+            ? 'Genre Series | MovieMentor'
             : 'Genre Movies | MovieMentor'
         }
       />
@@ -56,7 +56,7 @@ export default function GenrePage({
           searchPath={media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie}
           isLoading={isRouteLoading || isLoading}
           searchPlaceholder={
-            media === TV_MEDIA ? 'Search for TV series' : 'Search for Movies'
+            media === TV_MEDIA ? 'Search for Series' : 'Search for Movies'
           }
         >
           <MainContent>

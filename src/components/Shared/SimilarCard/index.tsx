@@ -56,7 +56,7 @@ export function SimilarCard({
           ) : (
             <p>
               <Image alt="" src={IconTv} />
-              TV Series
+              Series
             </p>
           )}
         </CardInfoData>

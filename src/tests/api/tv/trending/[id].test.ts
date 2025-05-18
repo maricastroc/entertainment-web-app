@@ -34,7 +34,7 @@ afterAll(() => {
 })
 
 describe('GET /api/tv/trending/[id]', () => {
-  it('should return trending tv shows with correct structure', async () => {
+  it('should return trending series with correct structure', async () => {
     const { req, res } = createMocks({
       method: 'GET',
       query: { id: '1' },

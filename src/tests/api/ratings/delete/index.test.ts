@@ -103,7 +103,7 @@ describe('DELETE /api/rating/delete', () => {
 
     expect(res._getStatusCode()).toBe(404)
     expect(JSON.parse(res._getData())).toEqual({
-      message: 'TV show not found',
+      message: 'Series not found',
     })
   })
 

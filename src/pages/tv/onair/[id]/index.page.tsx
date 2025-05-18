@@ -33,7 +33,7 @@ export default function OnAirTv() {
         data={data}
         totalPages={totalPages}
         media="tv"
-        pageName="On air TV Series | MovieMentor"
+        pageName="On air Series | MovieMentor"
         searchPath="tv/onair/"
       />
     )

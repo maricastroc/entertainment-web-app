@@ -11,6 +11,7 @@ import {
 import { useRef } from 'react'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { CrewProps } from '@/types/crew'
+import { PERSON_MEDIA } from '@/utils/constants'
 
 interface Props {
   creditsType: 'cast' | 'crew'
@@ -65,7 +66,7 @@ export function CreditsSection({
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {
                         if (handleClickMedia) {
-                          handleClickMedia('person', item.id)
+                          handleClickMedia(PERSON_MEDIA, item.id)
                         }
                       }}
                     />
@@ -90,7 +91,7 @@ export function CreditsSection({
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {
                         if (handleClickMedia) {
-                          handleClickMedia('person', item.id)
+                          handleClickMedia(PERSON_MEDIA, item.id)
                         }
                       }}
                     />

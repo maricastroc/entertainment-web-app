@@ -17,8 +17,9 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 import { useAppContext } from '@/contexts/AppContext'
 import { handleApiError } from '@/utils/handleApiError'
-import { SaveButton } from '../SaveButton'
 import { MOVIE_MEDIA } from '@/utils/constants'
+import { BookmarkSkeleton } from '../BookmarkSkeleton'
+import { SaveButton } from '@/components/Shared/SaveButton'
 
 export function BookmarkCard({
   id,
@@ -76,7 +77,7 @@ export function BookmarkCard({
 
   return (
     <Container>
-      {mediaData && (
+      {mediaData ? (
         <>
           <MediaImageWrapper>
             {mediaData?.backdrop_path ? (
@@ -115,7 +116,7 @@ export function BookmarkCard({
               ) : (
                 <p>
                   <FontAwesomeIcon icon={faTv} />
-                  TV Series
+                  Series
                 </p>
               )}
             </CardInfoData>
@@ -124,6 +125,8 @@ export function BookmarkCard({
             </CardInfoTitle>
           </CardInfo>
         </>
+      ) : (
+        <BookmarkSkeleton count={1} />
       )}
     </Container>
   )

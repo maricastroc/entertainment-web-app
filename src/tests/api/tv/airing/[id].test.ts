@@ -32,7 +32,7 @@ afterAll(() => {
 })
 
 describe('GET /api/tv/airing/[id]', () => {
-  it('should return airing tv shows with correct structure', async () => {
+  it('should return airing series with correct structure', async () => {
     const { req, res } = createMocks({
       method: 'GET',
       query: { id: '1' },

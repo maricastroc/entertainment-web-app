@@ -1,4 +1,3 @@
-import { BookmarkCard } from '@/components/Shared/BookmarkCard'
 import {
   MainContent,
   MediaContainer,
@@ -18,6 +17,7 @@ import AuthLayout from '@/layouts/auth'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { BookmarkSkeleton } from './partials/BookmarkSkeleton'
 import { ModalSection } from '@/components/Shared/ModalSection'
+import { BookmarkCard } from './partials/BookmarkCard'
 
 export default function Bookmark() {
   const isRouteLoading = useLoadingOnRouteChange()
@@ -34,13 +34,13 @@ export default function Bookmark() {
     url: '/profile',
     method: 'GET',
   })
-  console.log(isMovieMediaModalOpen, isSeriesMediaModalOpen, selectedMediaType)
+  console.log(data)
   return (
     <>
       <NextSeo title="Bookmark | MovieMentor" />
       <AuthLayout
         searchPath={pathToSearchAll}
-        searchPlaceholder="Search for Movies / TV series"
+        searchPlaceholder="Search for Movies / Series"
         isLoading={isRouteLoading || isValidating}
       >
         <MainContent>
@@ -79,7 +79,7 @@ export default function Bookmark() {
           <MediaContainer>
             <MediaHeader>
               <MediaTitle>
-                <h2>Bookmarked TV Shows</h2>
+                <h2>Bookmarked Series</h2>
               </MediaTitle>
             </MediaHeader>
             <MediaContent>
@@ -103,7 +103,7 @@ export default function Bookmark() {
                   ))}
                 </Dialog.Root>
               ) : (
-                <p>You&apos;ve got no bookmarked TV Shows to show.</p>
+                <p>You&apos;ve got no bookmarked series to show.</p>
               )}
             </MediaContent>
           </MediaContainer>

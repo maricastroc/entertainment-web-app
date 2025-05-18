@@ -34,7 +34,7 @@ export default function AiringTv() {
         data={data}
         totalPages={totalPages}
         media="tv"
-        pageName="Airing TV Series | MovieMentor"
+        pageName="Airing Series | MovieMentor"
         searchPath="tv/airing/"
       />
     )

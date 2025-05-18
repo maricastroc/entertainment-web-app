@@ -163,7 +163,7 @@ export default function PersonModal({
                     <MediaSection
                       items={visibleTv}
                       mediaType={TV_MEDIA}
-                      title="TV Series Credits"
+                      title="Series Credits"
                       handleClickMedia={handleClickMedia}
                       hasMore={hasMoreTv}
                       onLoadMore={() => setTvPage((p) => p + 1)}

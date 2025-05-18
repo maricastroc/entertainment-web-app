@@ -42,7 +42,7 @@ beforeAll(() => {
         results: [{ id: 2, title: 'Movie 1' }],
       },
       'valid-tv-credits-url': {
-        results: [{ id: 3, title: 'TV Show 1' }],
+        results: [{ id: 3, title: 'Series 1' }],
       },
     }[url as string]
 
@@ -97,7 +97,7 @@ describe('GET /api/person/[id]', () => {
 
     const data = JSON.parse(res._getData())
     expect(data.tvCredits.results).toHaveLength(1)
-    expect(data.tvCredits.results[0].title).toBe('TV Show 1')
+    expect(data.tvCredits.results[0].title).toBe('Series 1')
   })
 
   it('should include social media', async () => {

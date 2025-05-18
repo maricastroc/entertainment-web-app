@@ -52,7 +52,7 @@ export default function ThemePage({
   > = {
     [TV_MEDIA]: {
       path: pathToSearchTV,
-      placeholder: 'Search for TV series',
+      placeholder: 'Search for Series',
     },
     [MOVIE_MEDIA]: {
       path: pathToSearchMovie,

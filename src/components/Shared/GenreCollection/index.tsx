@@ -26,7 +26,7 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
       <NextSeo
         title={
           media === TV_MEDIA
-            ? 'Genre TV Series | MovieMentor'
+            ? 'Genre Series | MovieMentor'
             : 'Genre Movies | MovieMentor'
         }
       />
@@ -34,7 +34,7 @@ export default function GenreCollection({ data, media }: GenreCollectionProps) {
         isLoading={isRouteLoading}
         searchPath={media === TV_MEDIA ? pathToSearchTV : pathToSearchMovie}
         searchPlaceholder={
-          media === TV_MEDIA ? 'Search for TV series' : 'Search for Movies'
+          media === TV_MEDIA ? 'Search for Series' : 'Search for Movies'
         }
       >
         <MainContent>

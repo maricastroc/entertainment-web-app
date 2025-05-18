@@ -34,7 +34,7 @@ export default function TopTv() {
         data={data}
         totalPages={totalPages}
         media="tv"
-        pageName="Top Rating TV Series | MovieMentor"
+        pageName="Top Rating Series | MovieMentor"
         searchPath="tv/top/"
       />
     )

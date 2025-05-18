@@ -136,7 +136,7 @@ export function TrendingMediaCard({
               ) : (
                 <p>
                   <Image alt="" src={IconTv} />
-                  TV Series
+                  Series
                 </p>
               )}
             </CardInfoData>

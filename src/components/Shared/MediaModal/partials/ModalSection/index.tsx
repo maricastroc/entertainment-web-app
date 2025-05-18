@@ -19,7 +19,7 @@ import { X } from 'phosphor-react'
 import { MediaDetailsProps } from '@/types/media-details'
 import { CastProps } from '@/types/cast'
 import { CrewProps } from '@/types/crew'
-import { MOVIE_MEDIA } from '@/utils/constants'
+import { MOVIE_MEDIA, PERSON_MEDIA } from '@/utils/constants'
 
 interface Props {
   media: string
@@ -59,7 +59,7 @@ const CastOrCrewSection = ({
                 alt={item?.name || 'Profile Image'}
                 onClick={() => {
                   if (handleClickMedia) {
-                    handleClickMedia('person', item.id)
+                    handleClickMedia(PERSON_MEDIA, item.id)
                   }
                 }}
               />
@@ -108,7 +108,7 @@ export function ModalSection({
               ) : (
                 <p>
                   <FontAwesomeIcon icon={faTv} />
-                  TV Series
+                  Series
                 </p>
               )}
             </InfoData>

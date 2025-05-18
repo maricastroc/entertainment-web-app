@@ -68,7 +68,7 @@ export default function TrendingMediaCollection({
         <MediaTitle>
           <h2>{title}</h2>
           <MediaTag>
-            <p>{media_type === TV_MEDIA ? 'TV Series' : 'Movie'}</p>
+            <p>{media_type === TV_MEDIA ? 'Series' : 'Movie'}</p>
           </MediaTag>
         </MediaTitle>
         <button onClick={handleGoToTrendingMedia}>See More</button>

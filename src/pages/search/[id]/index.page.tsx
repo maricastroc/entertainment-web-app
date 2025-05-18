@@ -38,7 +38,7 @@ export default function Search({ data, id, page }: SearchProps) {
       <AuthLayout
         isLoading={isLoading || isRouteLoading}
         searchPath={pathToSearchAll}
-        searchPlaceholder="Search for Movies / TV Series / People"
+        searchPlaceholder="Search for Movies / Series / People"
       >
         <MainContent>
           <MediaContainer>

@@ -24,7 +24,7 @@ jest.mock('@/lib/prisma', () => ({
           {
             id: 'review1',
             author: 'Critic 1',
-            content: 'Great TV show!',
+            content: 'Great series!',
             createdAt: new Date('2023-01-01'),
             rating: 8,
             username: 'critic1',
@@ -73,7 +73,7 @@ beforeAll(() => {
           {
             id: 'review1',
             author: 'Critic 1',
-            content: 'Great TV show!',
+            content: 'Great series!',
             created_at: '2023-01-01T00:00:00Z',
             author_details: {
               rating: 8,
@@ -83,7 +83,7 @@ beforeAll(() => {
         ],
       },
       'valid-similars-url': {
-        results: [{ id: 2, title: 'Similar TV Show' }],
+        results: [{ id: 2, title: 'Similar series' }],
       },
       'valid-videos-url': {
         results: [{ key: 'video1', name: 'Trailer' }],
@@ -102,7 +102,7 @@ afterAll(() => {
 })
 
 describe('GET /api/tv/[id]', () => {
-  it('should return basic tv show data with status 200', async () => {
+  it('should return basic series data with status 200', async () => {
     const { req, res } = createMocks({
       method: 'GET',
       query: { id: '123' },
@@ -140,7 +140,7 @@ describe('GET /api/tv/[id]', () => {
 
     const data = JSON.parse(res._getData())
     expect(data.data.similars.results).toHaveLength(1)
-    expect(data.data.similars.results[0].title).toBe('Similar TV Show')
+    expect(data.data.similars.results[0].title).toBe('Similar series')
   })
 
   it('should properly process reviews', async () => {

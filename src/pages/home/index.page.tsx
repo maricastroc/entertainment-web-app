@@ -143,7 +143,7 @@ export default function Home({
   ]
 
   const mediaTrendingSeriesLists = [
-    { title: 'Trending', items: trendingSeriesList, media: 'TV Series' },
+    { title: 'Trending', items: trendingSeriesList, media: 'Series' },
   ]
 
   const mediaMoviesLists = [
@@ -219,7 +219,7 @@ export default function Home({
       {isClient && (
         <AuthLayout
           searchPath={pathToSearchAll}
-          searchPlaceholder="Search for Movies / TV series / People"
+          searchPlaceholder="Search for Movies / Series / People"
           isLoading={isRouteLoading || isLoading}
         >
           <Dialog.Root open={isSignUpModalOpen}>

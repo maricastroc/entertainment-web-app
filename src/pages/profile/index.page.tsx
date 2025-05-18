@@ -154,7 +154,7 @@ export default function Profile() {
       {isClient && (
         <AuthLayout
           searchPath={pathToSearchAll}
-          searchPlaceholder="Search for movie / TV series"
+          searchPlaceholder="Search for Movie / Series"
           isLoading={isRouteLoading || isLoading}
           showSearchBar={false}
         >

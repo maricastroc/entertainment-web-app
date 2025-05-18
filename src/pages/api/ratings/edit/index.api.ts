@@ -48,7 +48,7 @@ export default async function handler(
 
     if (!media) {
       return res.status(404).json({
-        message: movieId ? 'Movie not found' : 'TV show not found',
+        message: movieId ? 'Movie not found' : 'Series not found',
       })
     }
 
