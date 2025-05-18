@@ -7,6 +7,7 @@ export const StyledInput = styled('input', {
   color: '$gray100',
   padding: '0.75rem 0.6rem',
   fontSize: '$bodyMd',
+  borderRadius: 0,
   width: '100%',
 
   '&::placeholder': {

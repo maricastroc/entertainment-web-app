@@ -1,26 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IncomingForm } from 'formidable'
 import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-
-let fs: any, path: any
-
-try {
-  if (typeof process !== 'undefined' && process.versions?.node) {
-    fs = require('fs')
-    path = require('path')
-  }
-} catch (e) {
-  console.warn('File system operations not available in this environment:', e)
-}
+import fs from 'fs'
+import path from 'path'
 
 export const config = {
   api: {
     bodyParser: false,
-    runtime: 'nodejs',
   },
 }
 
@@ -83,16 +71,15 @@ export default async function handler(
       let avatarUrl: string | null = null
 
       if (avatarFile) {
-        // Em ambientes serverless, não podemos salvar arquivos localmente
-        // Então vamos converter a imagem para base64 e armazenar no banco de dados
-        const fileContent = await fs.promises.readFile(avatarFile.filepath)
-        const base64Image = fileContent.toString('base64')
-        const dataURI = `data:${avatarFile.mimetype};base64,${base64Image}`
-
-        avatarUrl = dataURI
-
-        // Limpa o arquivo temporário
-        await fs.promises.unlink(avatarFile.filepath)
+        const avatarPath = path.join(
+          process.cwd(),
+          'public',
+          'users',
+          'images',
+          avatarFile.originalFilename ?? '',
+        )
+        fs.renameSync(avatarFile.filepath, avatarPath)
+        avatarUrl = `/users/images/${avatarFile.originalFilename}`
       }
 
       const user = await prisma.user.create({

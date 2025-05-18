@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions, User } from 'next-auth'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
 import GithubProvider, { GithubProfile } from 'next-auth/providers/github'
 import { NextApiRequest, NextPageContext, NextApiResponse } from 'next'
@@ -59,6 +59,7 @@ export function buildNextAuthOptions(
           password: { label: 'Password', type: 'password' },
         },
         async authorize(credentials) {
+          console.log(credentials)
           const user = await prisma.user.findUnique({
             where: { email: credentials?.email },
           })
@@ -91,7 +92,6 @@ export function buildNextAuthOptions(
           token.id = user.id
           token.name = user.name
           token.email = user.email
-          token.avatarUrl = (user as User & { avatarUrl: string }).avatarUrl
         }
         return token
       },
