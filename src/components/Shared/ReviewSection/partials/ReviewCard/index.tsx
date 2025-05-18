@@ -28,7 +28,7 @@ import { useSession } from 'next-auth/react'
 
 interface Props {
   review: ReviewProps
-  avatarUrl: string
+  avatarUrl?: string
   isDeleteModalOpen: boolean
   votesUp?: number
   votesDown?: number

@@ -19,6 +19,7 @@ import Image from 'next/image'
 import { useState, useEffect, useRef, RefObject, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { useAppContext } from '@/contexts/AppContext'
+import AvatarDefaultImage from '../../.././../public/assets/avatar_mockup.png'
 
 export function Header() {
   const { user, handleSetSearchTerm } = useAppContext()
@@ -110,7 +111,7 @@ export function Header() {
         ref={avatarRef as RefObject<HTMLAnchorElement>}
         onClick={() => setIsLogoutModalOpen(!isLogoutModalOpen)}
       >
-        <img src={user?.avatarUrl ?? 'https://github.com/octocat.png'} alt="" />
+        <img src={user?.avatarUrl ?? AvatarDefaultImage.src} alt="" />
 
         {isLogoutModalOpen && (
           <ButtonsContainer>

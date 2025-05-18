@@ -178,11 +178,11 @@ export function ReviewSection({ id, media, mutate, reviews }: Props) {
               ),
           )
           .map((review) => {
-            const avatarUrl = review?.author_details?.avatar_path
-              ? review?.author_details?.avatar_path.startsWith('/')
-                ? `https://image.tmdb.org/t/p/w500${review.author_details.avatar_path}`
-                : review?.author_details?.avatar_path
-              : 'https://github.com/octocat.png'
+            const avatarUrl = review?.author_details?.avatar_path?.startsWith(
+              '/',
+            )
+              ? `https://image.tmdb.org/t/p/w500${review.author_details.avatar_path}`
+              : review?.author_details?.avatar_path
 
             return (
               <ReviewCardContainer key={review.id}>

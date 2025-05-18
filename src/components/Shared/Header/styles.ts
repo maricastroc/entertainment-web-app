@@ -163,7 +163,7 @@ export const AvatarContainer = styled('a', {
   width: 33,
   height: 33,
   borderRadius: '50%',
-  background: '$gray300',
+  background: '$blue900',
 
   '@media (min-width: 1024px)': {
     width: 40,

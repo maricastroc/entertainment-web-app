@@ -12,6 +12,7 @@ import { useRef } from 'react'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { CrewProps } from '@/types/crew'
 import { PERSON_MEDIA } from '@/utils/constants'
+import AvatarDefaultImage from '../../.././../../../public/assets/avatar_mockup.png'
 
 interface Props {
   creditsType: 'cast' | 'crew'
@@ -61,7 +62,7 @@ export function CreditsSection({
                       src={
                         item?.profile_path
                           ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
-                          : 'https://github.com/octocat.png'
+                          : AvatarDefaultImage.src
                       }
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {
@@ -86,7 +87,7 @@ export function CreditsSection({
                       src={
                         item?.profile_path
                           ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
-                          : 'https://github.com/octocat.png'
+                          : AvatarDefaultImage.src
                       }
                       alt={item?.name || 'Imagem de perfil'}
                       onClick={() => {

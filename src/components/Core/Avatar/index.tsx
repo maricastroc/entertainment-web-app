@@ -1,8 +1,9 @@
 import { ImgHTMLAttributes } from 'react'
 import { AvatarContainer, AvatarDefault } from './styles'
+import AvatarDefaultImage from '../../.././../public/assets/avatar_mockup.png'
 
 interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
-  avatarUrl: string
+  avatarUrl?: string
   isClickable?: boolean
   variant?: '' | 'medium' | 'regular' | 'bigger' | 'large'
   onClick?: () => void
@@ -20,10 +21,14 @@ export function Avatar({
       style={{ cursor: isClickable ? 'pointer' : 'default' }}
       onClick={isClickable && onClick ? onClick : undefined}
     >
-      <AvatarDefault
-        className={`${variant} ${isClickable && 'clickable'}`}
-        src={avatarUrl}
-      />
+      {avatarUrl ? (
+        <AvatarDefault
+          className={`${variant} ${isClickable && 'clickable'}`}
+          src={avatarUrl}
+        />
+      ) : (
+        <AvatarDefault src={AvatarDefaultImage.src} />
+      )}
     </AvatarContainer>
   )
 }

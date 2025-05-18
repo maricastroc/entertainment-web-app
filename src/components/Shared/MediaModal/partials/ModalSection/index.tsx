@@ -20,6 +20,7 @@ import { MediaDetailsProps } from '@/types/media-details'
 import { CastProps } from '@/types/cast'
 import { CrewProps } from '@/types/crew'
 import { MOVIE_MEDIA, PERSON_MEDIA } from '@/utils/constants'
+import AvatarDefaultImage from '../../.././../../../public/assets/avatar_mockup.png'
 
 interface Props {
   media: string
@@ -54,7 +55,7 @@ const CastOrCrewSection = ({
                 src={
                   item?.profile_path
                     ? `https://image.tmdb.org/t/p/original/${item.profile_path}`
-                    : 'https://github.com/octocat.png'
+                    : AvatarDefaultImage.src
                 }
                 alt={item?.name || 'Profile Image'}
                 onClick={() => {

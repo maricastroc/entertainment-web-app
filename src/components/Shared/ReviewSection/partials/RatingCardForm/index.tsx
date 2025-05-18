@@ -19,12 +19,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppContext } from '@/contexts/AppContext'
 
-import {
-  AVATAR_URL_DEFAULT,
-  MOVIE_MEDIA,
-  REVIEW_MAX_LENGTH,
-  TV_MEDIA,
-} from '@/utils/constants'
+import { MOVIE_MEDIA, REVIEW_MAX_LENGTH, TV_MEDIA } from '@/utils/constants'
 import { Avatar } from '@/components/Core/Avatar'
 import { FormErrors } from '@/components/Core/FormErrors'
 import { useSession } from 'next-auth/react'
@@ -107,7 +102,7 @@ export function RatingCardForm({
         <UserDetailsWrapper>
           <Avatar
             isClickable={false}
-            avatarUrl={session?.data?.user?.avatarUrl ?? AVATAR_URL_DEFAULT}
+            avatarUrl={session?.data?.user?.avatarUrl}
             variant="medium"
           />
           <p>{session?.data?.user?.name}</p>
