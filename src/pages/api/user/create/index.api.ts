@@ -1,14 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IncomingForm } from 'formidable'
 import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-import fs from 'fs'
-import path from 'path'
+
+let fs: any, path: any
+
+try {
+  if (typeof process !== 'undefined' && process.versions?.node) {
+    fs = require('fs')
+    path = require('path')
+  }
+} catch (e) {
+  console.warn('File system operations not available in this environment:', e)
+}
 
 export const config = {
   api: {
     bodyParser: false,
+    runtime: 'nodejs',
   },
 }
 
@@ -71,27 +83,16 @@ export default async function handler(
       let avatarUrl: string | null = null
 
       if (avatarFile) {
-        // Create upload directory if it doesn't exist
-        const uploadDir = path.join(process.cwd(), 'public', 'users', 'images')
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true })
-        }
+        // Em ambientes serverless, não podemos salvar arquivos localmente
+        // Então vamos converter a imagem para base64 e armazenar no banco de dados
+        const fileContent = await fs.promises.readFile(avatarFile.filepath)
+        const base64Image = fileContent.toString('base64')
+        const dataURI = `data:${avatarFile.mimetype};base64,${base64Image}`
 
-        // Generate unique filename to prevent collisions
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-        const filename = `${uniqueSuffix}-${
-          avatarFile.originalFilename ?? 'avatar'
-        }`
+        avatarUrl = dataURI
 
-        const avatarPath = path.join(uploadDir, filename)
-
-        // Copy file instead of renaming (solves EXDEV error)
-        fs.copyFileSync(avatarFile.filepath, avatarPath)
-
-        // Delete temporary file
-        fs.unlinkSync(avatarFile.filepath)
-
-        avatarUrl = `/users/images/${filename}`
+        // Limpa o arquivo temporário
+        await fs.promises.unlink(avatarFile.filepath)
       }
 
       const user = await prisma.user.create({

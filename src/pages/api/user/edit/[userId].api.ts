@@ -129,17 +129,14 @@ export default async function handler(
           fs.mkdirSync(uploadDir, { recursive: true })
         }
 
-        // Generate unique filename
         const fileName = `${user.id}-${Date.now()}-${
           avatarFile.originalFilename ?? 'avatar'
         }`
         const filePath = path.join(uploadDir, fileName)
 
-        // Replace renameSync with copyFileSync + unlinkSync to fix EXDEV error
         fs.copyFileSync(avatarFile.filepath, filePath)
-        fs.unlinkSync(avatarFile.filepath) // Remove temporary file
+        fs.unlinkSync(avatarFile.filepath)
 
-        // Delete old avatar file if it exists
         if (user.avatarUrl) {
           const oldFileName = user.avatarUrl.split('/').pop()
           const oldFilePath = path.join(uploadDir, oldFileName as string)
