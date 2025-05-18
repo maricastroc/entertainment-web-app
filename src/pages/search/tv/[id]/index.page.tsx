@@ -31,7 +31,16 @@ export default function SearchSeries({ data, id, page }: SearchProps) {
 
   return (
     <>
-      <NextSeo title="Search Series | MovieMentor" />
+      <NextSeo
+        title="Search Series | MovieMentor"
+        additionalMetaTags={[
+          {
+            name: 'viewport',
+            content:
+              'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+          },
+        ]}
+      />
       <AuthLayout
         searchPath={pathToSearchTV}
         searchPlaceholder="Search for Series"

@@ -37,7 +37,16 @@ export default function Bookmark() {
   console.log(data)
   return (
     <>
-      <NextSeo title="Bookmark | MovieMentor" />
+      <NextSeo
+        title="Bookmark | MovieMentor"
+        additionalMetaTags={[
+          {
+            name: 'viewport',
+            content:
+              'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+          },
+        ]}
+      />
       <AuthLayout
         searchPath={pathToSearchAll}
         searchPlaceholder="Search for Movies / Series"

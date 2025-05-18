@@ -25,7 +25,6 @@ export default async function handler(
   const userId = session.user.id
 
   try {
-    // Busca os filmes e séries salvos pelo usuário
     const userWithMedias = await prisma.user.findUnique({
       where: { id: String(userId) },
       include: {
@@ -38,7 +37,6 @@ export default async function handler(
       return res.status(404).json({ message: 'User not found' })
     }
 
-    // Obtém os detalhes completos para cada filme
     const moviesWithDetails = await Promise.all(
       userWithMedias.savedMovies.map(async (movie) => {
         const response = await fetch(getMovieDetail(movie.id))
@@ -46,11 +44,10 @@ export default async function handler(
       }),
     )
 
-    // Obtém os detalhes completos para cada série
     const seriesWithDetails = await Promise.all(
       userWithMedias.savedSeries.map(async (tv) => {
         const response = await fetch(getTvDetail(tv.id))
-        return await response.json() // Retorna diretamente os details
+        return await response.json()
       }),
     )
 

@@ -31,7 +31,16 @@ export default function SearchMovie({ data, id, page }: SearchProps) {
 
   return (
     <>
-      <NextSeo title="Search Movie | MovieMentor" />
+      <NextSeo
+        title="Search Movie | MovieMentor"
+        additionalMetaTags={[
+          {
+            name: 'viewport',
+            content:
+              'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+          },
+        ]}
+      />
       <AuthLayout
         searchPath={pathToSearchMovie}
         isLoading={isRouteLoading}

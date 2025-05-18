@@ -30,7 +30,16 @@ export default function Register() {
 
   return (
     <>
-      <NextSeo title="Login | Book Wise" />
+      <NextSeo
+        title="Login | Book Wise"
+        additionalMetaTags={[
+          {
+            name: 'viewport',
+            content:
+              'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+          },
+        ]}
+      />
       {isClient &&
         (isRouteLoading ? (
           <LoadingComponent withBackground />

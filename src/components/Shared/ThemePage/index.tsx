@@ -68,7 +68,16 @@ export default function ThemePage({
 
   return (
     <>
-      <NextSeo title={pageName} />
+      <NextSeo
+        title={pageName}
+        additionalMetaTags={[
+          {
+            name: 'viewport',
+            content:
+              'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+          },
+        ]}
+      />
       {data ? (
         <AuthLayout
           searchPath={searchConfig[media as MediaType].path}
