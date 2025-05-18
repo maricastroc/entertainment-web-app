@@ -92,13 +92,12 @@ export const AvatarPreview = styled('div', {
 })
 
 export const AvatarUploadWrapper = styled('div', {
-  display: 'flex',
-  flexGrow: 'grow',
+  display: 'grid',
+  gridTemplateColumns: '4.5fr 1fr',
   width: '100%',
   border: 'none',
   borderBottom: 'solid 1px $blue600',
   alignItems: 'center',
-  justifyContent: 'space-between',
   textAlign: 'left',
 })
 
@@ -111,6 +110,9 @@ export const AvatarUploadButton = styled('div', {
   color: '$gray100',
   padding: '0.75rem 0.6rem',
   fontSize: '$bodyMd',
+  overflow: 'hidden', // Adiciona overflow hidden
+  textOverflow: 'ellipsis', // Adiciona reticências
+  whiteSpace: 'nowrap', // Impede que o texto quebre em várias linhas
 
   input: {
     display: 'none',
@@ -125,6 +127,10 @@ export const AvatarUploadButton = styled('div', {
     fontSize: '$bodyMd',
     cursor: 'pointer',
     border: 'none',
+    overflow: 'hidden', // Adiciona overflow hidden
+    textOverflow: 'ellipsis', // Adiciona reticências
+    whiteSpace: 'nowrap', // Impede que o texto quebre em várias linhas
+    maxWidth: '100%', // Garante que não ultrapasse o container
   },
 
   span: {
