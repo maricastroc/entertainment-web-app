@@ -83,7 +83,13 @@ export default async function handler(
       let avatarUrl: string | null = null
 
       if (avatarFile) {
+        const MAX_SIZE = 2 * 1024 * 1024
         const fileContent = await fs.promises.readFile(avatarFile.filepath)
+
+        if (fileContent.length > MAX_SIZE) {
+          throw new Error('Image must be a maximum of 2MB!')
+        }
+
         const base64Image = fileContent.toString('base64')
         const dataURI = `data:${avatarFile.mimetype};base64,${base64Image}`
 
