@@ -58,8 +58,8 @@ export default function Bookmark() {
                   {data.savedMovies.map((item) => (
                     <Dialog.Trigger asChild key={item.id}>
                       <BookmarkCard
-                        id={item.id}
-                        media={MOVIE_MEDIA}
+                        mediaDetails={item}
+                        mediaType={MOVIE_MEDIA}
                         mutate={mutate}
                         handleClick={() => {
                           setIsMovieMediaModalOpen(true)
@@ -90,8 +90,8 @@ export default function Bookmark() {
                   {data.savedSeries.map((item) => (
                     <Dialog.Trigger asChild key={item.id}>
                       <BookmarkCard
-                        id={item.id}
-                        media={TV_MEDIA}
+                        mediaDetails={item}
+                        mediaType={TV_MEDIA}
                         mutate={mutate}
                         handleClick={() => {
                           setIsMovieMediaModalOpen(false)

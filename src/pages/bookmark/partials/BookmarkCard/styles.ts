@@ -38,15 +38,6 @@ export const BackgroundImage = styled('img', {
   transition: '0.3s ease',
 })
 
-export const NotFoundImage = styled('img', {
-  width: '100%',
-  aspectRatio: '1 / 1',
-  borderRadius: 8,
-  filter: 'blur(2px)',
-  objectFit: 'cover',
-  maxHeight: 140,
-})
-
 export const CardInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',

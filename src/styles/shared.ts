@@ -253,3 +253,12 @@ export const ModalHeader = styled('div', {
     alignItems: 'center',
   },
 })
+
+export const NotFoundImage = styled('img', {
+  width: '100%',
+  aspectRatio: '1 / 1',
+  borderRadius: 8,
+  filter: 'blur(2px)',
+  objectFit: 'cover',
+  maxHeight: 140,
+})

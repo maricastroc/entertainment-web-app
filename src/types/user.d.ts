@@ -1,4 +1,5 @@
 import { AccountProps } from './account'
+import { MediaDetailsProps } from './media-details'
 import { SessionProps } from './session'
 
 export interface UserProps {
@@ -8,8 +9,8 @@ export interface UserProps {
   createdAt?: Date
   password?: string | null
   email?: string
-  savedMovies: { id: string }[]
-  savedSeries: { id: string }[]
+  savedMovies: MediaDetailsProps[]
+  savedSeries: MediaDetailsProps[]
 
   accounts?: AccountProps[] | null
   sessions?: SessionProps[] | null

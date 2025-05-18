@@ -37,15 +37,6 @@ export const BackgroundImage = styled('img', {
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
 })
 
-export const NotFoundImage = styled('img', {
-  width: '100%',
-  aspectRatio: '1 / 1',
-  borderRadius: 8,
-  filter: 'blur(2px)',
-  objectFit: 'cover',
-  maxHeight: 140,
-})
-
 export const CardInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
