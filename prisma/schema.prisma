@@ -34,6 +34,10 @@ model Movie {
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
 
+  title       String?
+  posterPath  String?
+  releaseDate DateTime?
+
   users       User[]   @relation("UserSavedMovies")
   ratings     Rating[]
   externalReviews     ExternalReview[]
@@ -46,6 +50,10 @@ model Series {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
+
+  title       String?
+  posterPath  String?
+  releaseDate DateTime?
 
   users       User[]   @relation("UserSavedSeries")
   ratings     Rating[]
@@ -69,6 +77,10 @@ model Rating {
   series   Series?   @relation(fields: [seriesId], references: [id])
   seriesId  String?
 
+  mediaTitle   String?
+  mediaPoster  String? 
+  mediaReleaseDate DateTime?
+
   votes   Vote[]
 
   user    User   @relation(fields: [userId], references: [id])
@@ -85,16 +97,20 @@ model ExternalReview {
   author        String
   content       String   @db.Text
   createdAt     DateTime
-  rating        Float?   // <- do author_details.rating
-  username      String?  // <- do author_details.username
-  name          String?  // <- do author_details.name
-  avatarPath    String?  // <- do author_details.avatar_path
+  rating        Float?
+  username      String?
+  name          String?
+  avatarPath    String?
 
   movie         Movie?   @relation(fields: [movieId], references: [id])
   movieId       String?
 
   series        Series?  @relation(fields: [seriesId], references: [id])
   seriesId      String?
+
+  mediaTitle   String?
+  mediaPoster  String? 
+  mediaReleaseDate DateTime?
 
   votes         Vote[]
 

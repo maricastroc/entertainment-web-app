@@ -9,4 +9,6 @@ export const ModalOverlay = styled(RadixOverlay, {
   inset: 0,
   zIndex: 9997,
   backgroundColor: 'rgba(10, 10, 10, 0.2)',
+  backdropFilter: 'blur(4px)',
+  WebkitBackdropFilter: 'blur(4px)',
 })

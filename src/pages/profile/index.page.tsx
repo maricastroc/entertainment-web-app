@@ -4,15 +4,38 @@ import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
 import { useEffect, useState } from 'react'
 import AuthLayout from '@/layouts/auth'
-import { Container } from './styles'
+import {
+  Container,
+  ContentWrapper,
+  ProfileMenu,
+  ProfileWrapper,
+  VerticalSeparator,
+  HorizontalSeparator,
+  MenuBtn,
+} from './styles'
 import { EditProfileForm } from './partials/EditProfileForm'
+import useRequest from '@/utils/useRequest'
+import { ReviewProps } from '@/types/review'
+import { ReviewsSection } from './partials/ReviewsSection'
+import { ReviewsContainer } from '@/components/Shared/MediaModal/styles'
+
+interface DataResults {
+  formattedRatings: ReviewProps[]
+}
 
 export default function Profile() {
   const [isLoading, setIsLoading] = useState(false)
 
+  const [activeSection, setActiveSection] = useState('profile_data')
+
   const [isClient, setIsClient] = useState(false)
 
   const isRouteLoading = useLoadingOnRouteChange()
+
+  const { data, mutate } = useRequest<DataResults>({
+    url: `/user/reviews`,
+    method: 'GET',
+  })
 
   const handleLoading = (value: boolean) => {
     setIsLoading(value)
@@ -42,7 +65,47 @@ export default function Profile() {
           showSearchBar={false}
         >
           <Container>
-            <EditProfileForm isLoading={isLoading} onLoading={handleLoading} />
+            <ProfileWrapper>
+              <ProfileMenu>
+                <MenuBtn
+                  onClick={() => setActiveSection('profile_data')}
+                  isActive={activeSection === 'profile_data'}
+                >
+                  Profile Data
+                </MenuBtn>
+                <VerticalSeparator />
+                <MenuBtn
+                  onClick={() => setActiveSection('ratings')}
+                  isActive={activeSection === 'ratings'}
+                >
+                  Reviews
+                </MenuBtn>
+                <VerticalSeparator />
+                <MenuBtn>Sign out</MenuBtn>
+              </ProfileMenu>
+              <HorizontalSeparator />
+              <ContentWrapper>
+                {activeSection === 'profile_data' && (
+                  <EditProfileForm
+                    isLoading={isLoading}
+                    onLoading={handleLoading}
+                  />
+                )}
+                {activeSection === 'ratings' && data?.formattedRatings && (
+                  <ReviewsContainer>
+                    {data.formattedRatings.map((review) => {
+                      return (
+                        <ReviewsSection
+                          key={review.id}
+                          mutate={mutate}
+                          review={review}
+                        />
+                      )
+                    })}
+                  </ReviewsContainer>
+                )}
+              </ContentWrapper>
+            </ProfileWrapper>
           </Container>
         </AuthLayout>
       )}

@@ -3,7 +3,6 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ImageCropper } from '@/components/Shared/ImageCropper'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FormWrapper } from '../../styles'
 import {
   AvatarSection,
   AvatarUploadButton,
@@ -24,9 +23,9 @@ import { handleApiError } from '@/utils/handleApiError'
 import { TrashSimple } from 'phosphor-react'
 import { AvatarUploadPreview } from '@/components/Core/AvatarUploadPreview'
 import AvatarDefaultImage from '../../../../../public/assets/avatar_mockup.png'
-import { Form } from '@/components/Core/Form'
 import { Button } from '@/components/Core/Button'
 import { truncateMiddle } from '@/utils/truncateMiddle'
+import { Form } from './styles'
 
 export const profileFormSchema = (changePassword: boolean) =>
   z.object({
@@ -195,142 +194,138 @@ export const EditProfileForm = ({ isLoading, onLoading }: Props) => {
           onClose={() => setShowCropper(false)}
         />
       </Dialog.Root>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <FormWrapper>
-          <h2>Edit Profile</h2>
+      <Form onSubmit={handleSubmit(onSubmit)} expandForm={!!changePassword}>
+        <h2>Edit Profile</h2>
 
-          <AvatarSection>
-            <InputContainer>
-              <AvatarUploadWrapper>
-                <AvatarUploadButton>
-                  <input
-                    type="file"
-                    ref={inputFileRef}
-                    style={{ display: 'none' }}
-                    onChange={handleAvatarChange}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAvatarChangeClick}
-                    style={{
-                      color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
-                    }}
-                  >
-                    {avatarPath ||
-                      watch()?.avatarUrl?.name ||
-                      'Add your avatar'}
-                  </button>
-                </AvatarUploadButton>
-
-                {avatarPreview && (
-                  <DeleteAvatarButton
-                    type="button"
-                    onClick={handleDeleteAvatar}
-                    aria-label="Remove avatar"
-                  >
-                    <TrashSimple size={18} />
-                  </DeleteAvatarButton>
-                )}
-              </AvatarUploadWrapper>
-
-              {errors.avatarUrl && (
-                <FormErrors error={errors.avatarUrl.message} />
-              )}
-            </InputContainer>
-            <AvatarUploadPreview
-              avatarPreview={avatarPreview}
-              defaultImage={AvatarDefaultImage.src}
-              onClick={handleAvatarChangeClick}
-            />
-          </AvatarSection>
-
+        <AvatarSection>
           <InputContainer>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => <Input placeholder="Name" {...field} />}
-            />
-            {errors.name && (
-              <FormErrors error={errors.name.message && 'Name is required.'} />
+            <AvatarUploadWrapper>
+              <AvatarUploadButton>
+                <input
+                  type="file"
+                  ref={inputFileRef}
+                  style={{ display: 'none' }}
+                  onChange={handleAvatarChange}
+                />
+                <button
+                  type="button"
+                  onClick={handleAvatarChangeClick}
+                  style={{
+                    color: `${watch('avatarUrl')?.name ? 'white' : ''}`,
+                  }}
+                >
+                  {avatarPath || watch()?.avatarUrl?.name || 'Add your avatar'}
+                </button>
+              </AvatarUploadButton>
+
+              {avatarPreview && (
+                <DeleteAvatarButton
+                  type="button"
+                  onClick={handleDeleteAvatar}
+                  aria-label="Remove avatar"
+                >
+                  <TrashSimple size={18} />
+                </DeleteAvatarButton>
+              )}
+            </AvatarUploadWrapper>
+
+            {errors.avatarUrl && (
+              <FormErrors error={errors.avatarUrl.message} />
             )}
           </InputContainer>
-
-          <InputContainer>
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <Input placeholder="Email Address" {...field} />
-              )}
-            />
-            {errors.email && <FormErrors error={errors.email.message} />}
-          </InputContainer>
-
-          {changePassword && (
-            <>
-              <InputContainer>
-                <Controller
-                  name="oldPassword"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      type="password"
-                      placeholder="Current Password"
-                      {...field}
-                    />
-                  )}
-                />
-                {errors.oldPassword && (
-                  <FormErrors
-                    error={
-                      errors.oldPassword.message &&
-                      'Password must be at least 8 characters'
-                    }
-                  />
-                )}
-              </InputContainer>
-
-              <InputContainer>
-                <Controller
-                  name="newPassword"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      type="password"
-                      placeholder="New Password"
-                      {...field}
-                    />
-                  )}
-                />
-                {errors.newPassword && (
-                  <FormErrors
-                    error={
-                      errors.newPassword.message &&
-                      'New password must be at least 8 characters'
-                    }
-                  />
-                )}
-              </InputContainer>
-            </>
-          )}
-
-          <InputContainer>
-            <Checkbox
-              label="Change password?"
-              checked={changePassword}
-              onChange={() => setChangePassword(!changePassword)}
-            />
-          </InputContainer>
-
-          <Button
-            type="submit"
-            content="Edit profile"
-            isSubmitting={isSubmitting || isLoading}
-            style={{
-              marginTop: '1rem',
-            }}
+          <AvatarUploadPreview
+            avatarPreview={avatarPreview}
+            defaultImage={AvatarDefaultImage.src}
+            onClick={handleAvatarChangeClick}
           />
-        </FormWrapper>
+        </AvatarSection>
+
+        <InputContainer>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => <Input placeholder="Name" {...field} />}
+          />
+          {errors.name && (
+            <FormErrors error={errors.name.message && 'Name is required.'} />
+          )}
+        </InputContainer>
+
+        <InputContainer>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input placeholder="Email Address" {...field} />
+            )}
+          />
+          {errors.email && <FormErrors error={errors.email.message} />}
+        </InputContainer>
+
+        {changePassword && (
+          <>
+            <InputContainer>
+              <Controller
+                name="oldPassword"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type="password"
+                    placeholder="Current Password"
+                    {...field}
+                  />
+                )}
+              />
+              {errors.oldPassword && (
+                <FormErrors
+                  error={
+                    errors.oldPassword.message &&
+                    'Password must be at least 8 characters'
+                  }
+                />
+              )}
+            </InputContainer>
+
+            <InputContainer>
+              <Controller
+                name="newPassword"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type="password"
+                    placeholder="New Password"
+                    {...field}
+                  />
+                )}
+              />
+              {errors.newPassword && (
+                <FormErrors
+                  error={
+                    errors.newPassword.message &&
+                    'New password must be at least 8 characters'
+                  }
+                />
+              )}
+            </InputContainer>
+          </>
+        )}
+
+        <InputContainer>
+          <Checkbox
+            label="Change password?"
+            checked={changePassword}
+            onChange={() => setChangePassword(!changePassword)}
+          />
+        </InputContainer>
+
+        <Button
+          type="submit"
+          content="Edit profile"
+          isSubmitting={isSubmitting || isLoading}
+          style={{
+            marginTop: '1rem',
+          }}
+        />
       </Form>
     </>
   )

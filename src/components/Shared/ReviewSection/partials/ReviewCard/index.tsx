@@ -7,9 +7,6 @@ import {
   Footer,
   RatingActions,
   RatingWrapper,
-  Dropdown,
-  DropdownButton,
-  DropdownItem,
 } from './styles'
 import { ReviewProps } from '@/types/review'
 import { convertRatingTo5Scale } from '@/utils/convertRatingTo5Scale'
@@ -18,13 +15,11 @@ import { Avatar } from '@/components/Core/Avatar'
 import { formatDistanceToNow } from 'date-fns'
 import { useAppContext } from '@/contexts/AppContext'
 import * as Dialog from '@radix-ui/react-dialog'
-import { Pencil, ThumbsDown, ThumbsUp, Trash } from 'phosphor-react'
-import { DeleteModal } from '@/components/Shared/DeleteModal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
+import { ThumbsDown, ThumbsUp } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
 import { SignUpModal } from '@/components/Shared/SignUpModal'
 import { useSession } from 'next-auth/react'
+import { ReviewDropdown } from '@/components/Shared/ReviewDropdown'
 
 interface Props {
   review: ReviewProps
@@ -150,45 +145,20 @@ export function ReviewCard({
           </RatingWrapper>
         </RatingActions>
         {user && review?.user_id === user.id && (
-          <>
-            <DropdownButton
-              ref={buttonRef}
-              onClick={() => setIsDropdownOpen(true)}
-            >
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </DropdownButton>
-            {isDropdownOpen && (
-              <Dropdown ref={dropdownRef}>
-                <Dialog.Root open={isDeleteModalOpen}>
-                  <Dialog.Trigger asChild>
-                    <DropdownItem
-                      onClick={() => handleSetIsDeleteModalOpen(true)}
-                    >
-                      <Trash className="delete_icon" />
-                      <p>Delete Review</p>
-                    </DropdownItem>
-                  </Dialog.Trigger>
-                  <DeleteModal
-                    onConfirm={() => {
-                      handleDeleteReview()
-                    }}
-                    onClose={() => {
-                      handleSetIsDeleteModalOpen(false)
-                    }}
-                  />
-                </Dialog.Root>
-                <DropdownItem
-                  onClick={() => {
-                    handleSetReviewToEdit(review)
-                    handleSetIsRatingCardFormOpen(true)
-                  }}
-                >
-                  <Pencil className="edit_icon" />
-                  <p>Edit Review</p>
-                </DropdownItem>
-              </Dropdown>
-            )}
-          </>
+          <ReviewDropdown
+            review={review}
+            isDeleteModalOpen={isDeleteModalOpen}
+            isDropdownOpen={isDropdownOpen}
+            buttonRef={buttonRef}
+            dropdownRef={dropdownRef}
+            handleDeleteReview={handleDeleteReview}
+            handleSetIsDeleteModalOpen={handleSetIsDeleteModalOpen}
+            handleSetIsRatingCardFormOpen={handleSetIsRatingCardFormOpen}
+            handleSetReviewToEdit={handleSetReviewToEdit}
+            handleSetIsDropdownOpen={(value: boolean) =>
+              setIsDropdownOpen(value)
+            }
+          />
         )}
       </Footer>
 

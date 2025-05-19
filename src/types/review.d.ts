@@ -24,4 +24,13 @@ export interface ReviewProps {
   }
   updated_votes_up?: number
   updated_votes_down?: number
+  mediaPoster?: string
+  mediaReleaseDate?: string
+  mediaTitle?: string
+  rate?: number
+  description?: string
+  movieId?: number
+  seriesId?: number
+  media_id: string
+  media_type: string
 }

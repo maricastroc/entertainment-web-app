@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
+import { getMovieDetail, getTvDetail } from '@/lib/tmdb'
 
 export default async function handler(
   req: NextApiRequest,
@@ -34,33 +35,28 @@ export default async function handler(
 
   try {
     let media
+    let detail
 
     if (movieId) {
-      media = await prisma.movie.findUnique({
-        where: { id: movieId },
-      })
+      media = await prisma.movie.findUnique({ where: { id: movieId } })
 
       if (!media) {
-        media = await prisma.movie.create({
-          data: {
-            id: movieId,
-          },
-        })
+        media = await prisma.movie.create({ data: { id: movieId } })
       }
+
+      const response = await fetch(getMovieDetail(movieId))
+      detail = await response.json()
     }
 
     if (seriesId) {
-      media = await prisma.series.findUnique({
-        where: { id: seriesId },
-      })
+      media = await prisma.series.findUnique({ where: { id: seriesId } })
 
       if (!media) {
-        media = await prisma.series.create({
-          data: {
-            id: seriesId,
-          },
-        })
+        media = await prisma.series.create({ data: { id: seriesId } })
       }
+
+      const response = await fetch(getTvDetail(seriesId))
+      detail = await response.json()
     }
 
     const existingRating = await prisma.rating.findFirst({
@@ -82,6 +78,13 @@ export default async function handler(
         seriesId: seriesId || undefined,
         rate,
         description,
+        mediaTitle: detail?.name ?? detail?.title ?? null,
+        mediaPoster: detail?.backdrop_path ?? detail?.poster_path ?? null,
+        mediaReleaseDate: detail?.release_date
+          ? new Date(detail.release_date)
+          : detail?.first_air_date
+          ? new Date(detail.first_air_date)
+          : null,
       },
     })
 

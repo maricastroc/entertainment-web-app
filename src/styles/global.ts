@@ -78,4 +78,12 @@ export const globalStyles = globalCss({
     '-webkit-box-shadow': '0 0 0px 1000px #000 inset',
     transition: 'background-color 5000s ease-in-out 0s',
   },
+
+  button: {
+    '&:focus': {
+      backgroundColor: 'transparent',
+      outline: 'none',
+      boxShadow: 'none',
+    },
+  },
 })

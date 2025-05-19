@@ -21,7 +21,7 @@ export const StyledButton = styled('button', {
   variants: {
     variant: {
       default: {
-        color: '$gray300',
+        color: '$gray100',
         backgroundColor: '$red300',
         transition: 'all 200ms ease',
 

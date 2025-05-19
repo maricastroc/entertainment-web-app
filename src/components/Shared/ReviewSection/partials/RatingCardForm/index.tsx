@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Check, Star, X } from 'phosphor-react'
 import {
   ActionButton,
@@ -27,12 +28,14 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 import { handleApiError } from '@/utils/handleApiError'
 import { ReviewProps } from '@/types/review'
+import { useEffect } from 'react'
 
 interface RatingCardFormProps {
   isEdit?: boolean
   id: string
   media: string
   rating?: ReviewProps | null
+  isProfileScreen?: boolean
   mutate: () => void
   onClose: () => void
 }
@@ -47,6 +50,7 @@ type RatingFormData = z.infer<typeof ratingSchema>
 export function RatingCardForm({
   onClose,
   mutate,
+  isProfileScreen = false,
   media,
   rating = null,
   isEdit = false,
@@ -65,7 +69,7 @@ export function RatingCardForm({
 
   const session = useSession()
 
-  const { handleSetIsLoading } = useAppContext()
+  const { handleSetIsLoading, user } = useAppContext()
 
   const characterCount = watch('description')?.length || 0
 
@@ -96,13 +100,23 @@ export function RatingCardForm({
     }
   }
 
+  useEffect(() => {
+    if (rating && isEdit) {
+      setValue('rate', rating.rate || 0)
+      setValue('description', rating.description || '')
+    }
+  }, [rating, isEdit])
+
   return (
-    <RatingCardFormWrapper onSubmit={handleSubmit(handleSubmitReview)}>
+    <RatingCardFormWrapper
+      isProfileScreen={isProfileScreen}
+      onSubmit={handleSubmit(handleSubmitReview)}
+    >
       <RatingCardFormHeader>
         <UserDetailsWrapper>
           <Avatar
             isClickable={false}
-            avatarUrl={session?.data?.user?.avatarUrl}
+            avatarUrl={user?.avatarUrl}
             variant="medium"
           />
           <p>{session?.data?.user?.name}</p>

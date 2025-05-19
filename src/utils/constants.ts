@@ -1,7 +1,7 @@
 export const AVATAR_URL_DEFAULT =
   'https://avatars.githubusercontent.com/u/583231?v=4'
 
-export const REVIEW_MAX_LENGTH = 1000
+export const REVIEW_MAX_LENGTH = 1500
 
 export const PERSON_MEDIA = 'person'
 

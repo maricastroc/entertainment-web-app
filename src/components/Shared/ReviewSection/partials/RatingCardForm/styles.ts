@@ -11,6 +11,16 @@ export const RatingCardFormWrapper = styled('form', {
   borderRadius: 8,
   width: '100%',
 
+  variants: {
+    isProfileScreen: {
+      true: {
+        backgroundColor: '$blue750',
+        boxShadow:
+          '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
+      },
+    },
+  },
+
   '@media (min-width: 480px)': {
     padding: '1.5rem',
   },

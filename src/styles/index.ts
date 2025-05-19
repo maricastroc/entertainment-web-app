@@ -28,6 +28,7 @@ export const {
       blue600: '#5A698F',
       blue650: '#26334F',
       blue700: '#161D2F',
+      blue750: '#1a2235',
       blue800: '#10141E',
     },
 

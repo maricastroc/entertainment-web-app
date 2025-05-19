@@ -53,6 +53,13 @@ export default async function handler(
             username: details.username,
             name: details.name,
             avatarPath: details.avatar_path,
+            mediaTitle: detail?.name ?? detail?.title ?? null,
+            mediaPoster: detail?.backdrop_path ?? detail?.poster_path ?? null,
+            mediaReleaseDate: detail?.release_date
+              ? new Date(detail.release_date)
+              : detail?.first_air_date
+              ? new Date(detail.first_air_date)
+              : null,
             series: { connect: { id: id as string } },
           },
           create: {
@@ -64,6 +71,13 @@ export default async function handler(
             username: details.username,
             name: details.name,
             avatarPath: details.avatar_path,
+            mediaTitle: detail?.name ?? detail?.title ?? null,
+            mediaPoster: detail?.backdrop_path ?? detail?.poster_path ?? null,
+            mediaReleaseDate: detail?.release_date
+              ? new Date(detail.release_date)
+              : detail?.first_air_date
+              ? new Date(detail.first_air_date)
+              : null,
             series: { connect: { id: id as string } },
           },
         })

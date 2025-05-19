@@ -12,7 +12,7 @@ export const Container = styled('div', {
   width: '100%',
 
   '@media (min-width: 580px)': {
-    padding: '1.5rem 1.5rem 1rem',
+    padding: '1.5rem 1.5rem 1.2rem',
   },
 })
 
@@ -88,7 +88,7 @@ export const Footer = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  marginTop: '0.7rem',
+  marginTop: '1rem',
   borderRadius: 8,
 })
 
@@ -120,91 +120,5 @@ export const RatingWrapper = styled('div', {
 
   p: {
     fontSize: '0.85rem',
-  },
-})
-
-export const DropdownButton = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '0.6rem',
-  width: '2rem',
-  height: '2rem',
-  backgroundColor: 'transparent',
-  borderRadius: '100%',
-  borderColor: 'transparent',
-  transition: 'all 200ms',
-  cursor: 'pointer',
-
-  '&:focus, &:focus-visible': {
-    border: 'none',
-    outline: 'none',
-    boxShadow: 'none',
-  },
-
-  svg: {
-    fontSize: '1rem',
-    color: '$gray100',
-  },
-
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-  },
-})
-
-export const Dropdown = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  position: 'absolute',
-  border: '1px solid rgba(126, 147, 188, 0.5)',
-  borderRadius: 8,
-  width: '8.6rem',
-  backgroundColor: '$blue700',
-  padding: '0.9rem 0',
-  gap: '0.6rem',
-  right: '0%',
-  top: '100%',
-})
-
-export const DropdownItem = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.3rem',
-  fontSize: '0.88rem',
-  color: '$gray200',
-  marginLeft: '0.6rem',
-  backgroundColor: 'transparent',
-  borderColor: 'transparent',
-  cursor: 'pointer',
-
-  p: {
-    color: '$gray200',
-  },
-
-  svg: {
-    cursor: 'pointer',
-    fontSize: '0.9rem',
-    color: '$gray400',
-
-    '&.edit_icon': {
-      color: '$green500',
-      filter: 'brightness(1.5)',
-    },
-
-    '&.delete_icon': {
-      color: '$red300',
-      filter: 'brightness(1.5)',
-    },
-  },
-
-  '&:hover': {
-    color: '$gray100',
-
-    svg: {
-      filter: 'brightness(1.8)',
-      transition: '200ms ease-in-out',
-    },
   },
 })
