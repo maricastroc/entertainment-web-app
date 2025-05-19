@@ -1,4 +1,4 @@
-import handler from '@/pages/api/user/movies/index.api'
+import handler from '@/pages/api/profile/index.api'
 import { createRequest, createResponse } from 'node-mocks-http'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
@@ -9,30 +9,35 @@ jest.mock('next-auth', () => ({
 
 jest.mock('@/lib/prisma', () => ({
   prisma: {
-    movie: {
-      findUnique: jest.fn(),
-      create: jest.fn(),
-    },
     user: {
       findUnique: jest.fn(),
-      update: jest.fn(),
     },
   },
+}))
+
+jest.mock('@/lib/tmdb', () => ({
+  getMovieDetail: jest.fn((id) => `https://api.tmdb.org/movie/${id}`),
+  getTvDetail: jest.fn((id) => `https://api.tmdb.org/tv/${id}`),
 }))
 
 jest.mock('@/pages/api/auth/[...nextauth].api', () => ({
   buildNextAuthOptions: jest.fn(() => ({})),
 }))
 
-describe('user-media API handler', () => {
+global.fetch = jest.fn()
+
+describe('GET /api/profile', () => {
   const mockUserId = 'user-123'
+  const mockSession = {
+    user: { id: mockUserId },
+  }
 
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should return 405 if method is not POST or DELETE', async () => {
-    const req = createRequest({ method: 'GET' })
+  it('should return 405 if method is not GET', async () => {
+    const req = createRequest({ method: 'POST' })
     const res = createResponse()
 
     await handler(req, res)
@@ -44,7 +49,7 @@ describe('user-media API handler', () => {
   it('should return 401 if no session', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValueOnce(null)
 
-    const req = createRequest({ method: 'POST', body: { mediaId: '1' } })
+    const req = createRequest({ method: 'GET' })
     const res = createResponse()
 
     await handler(req, res)
@@ -53,113 +58,67 @@ describe('user-media API handler', () => {
     expect(res._getJSONData()).toEqual({ message: 'Unauthorized' })
   })
 
-  it('should return 400 if movie already saved (POST)', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
-    })
-    ;(prisma.movie.findUnique as jest.Mock).mockResolvedValueOnce({ id: '1' })
-    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce({
-      savedMovies: [{ id: '1' }],
-    })
+  it('should return 404 if user not found', async () => {
+    ;(getServerSession as jest.Mock).mockResolvedValueOnce(mockSession)
+    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce(null)
 
-    const req = createRequest({ method: 'POST', body: { mediaId: '1' } })
+    const req = createRequest({ method: 'GET' })
     const res = createResponse()
 
     await handler(req, res)
 
-    expect(res._getStatusCode()).toBe(400)
-    expect(res._getJSONData()).toEqual({ message: 'Movie already saved' })
+    expect(res._getStatusCode()).toBe(404)
+    expect(res._getJSONData()).toEqual({ message: 'User not found' })
   })
 
-  it('should save movie (POST)', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
-    })
-    ;(prisma.movie.findUnique as jest.Mock).mockResolvedValueOnce(null)
-    ;(prisma.movie.create as jest.Mock).mockResolvedValueOnce({ id: '1' })
-    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce({
-      savedMovies: [],
-    })
+  it('should return user saved media with details', async () => {
+    const mockUser = {
+      id: mockUserId,
+      savedMovies: [{ id: 'movie-1' }, { id: 'movie-2' }],
+      savedSeries: [{ id: 'tv-1' }],
+    }
 
-    const req = createRequest({ method: 'POST', body: { mediaId: '1' } })
+    const mockMovieDetails = { id: 'movie-1', title: 'Movie 1' }
+    const mockTvDetails = { id: 'tv-1', name: 'TV Show 1' }
+
+    ;(getServerSession as jest.Mock).mockResolvedValueOnce(mockSession)
+    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce(mockUser)
+    ;(fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve(mockMovieDetails),
+      })
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve(mockMovieDetails),
+      })
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve(mockTvDetails),
+      })
+
+    const req = createRequest({ method: 'GET' })
     const res = createResponse()
 
     await handler(req, res)
 
-    expect(prisma.movie.create).toHaveBeenCalledWith({ data: { id: '1' } })
-    expect(prisma.user.update).toHaveBeenCalledWith({
-      where: { id: mockUserId },
-      data: { savedMovies: { connect: { id: '1' } } },
-    })
-    expect(res._getStatusCode()).toBe(201)
-    expect(res._getJSONData()).toEqual({ message: 'Movie added to bookmarks!' })
-  })
-
-  it('should return 400 if movie not saved (DELETE)', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
-    })
-    ;(prisma.movie.findUnique as jest.Mock).mockResolvedValueOnce({ id: '1' })
-    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce({
-      savedMovies: [],
-    })
-
-    const req = createRequest({ method: 'DELETE', body: { mediaId: '1' } })
-    const res = createResponse()
-
-    await handler(req, res)
-
-    expect(res._getStatusCode()).toBe(400)
-    expect(res._getJSONData()).toEqual({ message: 'Movie not saved' })
-  })
-
-  it('should remove movie (DELETE)', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
-    })
-    ;(prisma.movie.findUnique as jest.Mock).mockResolvedValueOnce({ id: '1' })
-    ;(prisma.user.findUnique as jest.Mock).mockResolvedValueOnce({
-      savedMovies: [{ id: '1' }],
-    })
-
-    const req = createRequest({ method: 'DELETE', body: { mediaId: '1' } })
-    const res = createResponse()
-
-    await handler(req, res)
-
-    expect(prisma.user.update).toHaveBeenCalledWith({
-      where: { id: mockUserId },
-      data: { savedMovies: { disconnect: { id: '1' } } },
-    })
     expect(res._getStatusCode()).toBe(200)
     expect(res._getJSONData()).toEqual({
-      message: 'Movie removed from bookmarks!',
-    })
-  })
-
-  it('should return 400 if mediaId is missing', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
+      data: {
+        savedMovies: [mockMovieDetails, mockMovieDetails],
+        savedSeries: [mockTvDetails],
+      },
     })
 
-    const req = createRequest({ method: 'POST', body: {} })
-    const res = createResponse()
-
-    await handler(req, res)
-
-    expect(res._getStatusCode()).toBe(400)
-    expect(res._getJSONData()).toEqual({ message: 'Required' })
+    expect(fetch).toHaveBeenCalledWith('https://api.tmdb.org/movie/movie-1')
+    expect(fetch).toHaveBeenCalledWith('https://api.tmdb.org/movie/movie-2')
+    expect(fetch).toHaveBeenCalledWith('https://api.tmdb.org/tv/tv-1')
   })
 
   it('should return 500 on internal error', async () => {
-    ;(getServerSession as jest.Mock).mockResolvedValueOnce({
-      user: { id: mockUserId },
-    })
-    ;(prisma.movie.findUnique as jest.Mock).mockRejectedValueOnce(
-      new Error('DB Error'),
+    ;(getServerSession as jest.Mock).mockResolvedValueOnce(mockSession)
+    ;(prisma.user.findUnique as jest.Mock).mockRejectedValueOnce(
+      new Error('Database error'),
     )
 
-    const req = createRequest({ method: 'POST', body: { mediaId: '1' } })
+    const req = createRequest({ method: 'GET' })
     const res = createResponse()
 
     await handler(req, res)
