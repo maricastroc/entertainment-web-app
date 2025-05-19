@@ -47,12 +47,14 @@ export const ReviewsSection = ({ review, mutate }: Props) => {
 
   async function handleDeleteReview(id: string | undefined, media: string) {
     try {
+      const mediaType = `${media === MOVIE_MEDIA ? MOVIE_MEDIA : TV_MEDIA}`
+
       handleSetIsLoading(true)
 
       const response = await api.delete(`/ratings/delete`, {
         data: {
-          movieId: media === MOVIE_MEDIA ? String(id) : undefined,
-          seriesId: media === TV_MEDIA ? String(id) : undefined,
+          movieId: mediaType === MOVIE_MEDIA ? String(id) : undefined,
+          seriesId: mediaType === TV_MEDIA ? String(id) : undefined,
         },
       })
 
@@ -74,7 +76,8 @@ export const ReviewsSection = ({ review, mutate }: Props) => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
+        !buttonRef.current.contains(event.target as Node) &&
+        !isDeleteModalOpen
       ) {
         setIsDropdownOpen(false)
       }
@@ -84,7 +87,7 @@ export const ReviewsSection = ({ review, mutate }: Props) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  }, [isDeleteModalOpen])
 
   return isRatingCardFormOpen && reviewToEdit ? (
     <RatingCardForm

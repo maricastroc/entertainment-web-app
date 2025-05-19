@@ -21,7 +21,7 @@ export function DeleteModal({ onConfirm, onClose }: DeleteModalProps) {
 
   return (
     <Dialog.Portal>
-      <ModalOverlay className="DialogOverlay" onClick={() => onClose()} />
+      <ModalOverlay className="DialogOverlay" />
       <ModalContent className="DialogContent">
         <ModalHeader>
           <ModalTitle className="DialogTitle">{`Delete this review?`}</ModalTitle>

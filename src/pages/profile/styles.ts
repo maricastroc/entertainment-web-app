@@ -6,7 +6,7 @@ export const Container = styled('div', {
   width: '100%',
   height: '100vh',
   alignItems: 'center',
-  marginTop: '2rem',
+  marginTop: '1.5rem',
   justifyContent: 'flex-start',
   overflow: 'auto',
 
@@ -68,6 +68,7 @@ export const MenuBtn = styled('button', {
   justifyContent: 'center',
   transition: 'all 200ms',
   cursor: 'pointer',
+  fontSize: '0.8rem',
 
   '&:hover': {
     color: '$gray100',
@@ -79,6 +80,10 @@ export const MenuBtn = styled('button', {
         color: '$gray100',
       },
     },
+  },
+
+  '@media (min-width: 480px)': {
+    fontSize: '0.85rem',
   },
 })
 
@@ -117,4 +122,37 @@ export const ReviewsContainer = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
   gap: '1.5rem',
+  width: '100%',
+})
+
+export const EmptyReviews = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  gap: '0.5rem',
+  padding: '2rem',
+  backgroundColor: '$blue50',
+  maxWidth: '500px',
+  margin: '0 auto',
+
+  svg: {
+    fontSize: '4rem',
+    color: '$blue400',
+    marginBottom: '1rem',
+    opacity: 0.8,
+  },
+
+  h3: {
+    fontSize: '1.5rem',
+    fontWeight: 500,
+    color: '$blue600',
+  },
+
+  p: {
+    fontSize: '1rem',
+    color: '$blue400',
+    marginTop: '-0.1rem',
+  },
 })

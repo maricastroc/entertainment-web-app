@@ -35,8 +35,6 @@ export function MediaSection({
     }
   }
 
-  console.log(items)
-
   function handleScrollLeft() {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' })

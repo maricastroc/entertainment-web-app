@@ -10,6 +10,7 @@ export const ReviewCard = styled('div', {
   padding: '1.5rem',
   boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)',
   borderRadius: '8px',
+  width: '100%',
 })
 
 export const ReviewHeader = styled('div', {
@@ -44,6 +45,7 @@ export const ReviewContainer = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-start',
   justifyContent: 'space-between',
+  width: '100%',
 
   img: {
     position: 'relative',
@@ -60,6 +62,7 @@ export const ReviewContainer = styled('div', {
 export const ReviewContent = styled('div', {
   display: 'flex',
   alignItems: 'stretch',
+  width: '100%',
   gap: '1.5rem',
 
   img: {

@@ -43,7 +43,7 @@ export const Dropdown = styled('div', {
   gap: '0.6rem',
   right: '2%',
   top: '110%',
-  zIndex: 998,
+  zIndex: 9997,
 })
 
 export const DropdownItem = styled('button', {

@@ -34,7 +34,7 @@ export default function Bookmark() {
     url: '/profile',
     method: 'GET',
   })
-  console.log(data)
+
   return (
     <>
       <NextSeo

@@ -102,8 +102,8 @@ export function RatingCardForm({
 
   useEffect(() => {
     if (rating && isEdit) {
-      setValue('rate', rating.rate || 0)
-      setValue('description', rating.description || '')
+      setValue('rate', rating.rate || rating.rating || 0)
+      setValue('description', rating.description || rating.content)
     }
   }, [rating, isEdit])
 

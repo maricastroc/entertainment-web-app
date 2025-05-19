@@ -71,7 +71,7 @@ export default function SignInForm({ onClose }: SignInFormProps) {
         password: data.password,
         redirect: false,
       })
-      console.log(data)
+
       if (result?.error) {
         toast.error(result?.error)
       } else {

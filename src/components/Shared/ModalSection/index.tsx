@@ -17,7 +17,7 @@ export function ModalSection({
   onChangeMedia: (type: string, id: string) => void
 }) {
   if (!isOpen || !selectedId) return null
-  console.log(mediaType)
+
   return openPersonModal ? (
     <PersonModal
       mediaType={mediaType}

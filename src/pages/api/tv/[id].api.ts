@@ -54,7 +54,7 @@ export default async function handler(
             name: details.name,
             avatarPath: details.avatar_path,
             mediaTitle: detail?.name ?? detail?.title ?? null,
-            mediaPoster: detail?.backdrop_path ?? detail?.poster_path ?? null,
+            mediaPoster: detail?.poster_path ?? detail?.backdrop_path ?? null,
             mediaReleaseDate: detail?.release_date
               ? new Date(detail.release_date)
               : detail?.first_air_date
@@ -72,7 +72,7 @@ export default async function handler(
             name: details.name,
             avatarPath: details.avatar_path,
             mediaTitle: detail?.name ?? detail?.title ?? null,
-            mediaPoster: detail?.backdrop_path ?? detail?.poster_path ?? null,
+            mediaPoster: detail?.poster_path ?? detail?.backdrop_path ?? null,
             mediaReleaseDate: detail?.release_date
               ? new Date(detail.release_date)
               : detail?.first_air_date

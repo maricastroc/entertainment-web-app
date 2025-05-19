@@ -33,4 +33,5 @@ export interface ReviewProps {
   seriesId?: number
   media_id: string
   media_type: string
+  rating?: number
 }

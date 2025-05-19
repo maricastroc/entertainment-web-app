@@ -2,7 +2,7 @@
 import { pathToSearchAll } from '@/utils'
 import { NextSeo } from 'next-seo'
 import { useLoadingOnRouteChange } from '@/utils/useLoadingOnRouteChange'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import AuthLayout from '@/layouts/auth'
 import {
   Container,
@@ -12,12 +12,17 @@ import {
   VerticalSeparator,
   HorizontalSeparator,
   MenuBtn,
+  EmptyReviews,
 } from './styles'
 import { EditProfileForm } from './partials/EditProfileForm'
 import useRequest from '@/utils/useRequest'
 import { ReviewProps } from '@/types/review'
 import { ReviewsSection } from './partials/ReviewsSection'
 import { ReviewsContainer } from '@/components/Shared/MediaModal/styles'
+import { signOut } from 'next-auth/react'
+import toast from 'react-hot-toast'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 interface DataResults {
   formattedRatings: ReviewProps[]
@@ -40,6 +45,11 @@ export default function Profile() {
   const handleLoading = (value: boolean) => {
     setIsLoading(value)
   }
+
+  const handleLogout = useCallback(() => {
+    signOut({ callbackUrl: '/' })
+    toast.success('See you soon!')
+  }, [])
 
   useEffect(() => {
     setIsClient(true)
@@ -81,7 +91,7 @@ export default function Profile() {
                   Reviews
                 </MenuBtn>
                 <VerticalSeparator />
-                <MenuBtn>Sign out</MenuBtn>
+                <MenuBtn onClick={handleLogout}>Sign out</MenuBtn>
               </ProfileMenu>
               <HorizontalSeparator />
               <ContentWrapper>
@@ -91,19 +101,27 @@ export default function Profile() {
                     onLoading={handleLoading}
                   />
                 )}
-                {activeSection === 'ratings' && data?.formattedRatings && (
-                  <ReviewsContainer>
-                    {data.formattedRatings.map((review) => {
-                      return (
-                        <ReviewsSection
-                          key={review.id}
-                          mutate={mutate}
-                          review={review}
-                        />
-                      )
-                    })}
-                  </ReviewsContainer>
-                )}
+                {activeSection === 'ratings' &&
+                  (data?.formattedRatings &&
+                  data?.formattedRatings?.length > 0 ? (
+                    <ReviewsContainer>
+                      {data.formattedRatings.map((review) => {
+                        return (
+                          <ReviewsSection
+                            key={review.id}
+                            mutate={mutate}
+                            review={review}
+                          />
+                        )
+                      })}
+                    </ReviewsContainer>
+                  ) : (
+                    <EmptyReviews>
+                      <FontAwesomeIcon icon={faComments} />
+                      <h3>It looks a bit empty around here...</h3>
+                      <p>You still have no reviews to show!</p>
+                    </EmptyReviews>
+                  ))}
               </ContentWrapper>
             </ProfileWrapper>
           </Container>

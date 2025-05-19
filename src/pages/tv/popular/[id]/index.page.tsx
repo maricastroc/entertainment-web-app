@@ -17,7 +17,7 @@ export default function PopularTv() {
       fetch(`/api/tv/popular/${id}`)
         .then(async (response) => {
           const data = await response.json()
-          console.log('Resposta completa da API:', data)
+
           setData(data.results)
           setTotalPages(data.total_pages)
         })

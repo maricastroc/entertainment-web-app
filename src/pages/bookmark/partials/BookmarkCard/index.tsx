@@ -58,7 +58,7 @@ export function BookmarkCard({
       handleSetIsLoading(false)
     }
   }
-  console.log(mediaDetails)
+
   return (
     <Container>
       <MediaImageWrapper>

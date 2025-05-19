@@ -64,8 +64,6 @@ export default function ThemePage({
     },
   }
 
-  console.log(selectedMediaType)
-
   return (
     <>
       <NextSeo

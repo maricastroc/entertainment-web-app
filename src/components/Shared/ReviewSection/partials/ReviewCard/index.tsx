@@ -68,7 +68,8 @@ export function ReviewCard({
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
+        !buttonRef.current.contains(event.target as Node) &&
+        !isDeleteModalOpen
       ) {
         setIsDropdownOpen(false)
       }
@@ -78,7 +79,7 @@ export function ReviewCard({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  }, [isDeleteModalOpen])
 
   return (
     <Container>

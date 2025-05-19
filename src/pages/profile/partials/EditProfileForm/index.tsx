@@ -178,7 +178,9 @@ export const EditProfileForm = ({ isLoading, onLoading }: Props) => {
       setValue('name', user.name)
       setValue('userId', user.id as string)
 
-      setAvatarPath(truncateMiddle(user?.avatarUrl))
+      if (user?.avatarUrl) {
+        setAvatarPath(truncateMiddle(user?.avatarUrl))
+      }
 
       setAvatarPreview(user?.avatarUrl)
     }
