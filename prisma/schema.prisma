@@ -23,6 +23,8 @@ model User {
   savedMovies   Movie[]         @relation("UserSavedMovies")
   savedSeries   Series[]        @relation("UserSavedSeries")
   votes       Vote[] 
+  notificationsReceived Notification[] @relation("NotificationsReceived")
+  notificationsSent     Notification[] @relation("NotificationsSent")
 
   @@map("users")
 }
@@ -130,6 +132,19 @@ model Vote {
 enum VoteType {
   UP
   DOWN
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  type        String
+  recipientId String
+  senderId    String
+  commentId   String?
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  recipient   User     @relation("NotificationsReceived", fields: [recipientId], references: [id])
+  sender      User     @relation("NotificationsSent", fields: [senderId], references: [id])
 }
 
 model Account {
