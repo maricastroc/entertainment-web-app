@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { StarsRating } from '@/components/Shared/StarsRating'
 import {
-  ReviewCard,
+  ReviewCardContainer,
   ReviewHeader,
   ReviewContainer,
   ReviewContent,
@@ -28,8 +28,8 @@ interface Props {
   mutate: any
 }
 
-export const ReviewsSection = ({ review, mutate }: Props) => {
-  const isMobile = useScreenSize(680)
+export const ReviewCard = ({ review, mutate }: Props) => {
+  const isMobile = useScreenSize(480)
 
   const [isRatingCardFormOpen, setIsRatingCardFormOpen] = useState(false)
 
@@ -103,7 +103,7 @@ export const ReviewsSection = ({ review, mutate }: Props) => {
       }}
     />
   ) : (
-    <ReviewCard key={review?.user_id}>
+    <ReviewCardContainer key={review?.user_id}>
       <ReviewHeader>
         <StarsRating isSmaller rating={review?.rate || 0} />
         <ActionsAndDate>
@@ -165,6 +165,6 @@ export const ReviewsSection = ({ review, mutate }: Props) => {
           </ReviewDescription>
         )}
       </ReviewContainer>
-    </ReviewCard>
+    </ReviewCardContainer>
   )
 }

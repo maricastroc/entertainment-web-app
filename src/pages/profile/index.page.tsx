@@ -17,7 +17,7 @@ import {
 import { EditProfileForm } from './partials/EditProfileForm'
 import useRequest from '@/utils/useRequest'
 import { ReviewProps } from '@/types/review'
-import { ReviewsSection } from './partials/ReviewsSection'
+import { ReviewCard } from './partials/ReviewCard'
 import { ReviewsContainer } from '@/components/Shared/MediaModal/styles'
 import { signOut } from 'next-auth/react'
 import toast from 'react-hot-toast'
@@ -107,7 +107,7 @@ export default function Profile() {
                     <ReviewsContainer>
                       {data.formattedRatings.map((review) => {
                         return (
-                          <ReviewsSection
+                          <ReviewCard
                             key={review.id}
                             mutate={mutate}
                             review={review}

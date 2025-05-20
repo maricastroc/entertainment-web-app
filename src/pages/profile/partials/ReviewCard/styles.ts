@@ -1,6 +1,6 @@
 import { styled } from '@/styles'
 
-export const ReviewCard = styled('div', {
+export const ReviewCardContainer = styled('div', {
   display: 'flex',
   position: 'relative',
   flexDirection: 'column',
@@ -19,6 +19,7 @@ export const ReviewHeader = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
+  marginTop: '-0.3rem',
 })
 
 export const ActionsAndDate = styled('div', {
@@ -121,7 +122,7 @@ export const ReviewData = styled('div', {
   },
 
   h3: {
-    fontSize: '0.95rem',
+    fontSize: '1rem',
     fontWeight: 400,
     color: '$gray100',
   },
