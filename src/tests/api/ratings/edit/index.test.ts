@@ -166,7 +166,7 @@ describe('PUT /api/rating/edit', () => {
     expect(res._getStatusCode()).toBe(200)
 
     expect(JSON.parse(res._getData())).toMatchObject({
-      message: 'Rating updated successfully',
+      message: 'Rating successfully updated!',
       rating: { id: 'existing-rating', rate: 5, description: 'Awesome show!' },
     })
   })

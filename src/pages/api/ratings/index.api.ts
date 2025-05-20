@@ -90,7 +90,7 @@ export default async function handler(
 
     return res
       .status(201)
-      .json({ message: 'Rating created successfully', rating: newRating })
+      .json({ message: 'Rating successfully created!', rating: newRating })
   } catch (error) {
     console.error('Error creating rating:', error)
     return res.status(500).json({ message: 'Internal server error' })

@@ -73,7 +73,7 @@ export default async function handler(
     })
 
     return res.status(200).json({
-      message: 'Rating updated successfully',
+      message: 'Rating successfully updated!',
       rating: updatedRating,
     })
   } catch (error) {

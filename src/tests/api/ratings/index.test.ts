@@ -106,7 +106,7 @@ describe('POST /api/rating/create', () => {
     expect(prisma.rating.create).toHaveBeenCalled()
     expect(res._getStatusCode()).toBe(201)
     expect(JSON.parse(res._getData())).toMatchObject({
-      message: 'Rating created successfully',
+      message: 'Rating successfully created!',
       rating: { id: 'rating-1', rate: 5, description: 'Awesome movie!' },
     })
   })

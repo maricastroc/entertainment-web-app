@@ -170,7 +170,7 @@ describe('DELETE /api/rating/delete', () => {
 
     expect(res._getStatusCode()).toBe(200)
     expect(JSON.parse(res._getData())).toEqual({
-      message: 'Rating deleted successfully',
+      message: 'Rating successfully deleted!',
     })
   })
 })

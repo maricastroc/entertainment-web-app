@@ -48,6 +48,7 @@
     "react-loading-icons": "^1.1.0",
     "react-loading-skeleton": "^3.5.0",
     "react-simple-star-rating": "^5.1.7",
+    "react-tooltip": "^5.28.1",
     "swr": "^2.3.2",
     "uuid": "^9.0.0",
     "zod": "^3.24.2"
