@@ -50,20 +50,20 @@ export const globalStyles = globalCss({
     },
   },
 
-  '& input:webkit-autofill': {
+  'input:-webkit-autofill': {
     backgroundColor: '$blue700 !important',
-    '-webkit-text-fill-color': 'white',
+    '-webkit-text-fill-color': 'white !important',
     '-webkit-box-shadow': '0 0 0px 1000px $blue700 inset !important',
     transition: 'background-color 5000s ease-in-out 0s !important',
   },
-  '& input:webkit-autofill:hover': {
+  'input:-webkit-autofill:hover': {
     backgroundColor: '$blue700 !important',
-    '-webkit-text-fill-color': 'white',
+    '-webkit-text-fill-color': 'white !important',
     '-webkit-box-shadow': '0 0 0px 1000px $blue700 inset !important',
   },
-  '& input:-webkit-autofill:focus': {
+  'input:-webkit-autofill:focus': {
     backgroundColor: '$blue700 !important',
-    '-webkit-text-fill-color': 'white',
+    '-webkit-text-fill-color': 'white !important',
     '-webkit-box-shadow': '0 0 0px 1000px $blue700 inset !important',
   },
   '& textarea:-webkit-autofill': {
