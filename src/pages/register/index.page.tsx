@@ -31,7 +31,7 @@ export default function Register() {
   return (
     <>
       <NextSeo
-        title="Login | Book Wise"
+        title="Login | Movie Mentor"
         additionalMetaTags={[
           {
             name: 'viewport',
