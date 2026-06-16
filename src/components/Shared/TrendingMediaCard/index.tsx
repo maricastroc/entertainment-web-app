@@ -77,11 +77,11 @@ export function TrendingMediaCard({
 
   useEffect(() => {
     if (data?.savedMovies && media_type === MOVIE_MEDIA) {
-      const savedMovies = data?.savedMovies?.map((movie) => movie.id)
+      const savedMovies = data?.savedMovies?.map((movie) => String(movie.id))
 
       setIsInUserList(savedMovies.includes(String(id)))
     } else if (data?.savedSeries && media_type === TV_MEDIA) {
-      const savedSeries = data?.savedSeries?.map((movie) => movie.id)
+      const savedSeries = data?.savedSeries?.map((series) => String(series.id))
 
       setIsInUserList(savedSeries.includes(String(id)))
     }
