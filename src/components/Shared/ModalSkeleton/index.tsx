@@ -17,8 +17,8 @@ export const ModalSkeleton = () => {
   const isMobile = useScreenSize(680)
 
   const skeletonBaseProps = {
-    baseColor: '#464f5e',
-    highlightColor: '#63717f',
+    baseColor: '#1e2b42',
+    highlightColor: '#26334F',
     className: 'rounded-lg',
   }
 
