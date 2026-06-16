@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/prisma'
 import { buildNextAuthOptions } from '../../auth/[...nextauth].api'
+import { voteRating } from '@/services/rating.service'
+import { handleServiceError } from '@/lib/api-error'
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,17 +12,12 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const session = await getServerSession(
-    req,
-    res,
-    buildNextAuthOptions(req, res),
-  )
+  const session = await getServerSession(req, res, buildNextAuthOptions(req, res))
 
-  if (!session || !session.user) {
+  if (!session?.user) {
     return res.status(401).json({ error: 'You are not authenticated' })
   }
 
-  const userId = session.user.id as string
   const { ratingId, externalReviewId, type } = req.body
 
   if (!['UP', 'DOWN'].includes(type)) {
@@ -30,62 +25,27 @@ export default async function handler(
   }
 
   if (!ratingId && !externalReviewId) {
-    return res
-      .status(400)
-      .json({ error: 'ratingId or externalReviewId is required' })
+    return res.status(400).json({ error: 'ratingId or externalReviewId is required' })
   }
 
   try {
-    let existingVote = null
-
-    if (ratingId) {
-      existingVote = await prisma.vote.findUnique({
-        where: {
-          userId_ratingId: {
-            userId,
-            ratingId,
-          },
-        },
-      })
-    } else if (externalReviewId) {
-      existingVote = await prisma.vote.findUnique({
-        where: {
-          userId_externalReviewId: {
-            userId,
-            externalReviewId,
-          },
-        },
-      })
-    }
-
-    if (existingVote) {
-      if (existingVote.type === type) {
-        await prisma.vote.delete({ where: { id: existingVote.id } })
-        return res.status(200).json({ message: 'Vote successfully deleted!' })
-      } else {
-        const updatedVote = await prisma.vote.update({
-          where: { id: existingVote.id },
-          data: { type },
-        })
-        return res
-          .status(200)
-          .json({ message: 'Vote successfully registered!', vote: updatedVote })
-      }
-    }
-
-    const newVote = await prisma.vote.create({
-      data: {
-        userId,
-        ratingId,
-        externalReviewId,
-        type,
-      },
+    const result = await voteRating({
+      userId: session.user.id as string,
+      ratingId,
+      externalReviewId,
+      type,
     })
 
-    return res
-      .status(201)
-      .json({ message: 'Vote successfully registered!', vote: newVote })
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message })
+    if (result.deleted) {
+      return res.status(200).json({ message: 'Vote successfully deleted!' })
+    }
+
+    const status = result.isNew ? 201 : 200
+    return res.status(status).json({
+      message: 'Vote successfully registered!',
+      vote: result.vote,
+    })
+  } catch (error) {
+    return handleServiceError(error, res)
   }
 }

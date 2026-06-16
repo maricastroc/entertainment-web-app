@@ -5,21 +5,13 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testMatch: ['<rootDir>/src/**/*.test.(ts|tsx)'],
-  
-  testPathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/dist/'
-  ],
 
-  transformIgnorePatterns: [
-    '/node_modules/(?!(bcrypt)/)',
-  ],
-  
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
+
+  transformIgnorePatterns: ['/node_modules/(?!(bcrypt)/)'],
+
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/tests/'
-  ]
-};
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/'],
+}

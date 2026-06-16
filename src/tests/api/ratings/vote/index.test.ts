@@ -213,6 +213,6 @@ describe('API Route: /api/vote', () => {
     await handler(req, res)
 
     expect(res.status).toHaveBeenCalledWith(500)
-    expect(res.json).toHaveBeenCalledWith({ error: 'DB error' })
+    expect(res.json).toHaveBeenCalledWith({ message: 'Internal server error' })
   })
 })
