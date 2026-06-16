@@ -12,8 +12,7 @@ interface Return<Data, Error>
   > {
   data: Data | undefined
   response: AxiosResponse<Data> | undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  pagination: any
+  pagination: Record<string, unknown>
 }
 
 export interface Config<Data = unknown, Error = unknown>

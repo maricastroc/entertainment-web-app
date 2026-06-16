@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getUrl2, tvPopular } from '../../../../lib/tmdb'
 
@@ -21,7 +20,9 @@ export default async function handler(
       total_pages: data.total_pages,
       total_results: data.total_results,
     })
-  } catch (err: any) {
-    res.status(500).json({ error: err.message })
+  } catch (err: unknown) {
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : 'Unknown error' })
   }
 }

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { ApiError } from '@/lib/api-error'
 import { getMovieDetail, getTvDetail } from '@/lib/tmdb'
 
 export async function getSavedMedia(userId: string) {
@@ -11,9 +12,7 @@ export async function getSavedMedia(userId: string) {
   })
 
   if (!user) {
-    const error = new Error('User not found')
-    ;(error as any).statusCode = 404
-    throw error
+    throw new ApiError('User not found', 404)
   }
 
   const [savedMovies, savedSeries] = await Promise.all([

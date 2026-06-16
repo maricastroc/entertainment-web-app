@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StarsRating } from '@/components/Shared/StarsRating'
 import {
   ReviewCardContainer,
@@ -25,7 +24,7 @@ import { RatingCardForm } from '@/components/Shared/ReviewSection/partials/Ratin
 
 interface Props {
   review: ReviewProps
-  mutate: any
+  mutate: () => unknown
 }
 
 export const ReviewCard = ({ review, mutate }: Props) => {

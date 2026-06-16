@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { prisma } from '@/lib/prisma'
+import { ApiError } from '@/lib/api-error'
 import { getMovieDetail, getTvDetail } from '@/lib/tmdb'
 
 interface CreateRatingParams {
@@ -67,9 +69,7 @@ export async function createRating({
   })
 
   if (existingRating) {
-    const error = new Error('User already rated this media')
-    ;(error as any).statusCode = 409
-    throw error
+    throw new ApiError('User already rated this media', 409)
   }
 
   const detail = await fetchMediaDetail(movieId, seriesId)
@@ -104,9 +104,7 @@ export async function updateRating({
     : await prisma.series.findUnique({ where: { id: seriesId! } })
 
   if (!media) {
-    const error = new Error(movieId ? 'Movie not found' : 'Series not found')
-    ;(error as any).statusCode = 404
-    throw error
+    throw new ApiError(movieId ? 'Movie not found' : 'Series not found', 404)
   }
 
   const existingRating = await prisma.rating.findFirst({
@@ -114,9 +112,7 @@ export async function updateRating({
   })
 
   if (!existingRating) {
-    const error = new Error('Rating not found')
-    ;(error as any).statusCode = 404
-    throw error
+    throw new ApiError('Rating not found', 404)
   }
 
   return prisma.rating.update({
@@ -135,9 +131,7 @@ export async function deleteRating({
     : await prisma.series.findUnique({ where: { id: seriesId! } })
 
   if (!media) {
-    const error = new Error(movieId ? 'Movie not found' : 'Series not found')
-    ;(error as any).statusCode = 404
-    throw error
+    throw new ApiError(movieId ? 'Movie not found' : 'Series not found', 404)
   }
 
   const existingRating = await prisma.rating.findFirst({
@@ -145,24 +139,34 @@ export async function deleteRating({
   })
 
   if (!existingRating) {
-    const error = new Error('Rating not found')
-    ;(error as any).statusCode = 404
-    throw error
+    throw new ApiError('Rating not found', 404)
   }
 
   if (existingRating.userId !== userId) {
-    const error = new Error('You are not allowed to delete this rating')
-    ;(error as any).statusCode = 403
-    throw error
+    throw new ApiError('You are not allowed to delete this rating', 403)
   }
 
   await prisma.rating.delete({ where: { id: existingRating.id } })
 }
 
-export async function voteRating({ userId, ratingId, externalReviewId, type }: VoteParams) {
+export async function voteRating({
+  userId,
+  ratingId,
+  externalReviewId,
+  type,
+}: VoteParams) {
   const existingVote = ratingId
-    ? await prisma.vote.findUnique({ where: { userId_ratingId: { userId, ratingId } } })
-    : await prisma.vote.findUnique({ where: { userId_externalReviewId: { userId, externalReviewId: externalReviewId! } } })
+    ? await prisma.vote.findUnique({
+        where: { userId_ratingId: { userId, ratingId } },
+      })
+    : await prisma.vote.findUnique({
+        where: {
+          userId_externalReviewId: {
+            userId,
+            externalReviewId: externalReviewId!,
+          },
+        },
+      })
 
   if (existingVote) {
     if (existingVote.type === type) {

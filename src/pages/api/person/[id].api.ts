@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   getPersonDetail,
@@ -38,7 +37,9 @@ export default async function handler(
       movieCredits: movieData,
       tvCredits: tvData,
     })
-  } catch (err: any) {
-    res.status(500).json({ error: err.message })
+  } catch (err: unknown) {
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : 'Unknown error' })
   }
 }

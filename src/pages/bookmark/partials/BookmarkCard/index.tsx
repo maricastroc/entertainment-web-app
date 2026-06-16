@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   BackgroundImage,
@@ -28,7 +27,7 @@ export function BookmarkCard({
 }: {
   mediaDetails: MediaDetailsProps
   mediaType: string
-  mutate: any
+  mutate: () => unknown
   handleClick: () => void
 }) {
   const [isInUserList, setIsInUserList] = useState(true)

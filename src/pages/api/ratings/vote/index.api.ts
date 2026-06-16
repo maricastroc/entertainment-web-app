@@ -12,7 +12,11 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const session = await getServerSession(req, res, buildNextAuthOptions(req, res))
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res),
+  )
 
   if (!session?.user) {
     return res.status(401).json({ error: 'You are not authenticated' })
@@ -25,7 +29,9 @@ export default async function handler(
   }
 
   if (!ratingId && !externalReviewId) {
-    return res.status(400).json({ error: 'ratingId or externalReviewId is required' })
+    return res
+      .status(400)
+      .json({ error: 'ratingId or externalReviewId is required' })
   }
 
   try {

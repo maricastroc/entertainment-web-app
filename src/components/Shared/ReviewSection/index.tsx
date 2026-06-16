@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RatingContent, ReviewsContainer, ReviewCardContainer } from './styles'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ReviewProps } from '@/types/review'
@@ -15,7 +14,7 @@ import { MOVIE_MEDIA, TV_MEDIA } from '@/utils/constants'
 
 interface Props {
   reviews: ReviewProps[] | undefined
-  mutate: any
+  mutate: () => unknown
   id: string
   media: string
 }

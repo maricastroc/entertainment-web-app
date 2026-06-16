@@ -1,8 +1,8 @@
 // __tests__/api/vote.test.ts
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import handler from '@/pages/api/ratings/vote/index.api'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 jest.mock('next-auth')
 jest.mock('@/lib/prisma', () => ({
@@ -26,7 +26,7 @@ const mockPrismaVote = prisma.vote as unknown as {
 }
 
 const mockRes = () => {
-  const res: any = {}
+  const res = {} as NextApiResponse
   res.status = jest.fn().mockReturnValue(res)
   res.json = jest.fn().mockReturnValue(res)
   return res
@@ -43,10 +43,10 @@ describe('API Route: /api/vote', () => {
   })
 
   it('should return 405 if method is not POST', async () => {
-    const req: any = { method: 'GET' }
+    const req = { method: 'GET' } as unknown as NextApiRequest
     const res = mockRes()
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(res.status).toHaveBeenCalledWith(405)
 
@@ -54,12 +54,12 @@ describe('API Route: /api/vote', () => {
   })
 
   it('should return 401 if user is not authenticated', async () => {
-    const req: any = { method: 'POST' }
+    const req = { method: 'POST' } as unknown as NextApiRequest
     const res = mockRes()
 
     mockGetServerSession.mockResolvedValue(null)
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(res.status).toHaveBeenCalledWith(401)
 
@@ -69,7 +69,7 @@ describe('API Route: /api/vote', () => {
   })
 
   it('should return 400 if vote type is invalid', async () => {
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'INVALID' },
     }
@@ -77,7 +77,7 @@ describe('API Route: /api/vote', () => {
 
     mockGetServerSession.mockResolvedValue(defaultSession)
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(res.status).toHaveBeenCalledWith(400)
 
@@ -85,7 +85,7 @@ describe('API Route: /api/vote', () => {
   })
 
   it('should return 400 if neither ratingId nor externalReviewId is provided', async () => {
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'UP' },
     }
@@ -93,7 +93,7 @@ describe('API Route: /api/vote', () => {
 
     mockGetServerSession.mockResolvedValue(defaultSession)
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(res.status).toHaveBeenCalledWith(400)
 
@@ -109,13 +109,13 @@ describe('API Route: /api/vote', () => {
 
     mockPrismaVote.delete.mockResolvedValue({})
 
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'UP', ratingId: 'rating-123' },
     }
     const res = mockRes()
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(mockPrismaVote.delete).toHaveBeenCalledWith({
       where: { id: 'vote-1' },
@@ -135,14 +135,14 @@ describe('API Route: /api/vote', () => {
 
     mockPrismaVote.update.mockResolvedValue({ id: 'vote-1', type: 'DOWN' })
 
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'DOWN', ratingId: 'rating-123' },
     }
 
     const res = mockRes()
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(mockPrismaVote.update).toHaveBeenCalledWith({
       where: { id: 'vote-1' },
@@ -169,14 +169,14 @@ describe('API Route: /api/vote', () => {
       externalReviewId: 'ext-review-1',
     })
 
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'UP', externalReviewId: 'ext-review-1' },
     }
 
     const res = mockRes()
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(mockPrismaVote.create).toHaveBeenCalledWith({
       data: {
@@ -201,7 +201,7 @@ describe('API Route: /api/vote', () => {
   })
 
   it('should handle server errors gracefully', async () => {
-    const req: any = {
+    const req = {
       method: 'POST',
       body: { type: 'UP', ratingId: 'rating-123' },
     }
@@ -210,7 +210,7 @@ describe('API Route: /api/vote', () => {
     mockGetServerSession.mockResolvedValue(defaultSession)
     mockPrismaVote.findUnique.mockRejectedValue(new Error('DB error'))
 
-    await handler(req, res)
+    await handler(req as unknown as NextApiRequest, res)
 
     expect(res.status).toHaveBeenCalledWith(500)
     expect(res.json).toHaveBeenCalledWith({ message: 'Internal server error' })

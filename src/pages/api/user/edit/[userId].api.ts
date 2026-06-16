@@ -1,21 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import fs from 'fs'
 import { IncomingForm } from 'formidable'
 import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
-
-let fs: any, path: any
-
-try {
-  if (typeof process !== 'undefined' && process.versions?.node) {
-    fs = require('fs')
-    path = require('path')
-  }
-} catch (e) {
-  console.warn('File system operations not available in this environment:', e)
-}
 
 export const config = {
   api: {
@@ -162,6 +150,7 @@ export default async function handler(
         },
       })
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _, ...userWithoutPassword } = updatedUser
 
       return res.status(200).json(userWithoutPassword)

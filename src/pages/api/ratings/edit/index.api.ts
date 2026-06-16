@@ -12,7 +12,11 @@ export default async function handler(
     return res.status(405).json({ message: 'Method Not Allowed' })
   }
 
-  const session = await getServerSession(req, res, buildNextAuthOptions(req, res))
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res),
+  )
 
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' })
@@ -37,7 +41,9 @@ export default async function handler(
       description,
     })
 
-    return res.status(200).json({ message: 'Rating successfully updated!', rating })
+    return res
+      .status(200)
+      .json({ message: 'Rating successfully updated!', rating })
   } catch (error) {
     return handleServiceError(error, res)
   }

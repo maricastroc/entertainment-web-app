@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { ApiError } from '@/lib/api-error'
 import bcrypt from 'bcrypt'
 import fs from 'fs'
 
@@ -22,9 +23,7 @@ export async function createUser({
   const existingUser = await prisma.user.findUnique({ where: { email } })
 
   if (existingUser) {
-    const error = new Error('This email address is already in use.')
-    ;(error as any).statusCode = 409
-    throw error
+    throw new ApiError('This email address is already in use.', 409)
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
@@ -35,9 +34,7 @@ export async function createUser({
     const fileContent = await fs.promises.readFile(avatarFilepath)
 
     if (fileContent.length > MAX_AVATAR_SIZE) {
-      const error = new Error('Image must be a maximum of 2MB!')
-      ;(error as any).statusCode = 400
-      throw error
+      throw new ApiError('Image must be a maximum of 2MB!', 400)
     }
 
     const base64Image = fileContent.toString('base64')

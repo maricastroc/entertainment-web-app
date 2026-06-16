@@ -12,10 +12,7 @@ export const config = {
 }
 
 const createUserSchema = z.object({
-  email: z
-    .string()
-    .email('Invalid email')
-    .nonempty('Email is required'),
+  email: z.string().email('Invalid email').nonempty('Email is required'),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters')
@@ -52,7 +49,9 @@ export default async function handler(
 
       const validation = createUserSchema.safeParse({ email, password })
       if (!validation.success) {
-        return res.status(400).json({ message: validation.error.errors[0].message })
+        return res
+          .status(400)
+          .json({ message: validation.error.errors[0].message })
       }
 
       const user = await createUser({

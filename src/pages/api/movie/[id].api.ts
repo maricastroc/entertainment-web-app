@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '@/lib/prisma'
 import {
@@ -8,6 +7,20 @@ import {
   getMovieSimilars,
   getMovieVideos,
 } from '../../../lib/tmdb'
+
+interface TmdbReview {
+  id: string
+  author: string
+  content: string
+  created_at: string
+  author_details: {
+    rating: number | null
+    username: string
+    name: string
+    title?: string
+    avatar_path: string | null
+  }
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,7 +57,7 @@ export default async function handler(
     ])
 
     await Promise.all(
-      reviewsData.results.map(async (review: any) => {
+      reviewsData.results.map(async (review: TmdbReview) => {
         const details = review.author_details || {}
 
         await prisma.externalReview.upsert({
@@ -217,7 +230,9 @@ export default async function handler(
         videos,
       },
     })
-  } catch (err: any) {
-    res.status(500).json({ error: err.message })
+  } catch (err: unknown) {
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : 'Unknown error' })
   }
 }
